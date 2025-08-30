@@ -1,7 +1,10 @@
 # main.py
 import streamlit as st
+from auth import bootstrap_on_startup
+bootstrap_on_startup()   # crée/MAJ la BD + l’admin depuis les variables d’env
+
 from auth import (
-    get_conn, ensure_schema, ensure_session_schema,
+    get_conn, ensure_schema,              # ⬅️ plus de ensure_session_schema ici
     auth_user, record_login,
     create_session, get_user_by_token, delete_session,
 )
@@ -11,21 +14,24 @@ st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 
 # DB
 conn = get_conn()
+# Optionnel : get_conn() appelle déjà ensure_schema() en interne
 ensure_schema(conn)
-ensure_session_schema(conn)
 
 # ------------ SESSION HELPERS ------------
 def _set_query_token(token: str | None):
     q = st.query_params
-    if token: q["token"] = token
-    elif "token" in q: del q["token"]
+    if token:
+        q["token"] = token
+    elif "token" in q:
+        del q["token"]
 
 def restore_session_if_any():
     if "user" not in st.session_state:
         tok = st.query_params.get("token", None)
         if tok:
             u = get_user_by_token(conn, tok)
-            if u: st.session_state["user"] = u
+            if u:
+                st.session_state["user"] = u
 
 def logout():
     tok = st.query_params.get("token", None)
@@ -34,7 +40,7 @@ def logout():
     st.session_state.pop("user", None)
     st.rerun()
 
-# ------------ CSS ------------
+# ------------ CSS (login uniquement) ------------
 CSS = """
 <style>
 #MainMenu, header, footer{display:none!important;}
@@ -174,6 +180,7 @@ def login_view():
 
 # ------------ APP VIEW ------------
 def app_view():
+    # On enlève la mise en page "plein écran" du login
     st.markdown(
         "<style>.block-container{min-height:unset;display:block;padding:1.25rem 2rem!important;}</style>",
         unsafe_allow_html=True
