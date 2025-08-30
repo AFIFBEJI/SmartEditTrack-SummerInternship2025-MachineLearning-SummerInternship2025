@@ -14,7 +14,7 @@ from hash_generator import generate_student_files_csv
 # ---------------- Dossiers ----------------
 DATA_DIR        = os.environ.get("DATA_DIR", "./")
 CLASSES_ROOT    = os.path.join(DATA_DIR, "classes")
-TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsx")
+TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "data", "Fichier_Excel_Professeur_Template.xlsx")
 DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")         # dépôts étudiants (global)
 REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")       # rapports d'analyse (global)
 HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")      # snapshots par étudiant (JSON)

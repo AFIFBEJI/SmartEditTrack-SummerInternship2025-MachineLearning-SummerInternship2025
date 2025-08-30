@@ -29,7 +29,7 @@ except Exception:
 
 # ======================= CONFIG =======================
 DATA_DIR          = os.environ.get("DATA_DIR", "./")
-template_path     = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsx")
+TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "data", "Fichier_Excel_Professeur_Template.xlsx")
 copies_folder     = os.path.join(DATA_DIR, "copies_etudiants")
 rapport_folder    = os.path.join(DATA_DIR, "rapports_etudiants")
 hash_log_file     = os.path.join(DATA_DIR, "hash_records.csv")      # global
