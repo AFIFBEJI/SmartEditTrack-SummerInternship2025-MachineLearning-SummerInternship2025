@@ -1,0 +1,6 @@
+streamlit>=1.49.0
+openpyxl
+pandas
+numpy
+scikit-learn
+passlib[bcrypt]

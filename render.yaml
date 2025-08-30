@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: smartedittrack
+    env: docker
+    plan: starter
+    disk:
+      name: smartedit-data
+      mountPath: /data
+      sizeGB: 5
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: DATA_DIR
+        value: /data
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_ID
+        value: admin
+      - key: ADMIN_PASSWORD
+        value: ChangeMoi!2025
+      - key: MAX_UPLOAD_MB
+        value: "200"

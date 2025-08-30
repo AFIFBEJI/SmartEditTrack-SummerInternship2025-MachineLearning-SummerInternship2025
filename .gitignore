@@ -1,0 +1,15 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# dossiers générés à l’exécution (tu les recréeras dans /data sur Render)
+copies_etudiants/
+rapports_etudiants/
+historique_reponses/
+classes/
+notif_depot.json
+hash_records.csv

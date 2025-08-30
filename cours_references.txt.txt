@@ -1,0 +1,865 @@
+réponse,label
+"Le déversement est un phénomène d'instabilité latérale qui affecte les poutres métalliques non maintenues latéralement.",0
+"Quand une poutre fléchit, elle peut se tordre sur le côté si pas maintenue",1
+"La résistance au voilement par cisaillement est notée V_bw,Rd selon l'EC3.",0
+"V_bw,Rd c'est la résistance au cisaillement avec voilement",1
+"Le moment critique de déversement Mcr se calcule avec C1, C2, C3 selon les conditions aux limites.",0
+"Pour Mcr, faut utiliser les coeffs C1 C2 C3 qui dépendent des appuis",1
+"Les sections de classe 4 nécessitent le calcul de caractéristiques efficaces.",0
+"Pour les sections classe 4, on utilise une section réduite efficace",1
+"Le coefficient partiel de sécurité pour l'instabilité est γ_M1 = 1.0",0
+"Le coeff de sécurité γ_M1 vaut 1 pour l'instabilité",1
+"L'élancement réduit λ_LT détermine la courbe de déversement (a, b, c ou d).",0
+"Lambda LT réduit dit si la poutre est plus ou moins sensible au déversement",1
+"Le centre de cisaillement est le point où l'application d'une charge ne provoque pas de torsion.",0
+"Si tu charges au centre de cisaillement, la poutre ne tourne pas",1
+"La vérification de résistance au déversement s'effectue avec M_Ed ≤ M_b,Rd.",0
+"Faut vérifier que le moment appliqué est inférieur à la résistance en déversement",1
+"Pour les profilés laminés, la courbe de déversement dépend du rapport h/b.",0
+"Plus h/b est grand, plus la poutre est sensible au déversement",1
+"Le voilement local est lié à l'élancement des parois comprimées.",0
+"Quand les plaques sont trop minces, elles peuvent flamber localement",1
+"La classe d'une section dépend de l'élancement de l'âme et des semelles.",0
+"La classe de la section se détermine par c/t de l'âme et des semelles",1
+"Le module de résistance plastique W_pl est utilisé pour les sections de classe 1 et 2.",0
+"Pour les sections classe 1-2, on utilise W_pl dans les calculs",1
+"La méthode générale de calcul du moment critique est donnée à l'annexe de l'EC3.",0
+"Le calcul de Mcr est expliqué dans l'annexe de la norme",1
+"Les raidisseurs transversaux augmentent la résistance au voilement de l'âme.",0
+"Avec des raidisseurs, l'âme résiste mieux au voilement",1
+"Le déversement peut être négligé lorsque la poutre est maintenue latéralement.",0
+"Si la poutre est bien maintenue sur les côtés, pas de problème de déversement",1
+"Le coefficient k_w est pris égal à 1 pour les sections doublement symétriques.",0
+"Pour les sections symétriques, k_w = 1",1
+"La résistance plastique M_pl,Rd = W_pl * f_y / γ_M0.",0
+"Le moment résistant plastique se calcule avec W_pl fois fy sur gamma M0",1
+"L'élancement λ_w = h_w / t_w pour le voilement par cisaillement.",0
+"Lambda w c'est h_w sur t_w pour le cisaillement",1
+"La méthode de la section efficace s'applique aux sections de classe 4.",0
+"Pour les sections classe 4, on utilise la section efficace",1
+"Le coefficient réducteur χ_LT dépend de l'élancement réduit et de la courbe de déversement.",0
+"Chi LT réduit la résistance en fonction de lambda LT et de la courbe",1
+"La vérification d'une poutre au déversement nécessite le calcul de M_b,Rd.",0
+"Pour vérifier une poutre au déversement, faut calculer Mb,Rd",1
+"Les charges appliquées à la semelle supérieure sont plus défavorables pour le déversement.",0
+"Si tu charges la semelle supérieure, ça aggrave le déversement",1
+"Le paramètre z_g représente la distance entre le point d'application de la charge et le centre de cisaillement.",0
+"z_g c'est la distance entre où tu appliques la charge et le centre de cisaillement",1
+"La rigidité torsionnelle est caractérisée par l'inertie de torsion I_t.",0
+"La rigidité en torsion dépend de I_t",1
+"La constante de gauchissement I_w influence la résistance au déversement.",0
+"Le gauchissement I_w joue sur la résistance au déversement",1
+"La formule générale de Mcr fait intervenir les paramètres géométriques et les conditions aux limites.",0
+"La formule de Mcr est complexe avec tous les paramètres géométriques",1
+"La courbe de déversement est sélectionnée selon le Tableau 6.4 de l'EC3.",0
+"On choisit la courbe de déversement avec le tableau 6.4 de l'EC3",1
+"Le coefficient α_LT caractérise l'imperfection initiale équivalente.",0
+"Alpha LT représente les imperfections initiales",1
+"La méthode simplifiée utilise χ_LT,mod pour tenir compte de la forme du diagramme de moments.",0
+"La méthode simplifiée utilise chi LT modifié",1
+"Le coefficient β_w vaut 1 pour les sections de classe 1 et 2.",0
+"Pour les sections classe 1-2, beta w = 1",1
+"La vérification au voilement de l'âme sous flexion et effort tranchant nécessite une interaction.",0
+"Quand y'a flexion et cisaillement, faut vérifier l'interaction",1
+"Les raidisseurs d'extrémité doivent être rigides pour assurer leur efficacité.",0
+"Les raidisseurs aux appuis doivent être très rigides",1
+"La longueur efficace l_eff pour la résistance aux efforts transversaux est calculée avec χ_F.",0
+"La longueur efficace se calcule avec chi F",1
+"La méthode de calcul de la section efficace fait intervenir le coefficient réducteur ρ.",0
+"Pour la section efficace, on utilise un coeff réducteur rho",1
+"L'élancement maximal pour une semelle de classe 1 est 9ε selon le tableau 5.2.",0
+"Pour les semelles classe 1, c/t doit être ≤ 9ε",1
+"La résistance de calcul au cisaillement V_c,Rd = A_v * f_y / (√3 * γ_M0).",0
+"La résistance au cisaillement se calcule avec A_v fy sur racine de 3 gamma M0",1
+"Le paramètre k_τ pour le voilement par cisaillement dépend du rapport a/h_w.",0
+"Le coeff k_tau dépend du rapport a sur h_w",1
+"La vérification de l'interaction M-V s'effectue avec η_1 + (1 - M_f,Rd/M_pl,Rd) * η_3 ≤ 1.",0
+"L'interaction M-V se vérifie avec une formule compliquée avec eta1 et eta3",1
+"Le béton armé est un matériau composite constitué de béton et d'acier.",0
+"Le béton armé c'est du béton avec des barres en acier à l'intérieur",1
+"La limite d'élasticité de l'acier S235 est de 235 MPa.",0
+"L'acier S235 a une limite élastique de 235 MPa",1
+"La contrainte normale maximale se calcule par σ = M/I * v.",0
+"La contrainte max en flexion c'est M fois y sur I",1
+"L'inertie d'une section rectangulaire est bh³/12.",0
+"Pour un rectangle, I = largeur * hauteur³ / 12",1
+"Le module de résistance élastique W_el = I/v.",0
+"W_el c'est I divisé par la distance à la fibre la plus éloignée",1
+"La formule du moment fléchissant pour une poutre sur deux appuis est M = pl²/8.",0
+"Pour une poutre simple, le moment max est pL²/8",1
+"La condition de non-voilement d'une âme est h_w/t_w ≤ 72ε.",0
+"Pour éviter le voilement, h_w/t_w doit être inférieur à 72ε",1
+"Le coefficient de sécurité γ_M0 est pris égal à 1.0 pour la résistance des sections.",0
+"Gamma M0 = 1 pour la résistance des sections",1
+"La résistance plastique d'une section symétrique est atteinte lorsque toute la section est plastifiée.",0
+"La résistance plastique c'est quand toute la section a atteint la limite élastique",1
+"La courbe de déversement 'b' s'applique aux profilés laminés en I avec 2 < h/b ≤ 3.1.",0
+"Pour les IPE, on utilise souvent la courbe b pour le déversement",1
+"Le facteur d'imperfection α_LT vaut 0.34 pour la courbe b.",0
+"Alpha LT = 0.34 pour la courbe b",1
+"La vérification au flambement nécessite le calcul du coefficient de réduction χ.",0
+"Pour le flambement, faut calculer chi le coefficient réducteur",1
+"L'élancement λ = L_c / i où L_c est la longueur de flambement.",0
+"Lambda = longueur de flambement / rayon de giration",1
+"La longueur de flambement d'une poutre bi-articulée est égale à la longueur réelle.",0
+"Pour une poutre rotulée aux deux bouts, longueur de flambement = longueur réelle",1
+"La formule d'Euler pour le flambement est F_cr = π²EI / L_c².",0
+"La charge critique d'Euler c'est pi²EI sur L_c²",1
+"Le coefficient ω pour le calcul de la résistance au flambement est l'inverse de χ.",0
+"Omega c'est 1/chi dans certaines méthodes de calcul",1
+"La vérification de la stabilité d'un poteau s'effectue avec N_Ed / (χA f_y) ≤ 1.",0
+"Pour un poteau, on vérifie N_sd / (chi A fy) < 1",1
+"La section efficace d'une semelle comprimée est calculée avec le coefficient ρ.",0
+"La largeur efficace de la semelle se calcule avec rho",1
+"Le décalage de l'axe neutre e_0 est dû à l'effet de la section efficace.",0
+"Quand on utilise la section efficace, l'axe neutre se décale",1
+"Le moment résistant ultime est réduit par l'effet du voilement local.",0
+"À cause du voilement, la résistance en flexion diminue",1
+"La méthode de calcul des contraintes critiques de voilement est donnée dans l'EN 1993-1-5.",0
+"Les contraintes critiques de voilement sont dans la norme EN 1993-1-5",1
+"Le coefficient de Poisson ν est pris égal à 0.3 pour l'acier.",0
+"Le coefficient de Poisson de l'acier vaut 0.3",1
+"Le module de cisaillement G = E / [2(1+ν)].",0
+"G = E sur 2(1+nu)",1
+"La contrainte de comparaison de von Mises est σ_eq = √(σ_x² + σ_y² - σ_xσ_y + 3τ_xy²).",0
+"La contrainte de von Mises est racine de (σx² + σy² - σxσy + 3τxy²)",1
+"La limite élastique en cisaillement est f_y / √3 selon le critère de von Mises.",0
+"La limite élastique en cisaillement vaut fy / racine de 3",1
+"La résistance de calcul au cisaillement V_pl,Rd = A_v (f_y / √3) / γ_M0.",0
+"V_pl,Rd = A_v * fy / (√3 * gamma_M0)",1
+"Le paramètre λ̄_p pour le voilement local est λ̄_p = √(f_y / σ_cr).",0
+"Lambda p = racine de (fy / sigma_cr)",1
+"Le coefficient réducteur ρ = (λ̄_p - 0.22) / λ̄_p² pour λ̄_p > 0.673.",0
+"Rho = (lambda_p - 0.22) / lambda_p² quand lambda_p > 0.673",1
+"La largeur efficace b_eff = ρ * b pour les parois comprimées.",0
+"Largeur efficace = rho fois largeur réelle",1
+"La vérification d'une âme sous effort tranchant utilise le coefficient χ_w.",0
+"Pour le cisaillement dans l'âme, on utilise chi_w",1
+"La résistance au voilement par cisaillement V_bw,Rd = χ_w f_y h_w t_w / (√3 γ_M1).",0
+"V_bw,Rd = chi_w * fy * h_w * t_w / (√3 * gamma_M1)",1
+"Le coefficient χ_w dépend de l'élancement réduit λ̄_w.",0
+"Chi_w dépend de lambda_w réduit",1
+"Pour λ̄_w ≤ 0.83, χ_w = 1.0 pour les âmes non raidies.",0
+"Si lambda_w ≤ 0.83, chi_w = 1",1
+"La méthode post-critique est utilisée pour les âmes élancées.",0
+"Pour les âmes minces, on utilise la méthode post-critique",1
+"Les raidisseurs transversaux doivent avoir une rigidité minimale selon l'EN 1993-1-5.",0
+"Les raidisseurs doivent être assez rigides selon la norme",1
+"L'inertie minimale d'un raidisseur est I_st ≥ 0.75 h_w t_w³ pour les raidisseurs intermédiaires.",0
+"L'inertie min du raidisseur est 0.75 * h_w * t_w³",1
+"La vérification de l'interaction M-N s'effectue avec des courbes d'interaction.",0
+"Pour flexion + compression, on utilise des courbes d'interaction",1
+"Le paramètre μ pour l'interaction M-N est μ = (1 - N_Ed / N_pl,Rd) / (1 - 0.5a).",0
+"Mu = (1 - N/N_pl) / (1 - 0.5a) pour l'interaction M-N",1
+"La condition de résistance en interaction M-N est M_Ed ≤ M_N,Rd.",0
+"On vérifie que M < M_N,Rd en présence d'effort normal",1
+"La résistance réduite M_N,Rd = M_pl,Rd (1 - n) / (1 - 0.5a) pour n ≤ a.",0
+"M_N,Rd = M_pl,Rd * (1 - n)/(1 - 0.5a) quand n < a",1
+"Le paramètre n est le rapport N_Ed / N_pl,Rd.",0
+"n = effort normal divisé par résistance plastique en compression",1
+"Le paramètre a = (A - 2b t_f) / A pour les sections en I.",0
+"a = (aire totale - aire des semelles) / aire totale",1
+"La vérification des assemblages utilise le coefficient γ_M2 = 1.25.",0
+"Pour les assemblages, gamma_M2 = 1.25",1
+"La résistance de calcul d'un boulon en traction est F_t,Rd = k_2 f_u A_s / γ_M2.",0
+"Résistance d'un boulon en traction = k2 * fu * As / gamma_M2",1
+"Le coefficient k_2 vaut 0.9 pour les boulons ordinaires.",0
+"k2 = 0.9 pour les boulons courants",1
+"La résistance au poinçonnement des trous de boulons doit être vérifiée.",0
+"Faut vérifier que les trous ne s'arrachent pas",1
+"La distance minimale entre boulons est 2.2d où d est le diamètre nominal.",0
+"Distance min entre boulons = 2.2 fois le diamètre",1
+"La distance minimale au bord est 1.2d pour les boulons.",0
+"Distance min au bord = 1.2 * diamètre du boulon",1
+"La résistance au glissement d'un boulon précontraint est F_s,Rd = k_s n μ F_p,C / γ_M3.",0
+"Pour un boulon précontraint, résistance au glissement = ks n mu Fpc / gamma_M3",1
+"Le coefficient μ vaut 0.5 pour les surfaces sablées.",0
+"Mu = 0.5 pour surfaces sablées",1
+"La précontrainte F_p,C = 0.7 f_u A_s.",0
+"Précontrainte = 0.7 * fu * As",1
+"La résistance à la pression diamétrale est F_b,Rd = k_1 α_b f_u d t / γ_M2.",0
+"Résistance à la pression diamétrale = k1 * alpha_b * fu * d * t / gamma_M2",1
+"Le coefficient α_b = min(1, f_u / f_u,base, d_0 / (3d)).",0
+"Alpha_b = min de plusieurs valeurs",1
+"La résistance d'une soudure d'angle est fonction de la gorge et de la limite élastique.",0
+"Résistance d'une soudure dépend de la gorge et de fy",1
+"La contrainte dans une soudure d'angle doit satisfaire √(σ_⊥² + 3(τ_⊥² + τ_∥²)) ≤ f_u / (β_w γ_M2).",0
+"Contrainte équivalente dans soudure = racine(sigma_perp² + 3(tau_perp² + tau_par²))",1
+"Le coefficient β_w vaut 0.8 pour l'acier S235.",0
+"Beta_w = 0.8 pour acier S235",1
+"La longueur efficace d'une soudure d'angle est réduite pour les soudures longues.",0
+"Pour les soudures longues, on réduit la longueur efficace",1
+"La vérification des états limites de service concerne les déformations excessives.",0
+"Les états limites de service vérifient les déformations",1
+"La flèche maximale admissible est souvent L/250 pour les planchers.",0
+"Flèche max typique = portée / 250",1
+"Les combinaisons de charges pour les ELS sont différentes de celles pour les ELU.",0
+"Les combinaisons ELS sont différentes des combinaisons ELU",1
+"Le module d'élasticité E = 210000 MPa pour l'acier de construction.",0
+"E = 210 000 MPa pour l'acier",1
+"Le coefficient de dilatation thermique de l'acier est 12 × 10^{-6} /°C.",0
+"Dilatation thermique de l'acier = 12e-6 par °C",1
+"La méthode des éléments finis est utilisée pour l'analyse des structures complexes.",0
+"Pour les structures complexes, on utilise souvent les éléments finis",1
+"La matrice de rigidité élémentaire d'une poutre comporte des termes pour les déplacements et rotations.",0
+"La matrice de rigidité d'une poutre a des termes pour translations et rotations",1
+"L'analyse au second ordre prend en compte les effets des déformations sur les efforts.",0
+"L'analyse au second ordre considère l'influence des déplacements sur les efforts",1
+"Le coefficient amplificateur pour les effets du second ordre est 1 / (1 - N/N_cr).",0
+"Amplificateur second ordre = 1 / (1 - N/N_cr)",1
+"La charge critique de flambement N_cr = π² E I / L_c².",0
+"N_cr = pi² E I / L_c²",1
+"L'analyse géométriquement non linéaire est nécessaire pour les structures souples.",0
+"Pour les structures flexibles, faut faire une analyse non linéaire géométrique",1
+"La méthode de Newton-Raphson est utilisée pour résoudre les problèmes non linéaires.",0
+"Newton-Raphson est une méthode pour résoudre les problèmes non linéaires",1
+"Les conditions aux limites influencent significativement le comportement des structures.",0
+"Les appuis ont un gros impact sur le comportement de la structure",1
+"Un appui encastré empêche les rotations et les déplacements.",0
+"Un encastrement bloque les rotations et les translations",1
+"Un appui articulé permet la rotation mais bloque les déplacements.",0
+"Un appui articulé laisse tourner mais pas bouger",1
+"La méthode des forces est utilisée pour calculer les structures hyperstatiques.",0
+"Pour les structures hyperstatiques, on utilise la méthode des forces",1
+"L'équation de compatibilité des déplacements permet de résoudre les systèmes hyperstatiques.",0
+"L'équation de compatibilité sert à résoudre les systèmes hyperstatiques",1
+"Le théorème de Castigliano donne les déplacements par dérivation de l'énergie de déformation.",0
+"Castigliano : déplacement = dérivée de l'énergie par rapport à la force",1
+"L'énergie de déformation U = ∫ (N²/EA + M²/EI + V²/GA) dx.",0
+"Énergie de déformation = intégrale de (N²/EA + M²/EI + V²/GA) dx",1
+"Le théorème de réciprocité de Maxwell est utile pour les calculs d'influence.",0
+"Maxwell : déplacement en i dû à une force en j = déplacement en j dû à une force en i",1
+"La méthode de Cross est une méthode itérative pour le calcul des portiques.",0
+"La méthode de Cross est itérative pour les portiques",1
+"La distribution des moments dépend de la rigidité relative des éléments.",0
+"La distribution des moments dépend des rigidités relatives",1
+"Le facteur de distribution K = 4EI/L pour une poutre bi-encastrée.",0
+"K = 4EI/L pour une poutre encastrée aux deux bouts",1
+"Le facteur de transmission est 0.5 pour les nœuds rigides.",0
+"Facteur de transmission = 0.5 pour les nœuds rigides",1
+"L'analyse plastique permet de déterminer la charge ultime des structures hyperstatiques.",0
+"L'analyse plastique donne la charge de rupture des structures hyperstatiques",1
+"Le théorème statique donne une borne inférieure de la charge ultime.",0
+"Le théorème statique donne une borne inférieure pour la charge limite",1
+"Le théorème cinématique donne une borne supérieure de la charge ultime.",0
+"Le théorème cinématique donne une borne supérieure pour la charge limite",1
+"Une rotule plastique se forme là où le moment atteint M_pl.",0
+"Rotule plastique = endroit où le moment atteint le moment plastique",1
+"Le mécanisme de ruine est défini par la formation de rotules plastiques.",0
+"La ruine se produit par formation de rotules plastiques",1
+"Le coefficient de sécurité pour les charges est de 1.35 pour les charges permanentes.",0
+"Gamma_G = 1.35 pour charges permanentes défavorables",1
+"Le coefficient de sécurité pour les charges est de 1.5 pour les charges variables.",0
+"Gamma_Q = 1.5 pour charges variables défavorables",1
+"La combinaison fondamentale aux ELU est 1.35G + 1.5Q.",0
+"Combinaison ELU de base = 1.35 G + 1.5 Q",1
+"La combinaison accidentelle est G + A + ψ_1 Q.",0
+"Combinaison accidentelle = G + A + psi1 Q",1
+"Le coefficient ψ_1 vaut 0.7 pour les charges d'exploitation dans les bâtiments.",0
+"Psi1 = 0.7 pour charges d'exploitation",1
+"La flèche est calculée par intégration de la courbure.",0
+"Flèche = intégrale double de la courbure",1
+"La méthode de la charge unitaire permet de calculer les déplacements.",0
+"Pour calculer un déplacement, on utilise la charge unitaire virtuelle",1
+"Le déplacement δ = ∫ (m M / EI) dx où m est le moment virtuel.",0
+"Déplacement = intégrale de (m * M / EI) dx",1
+"Le théorème de la force unitaire est un cas particulier du théorème de Castigliano.",0
+"La force unitaire est un cas particulier de Castigliano",1
+"L'analyse dynamique nécessite la résolution d'équations différentielles.",0
+"L'analyse dynamique implique des équations différentielles",1
+"La fréquence propre d'une poutre bi-articulée est f = (π/2) √(EI/mL⁴).",0
+"Fréquence propre d'une poutre simple = (pi/2) * racine(EI/mL⁴)",1
+"L'amortissement critique est c_cr = 2√(k m).",0
+"Amortissement critique = 2 * racine(raideur * masse)",1
+"Le rapport d'amortissement ξ = c / c_cr.",0
+"Xi = amortissement réel / amortissement critique",1
+"La réponse sismique dépend du spectre de réponse du site.",0
+"La réponse sismique dépend du spectre de réponse",1
+"Les structures en acier ont un bon comportement sismique grâce à leur ductilité.",0
+"L'acier est bien pour le sismique car ductile",1
+"La ductilité est la capacité à se déformer plastiquement sans rupture.",0
+"Ductilité = capacité à se déformer plastiquement sans casser",1
+"Le facteur de comportement q reflète la capacité de dissipation d'énergie.",0
+"Le facteur q reflète la capacité de dissipation d'énergie",1
+"Pour les portiques contreventés, q = 4 est couramment utilisé.",0
+"q = 4 pour les portiques contreventés",1
+"L'analyse pushover permet d'évaluer la performance sismique des structures.",0
+"L'analyse pushover donne la performance sismique",1
+"La courbe de capacité est obtenue par analyse pushover.",0
+"La courbe de capacité vient de l'analyse pushover",1
+"Le point de performance est à l'intersection de la courbe de capacité et du spectre de demande.",0
+"Point de performance = intersection courbe capacité et spectre demande",1
+"La vérification au déversement est cruciale pour les poutres métalliques non maintenues.",0
+"Le déversement est très important pour les poutres non maintenues",1
+"Le voilement des âmes sous charges concentrées nécessite des vérifications spécifiques.",0
+"Les charges concentrées sur l'âme nécessitent des vérifications particulières",1
+"La longueur efficace pour les charges concentrées est fonction de la rigidité des semelles.",0
+"Longueur efficace sous charge concentrée dépend de la rigidité des semelles",1
+"Le coefficient m_1 = f_yf b_f / (f_yw t_w) pour le calcul de la résistance aux charges concentrées.",0
+"m1 = fy_semelle * largeur_semelle / (fy_âme * épaisseur_âme)",1
+"Le coefficient m_2 dépend de l'élancement de l'âme.",0
+"m2 dépend de h_w / t_w",1
+"La résistance à l'emboutissement est F_Rd = f_yw L_eff t_w / γ_M1.",0
+"Résistance à l'emboutissement = fy_âme * L_eff * t_w / gamma_M1",1
+"L'effet de l'effort tranchant sur la résistance en flexion est pris en compte par un critère d'interaction.",0
+"L'interaction M-V réduit la résistance en flexion quand il y a du cisaillement",1
+"La formule d'interaction est (M_Ed / M_v,Rd)^α + (V_Ed / V_pl,Rd)^β ≤ 1.",0
+"Interaction M-V : (M/MvRd)^alpha + (V/VplRd)^beta ≤ 1",1
+"Pour les sections en I, α = 2 et β = 2.",0
+"Pour les IPE, alpha=2 et beta=2 dans l'interaction M-V",1
+"La résistance réduite M_v,Rd = M_pl,Rd (1 - ρ) où ρ = (2V_Ed / V_pl,Rd - 1)^2.",0
+"M_v,Rd = M_pl,Rd * (1 - rho) avec rho = (2V/Vpl - 1)²",1
+"La résistance des assemblages est souvent le point faible des structures métalliques.",0
+"Les assemblages sont souvent les points faibles en acier",1
+"La rupture fragile doit être évitée par un choix approprié de nuance d'acier.",0
+"Pour éviter la rupture fragile, faut choisir la bonne nuance d'acier",1
+"La température de transition ductile-fragile est importante pour les constructions en zone froide.",0
+"En région froide, faut faire attention à la température de transition",1
+"Les soudures doivent être contrôlées par radiographie ou ultrasons.",0
+"Les soudures doivent être contrôlées par RT ou UT",1
+"La fatigue est un phénomène de rupture progressive sous chargement cyclique.",0
+"La fatigue c'est la rupture sous charges répétées",1
+"La résistance à la fatigue dépend du détail structural et du nombre de cycles.",0
+"La résistance en fatigue dépend du type de détail et du nombre de cycles",1
+"La courbe S-N donne la contrainte admissible en fonction du nombre de cycles.",0
+"La courbe S-N donne la contrainte max en fonction du nombre de cycles",1
+"La limite d'endurance est la contrainte en dessous de laquelle il n'y a pas de rupture en fatigue.",0
+"Limite d'endurance = contrainte en dessous de laquelle pas de rupture en fatigue",1
+"Pour les ponts, les vérifications de fatigue sont essentielles.",0
+"Pour les ponts, faut absolument vérifier la fatigue",1
+"Les coefficients de concentration de contrainte K_t sont importants pour les calculs de fatigue.",0
+"Les Kt sont importants pour la fatigue",1
+"La méthode du damage cumulé de Miner est utilisée pour les chargements variables.",0
+"La règle de Miner sert pour les chargements variables en fatigue",1
+"Le dommage cumulé D = Σ (n_i / N_i) ≤ 1.",0
+"D = somme (n_i / N_i) doit être < 1",1
+"La corrosion réduit la section utile des éléments métalliques.",0
+"La corrosion diminue la section résistante",1
+"La protection contre la corrosion est essentielle pour la durabilité.",0
+"La protection contre la corrosion est importante pour la durée de vie",1
+"Les peintures et les systèmes galvanisés sont des méthodes courantes de protection.",0
+"On protège l'acier avec peinture ou galvanisation",1
+"L'épaisseur de la peinture dépend de l'environnement corrosif.",0
+"L'épaisseur de peinture dépend de l'agressivité de l'environnement",1
+"La catégorie de corrosivité C3 correspond aux environnements urbains ou industriels modérés.",0
+"C3 = environnements urbains ou industriels modérés",1
+"Pour les structures en contact avec l'eau, on utilise des nuances d'acier résistant à la corrosion.",0
+"Pour l'eau, on utilise des aciers résistant à la corrosion",1
+"L'acier Corten est un acier auto-patinable utilisé en architecture.",0
+"L'acier Corten fait une couche de protection qui arrête la corrosion",1
+"La maintenance des structures métalliques comprend l'inspection et le re peinturage.",0
+"La maintenance de l'acier c'est inspection et rep einture",1
+"La durée de vie de conception est la période pendant laquelle la structure doit satisfaire aux exigences.",0
+"Durée de vie de conception = temps où la structure doit être bonne",1
+"Pour les ponts, la durée de vie de conception est souvent de 100 ans.",0
+"Pour les ponts, durée de vie = 100 ans",1
+"Les actions accidentelles incluent les chocs et les explosions.",0
+"Les actions accidentelles : chocs, explosions",1
+"La résistance aux actions accidentelles peut être assurée par un dimensionnement approprié.",0
+"On peut dimensionner pour résister aux actions accidentelles",1
+"L'analyse de risques est nécessaire pour les structures sensibles.",0
+"Pour les structures sensibles, faut faire une analyse de risques",1
+"La sécurité incendie des structures métalliques nécessite une protection thermique.",0
+"Pour le feu, l'acier a besoin de protection thermique",1
+"Les enduits ignifuges protègent l'acier en cas d'incendie.",0
+"Les enduits ignifuges protègent l'acier du feu",1
+"La température critique de l'acier est environ 550°C pour les structures.",0
+"L'acier perd sa résistance vers 550°C",1
+"La résistance de l'acier à 600°C est environ 30% de sa résistance à froid.",0
+"À 600°C, l'acier garde environ 30% de sa résistance",1
+"Les calculs de résistance au feu se font selon l'Eurocode 3 partie 1-2.",0
+"La résistance au feu se calcule avec l'EN 1993-1-2",1
+"La méthode des zones compartimentées est utilisée pour les poutres exposées au feu.",0
+"Pour les poutres au feu, on utilise la méthode des zones compartimentées",1
+"La température de l'acier est calculée par des méthodes simplifiées ou avancées.",0
+"La température dans l'acier se calcule par méthodes simplifiées ou complexes",1
+"Le développement durable influence le choix des matériaux de construction.",0
+"Le développement durable impacte le choix des matériaux",1
+"L'acier est recyclable à 100% sans perte de qualité.",0
+"L'acier est 100% recyclable",1
+"L'analyse du cycle de vie (ACV) évalue l'impact environnemental des structures.",0
+"L'ACV mesure l'impact environnemental",1
+"Les structures mixtes acier-béton combinent les avantages des deux matériaux.",0
+"Les structures mixtes acier-béton sont avantageuses",1
+"La connexion acier-béton est assurée par des connecteurs.",0
+"Les connecteurs relient l'acier au béton",1
+"Les connecteurs les plus courants sont les goujons soudés.",0
+"Les goujons sont les connecteurs les plus utilisés",1
+"La résistance d'un goujon est P_Rd = 0.8 f_u π d² / (4 γ_v) pour les goujons ductiles.",0
+"Résistance d'un goujon = 0.8 * fu * pi * d² / (4 * gamma_v)",1
+"Le coefficient γ_v vaut 1.25 pour les connecteurs.",0
+"gamma_v = 1.25 pour les connecteurs",1
+"L'effet de levier dans les assemblages peut réduire la résistance.",0
+"L'effet de levier dans les assemblages diminue la résistance",1
+"Les boulons précontraints sont utilisés pour résister à l'effet de levier.",0
+"Les boulons précontraints résistent mieux à l'effet de levier",1
+"La rigidité d'un assemblage influence la distribution des moments dans un portique.",0
+"La rigidité des assemblages change la distribution des moments dans les portiques",1
+"Les assemblages semi-rigides sont modélisés par des ressorts rotatoires.",0
+"Pour les assemblages semi-rigides, on utilise des ressorts de rotation",1
+"La courbe moment-rotation caractérise le comportement d'un assemblage.",0
+"La courbe M-phi donne le comportement d'un assemblage",1
+"La classification des assemblages est basée sur leur rigidité et leur résistance.",0
+"On classe les assemblages par leur rigidité et leur résistance",1
+"Un assemblage rigide doit avoir une rigidité supérieure à k = 25 EI/L pour une poutre.",0
+"Assemblage rigide si k > 25 EI/L",1
+"Un assemblage ductile peut se déformer plastiquement sans perte de résistance.",0
+"Assemblage ductile = peut se déformer plastiquement sans perdre de résistance",1
+"La vérification de la sécurité utilise la méthode des coefficients partiels.",0
+"La sécurité se vérifie avec les coefficients partiels",1
+"La fiabilité d'une structure est mesurée par l'indice de fiabilité β.",0
+"L'indice beta mesure la fiabilité",1
+"Pour les bâtiments, l'indice cible β est de 3.8 pour les états limites ultimes.",0
+"Pour les ELU, beta cible = 3.8",1
+"L'approche probabiliste est utilisée pour le calibrage des coefficients de sécurité.",0
+"Les coefficients de sécurité sont calibrés par approche probabiliste",1
+"Les actions sont modélisées comme des variables aléatoires.",0
+"Les charges sont des variables aléatoires",1
+"La résistance est également une variable aléatoire.",0
+"La résistance est aussi une variable aléatoire",1
+"La méthode de Monte Carlo est utilisée pour les analyses de fiabilité.",0
+"Monte Carlo sert pour les analyses de fiabilité",1
+"L'optimisation des structures cherche à minimiser le poids ou le coût sous contraintes.",0
+"L'optimisation cherche à minimiser poids ou coût avec des contraintes",1
+"Les algorithmes génétiques sont des méthodes d'optimisation heuristiques.",0
+"Les algorithmes génétiques sont des méthodes d'optimisation",1
+"La topologie optimale trouve la répartition optimale de matière dans un domaine.",0
+"La topologie optimale donne la meilleure répartition de matière",1
+"Les structures en treillis sont souvent optimisées par des méthodes itératives.",0
+"Les treillis sont souvent optimisés par méthodes itératives",1
+"La méthode des éléments finis est couplée à des algorithmes d'optimisation.",0
+"On combine éléments finis et optimisation",1
+"Le BIM (Building Information Modeling) révolutionne la conception des structures.",0
+"Le BIM change la façon de concevoir les structures",1
+"Les modèles BIM contiennent des informations géométriques et techniques.",0
+"Les modèles BIM ont de la géométrie et des données techniques",1
+"L'IOT (Internet of Things) permet le suivi en temps réel des structures.",0
+"L'IOT permet de surveiller les structures en temps réel",1
+"Les capteurs de déformation et d'accélération sont utilisés pour le monitoring structural.",0
+"On utilise des capteurs pour surveiller les structures",1
+"L'analyse des données de monitoring permet de détecter les dommages.",0
+"L'analyse des données de monitoring détecte les dommages",1
+"L'intelligence artificielle est utilisée pour l'interprétation des données de capteurs.",0
+"L'IA sert à interpréter les données de capteurs",1
+"Les réseaux de neurones peuvent prédire le comportement des structures.",0
+"Les réseaux de neurones prédisent le comportement des structures",1
+"Le machine learning identifie des motifs dans les données structurales.",0
+"Le machine learning trouve des patterns dans les données",1
+"La maintenance prédictive utilise l'IA pour anticiper les défaillances.",0
+"La maintenance prédictive utilise l'IA pour prévoir les pannes",1
+"Les jumeaux numériques sont des répliques virtuelles des structures réelles.",0
+"Les jumeaux numériques sont des copies virtuelles des structures",1
+"Les jumeaux numériques permettent de simuler le comportement sous diverses sollicitations.",0
+"Les jumeaux numériques simulent le comportement sous différentes charges",1
+"La réalité augmentée aide à visualiser les résultats de calcul dans le contexte réel.",0
+"La réalité augmentée montre les résultats de calcul sur la vraie structure",1
+"Les drones sont utilisés pour l'inspection des structures difficiles d'accès.",0
+"Les drones inspectent les structures difficiles d'accès",1
+"La photogrammétrie permet de créer des modèles 3D à partir de photos.",0
+"La photogrammétrie crée des modèles 3D avec des photos",1
+"Le scanning laser (LiDAR) donne des nuages de points précis de l'existant.",0
+"Le LiDAR donne des nuages de points précis",1
+"La modélisation paramétrique accélère la conception des structures complexes.",0
+"La modélisation paramétrique va plus vite pour les structures complexes",1
+"Grasshopper est un outil populaire pour la modélisation paramétrique.",0
+"Grasshopper est connu pour la modélisation paramétrique",1
+"La conception générative explore automatiquement des milliers de solutions.",0
+"La conception générative explore plein de solutions automatiquement",1
+"L'optimisation topologique génère des formes organiques inspirées de la nature.",0
+"L'optimisation topologique donne des formes qui ressemblent à la nature",1
+"Les structures en treillis spatial sont efficaces pour couvrir de grandes portées.",0
+"Les treillis spatiaux sont bons pour les grandes portées",1
+"Les dômes géodésiques sont des structures sphériques en treillis.",0
+"Les dômes géodésiques sont des sphères en treillis",1
+"Les structures tenségrites sont stabilisées par des câbles en tension.",0
+"Les tenségrites sont stabilisées par des câbles tendus",1
+"Les structures pneumatiques utilisent la pression d'air pour maintenir leur forme.",0
+"Les structures pneumatiques tiennent avec de l'air sous pression",1
+"Les structures plissées ont une bonne rigidité grâce à leur géométrie.",0
+"Les structures plissées sont rigides grâce à leur forme",1
+"L'origami inspire des structures déployables.",0
+"L'origami inspire des structures qui se déplient",1
+"Les matériaux composites FRP (Fiber Reinforced Polymers) sont utilisés pour le renforcement des structures.",0
+"Les composites FRP servent à renforcer les structures",1
+"Le CFRP (Carbon Fiber Reinforced Polymer) a une haute résistance spécifique.",0
+"Le CFRP a une très bonne résistance/poids",1
+"Le GFRP (Glass Fiber Reinforced Polymer) est moins cher mais moins résistant que le CFRP.",0
+"Le GFRP est moins cher mais moins résistant que le CFRP",1
+"L'adhérence entre le FRP et le béton est cruciale pour le renforcement.",0
+"L'adhérence FRP-béton est très importante",1
+"La rupture par délamination est un mode de défaillance courant dans les renforcements FRP.",0
+"La délamination est une cause courante de ruine pour les renforcements FRP",1
+"Les normes de construction évoluent pour intégrer les nouveaux matériaux et méthodes.",0
+"Les normes s'adaptent aux nouveaux matériaux et méthodes",1
+"L'Eurocode est le cadre normatif européen pour le dimensionnement des structures.",0
+"L'Eurocode est la norme européenne pour le calcul des structures",1
+"L'EN 1990 est la norme de base pour les principes de calcul.",0
+"L'EN 1990 donne les principes de base de calcul",1
+"Les Eurocodes sont basés sur l'approche des états limites.",0
+"Les Eurocodes utilisent les états limites",1
+"La combinaison fondamentale aux ELU est 1.35G + 1.5Q.",0
+"Combinaison ELU : 1.35 G + 1.5 Q",1
+"Les coefficients partiels tiennent compte des incertitudes sur les matériaux et les charges.",0
+"Les coefficients partiels couvrent les incertitudes sur matériaux et charges",1
+"La vérification d'un état limite est R_d ≥ E_d.",0
+"Pour un état limite, résistance ≥ sollicitation",1
+"La résistance de calcul R_d = R_k / γ_M.",0
+"Résistance de calcul = caractéristique / gamma_M",1
+"La sollicitation de calcul E_d = E(γ_F F_k).",0
+"Sollicitation de calcul = fonction des charges pondérées",1
+"Les annexes nationales adaptent les Eurocodes aux contextes locaux.",0
+"Les annexes nationales adaptent les Eurocodes à chaque pays",1
+"L'analyse dynamique non linéaire est utilisée pour les constructions en zone sismique.",0
+"Pour les zones sismiques, on fait des analyses dynamiques non linéaires",1
+"Le spectre de réponse élastique est défini dans l'EN 1998-1.",0
+"Le spectre de réponse élastique est dans l'EN 1998-1",1
+"Le coefficient de comportement q réduit les forces sismiques pour les structures ductiles.",0
+"Le facteur q réduit les forces sismiques pour les structures ductiles",1
+"Le dimensionnement capacitif assure que les rotules plastiques se forment aux endroits prévus.",0
+"Le dimensionnement capacitif contrôle où se forment les rotules plastiques",1
+"Les éléments dissipatifs sont dimensionnés pour subir des déformations plastiques.",0
+"Les éléments dissipatifs sont faits pour se déformer plastiquement",1
+"Les éléments non dissipatifs doivent rester élastiques.",0
+"Les éléments non dissipatifs ne doivent pas plastifier",1
+"La surrésistance des éléments non dissipatifs est prise en compte dans le dimensionnement capacitif.",0
+"La surrésistance des éléments non dissipatifs est considérée dans le dimensionnement capacitif",1
+"La ductilité en courbure est importante pour la capacité de rotation des rotules plastiques.",0
+"La ductilité en courbure est clé pour la rotation des rotules",1
+"L'effet P-Delta doit être considéré dans l'analyse sismique des structures souples.",0
+"Pour les structures souples en sismique, faut considérer P-Delta",1
+"Les systèmes de contreventement concentrique ou excentrique ont des comportements sismiques différents.",0
+"Les contreventements concentriques et excentrés se comportent différemment en sismique",1
+"Les contreventements excentriques permettent une dissipation d'énergie par déformation des liens.",0
+"Les contreventements excentrés dissipent l'énergie dans les liens",1
+"Les structures mixtes acier-béton ont une bonne performance sismique grâce au noyau en béton.",0
+"Les structures mixtes sont bonnes en sismique grâce au noyau béton",1
+"Les planchers mixtes acier-béton sont courants dans les bâtiments.",0
+"Les planchers mixtes acier-béton sont très utilisés",1
+"La dalle collaborante participe à la résistance de la poutre mixte.",0
+"La dalle collabore avec la poutre en acier",1
+"Le coefficient de connexion η mesure le degré d'interaction acier-béton.",0
+"Le degré de connexion eta mesure l'interaction acier-béton",1
+"Une connexion complète nécessite suffisamment de connecteurs pour empêcher le glissement relatif.",0
+"Connexion complète = assez de connecteurs pour empêcher le glissement",1
+"Une connexion partielle est autorisée si la résistance est suffisante.",0
+"Connexion partielle est permise si la résistance est ok",1
+"La méthode de calcul des poutres mixtes est donnée dans l'EN 1994-1-1.",0
+"Les poutres mixtes se calculent avec l'EN 1994-1-1",1
+"Les ponts mixtes acier-béton sont économiques pour les portées moyennes.",0
+"Les ponts mixtes sont économiques pour portées moyennes",1
+"Les poutres-caissons en acier sont utilisées pour les grandes portées.",0
+"Pour les grandes portées, on utilise des poutres-caissons",1
+"L'instabilité des semelles comprimées des poutres-caissons nécessite des raidisseurs transversaux.",0
+"Pour les poutres-caissons, faut des raidisseurs contre l'instabilité des semelles",1
+"Le voilement par cisaillement des âmes de poutres-caissons est un phénomène critique.",0
+"Le voilement par cisaillement est critique dans les âmes de poutres-caissons",1
+"Les méthodes de calcul avancées comme l'analyse GMNIA sont utilisées pour les ponts complexes.",0
+"Pour les ponts complexes, on utilise des méthodes avancées comme GMNIA",1
+"L'analyse GMNIA (Geometrically and Materially Non-Linear Analysis with Imperfections) est la plus précise.",0
+"GMNIA c'est la méthode la plus précise",1
+"Les imperfections géométriques initiales doivent être incluses dans les modèles GMNIA.",0
+"Les modèles GMNIA doivent inclure les imperfections initiales",1
+"La modélisation des soudures est importante pour l'évaluation de la fatigue.",0
+"Pour la fatigue, faut bien modéliser les soudures",1
+"Les concentrations de contraintes aux détails structuraux réduisent la résistance à la fatigue.",0
+"Les concentrations de contraintes aux détails diminuent la résistance en fatigue",1
+"Les classes de détails de fatigue sont définies dans l'EN 1993-1-9.",0
+"Les classes de détails pour la fatigue sont dans l'EN 1993-1-9",1
+"La résistance à la fatigue diminue avec la taille des défauts.",0
+"Plus les défauts sont gros, moins ça résiste en fatigue",1
+"Le contrôle non destructif (CND) détecte les défauts dans les structures.",0
+"Le CND trouve les défauts dans les structures",1
+"Les méthodes de CND incluent les ultrasons, les radiographies et les courants de Foucault.",0
+"CND : ultrasons, radiographie, courants de Foucault",1
+"La mécanique de la rupture prédit la propagation des fissures.",0
+"La mécanique de la rupture prévoit comment les fissures grandissent",1
+"Le facteur d'intensité de contrainte K caractérise le champ de contraintes à la pointe d'une fissure.",0
+"Le K donne le champ de contraintes à la pointe de fissure",1
+"La ténacité K_IC est la valeur critique du facteur d'intensité de contrainte pour la rupture fragile.",0
+"K_IC est la valeur critique pour la rupture fragile",1
+"Les aciers à haute ténacité ont une température de transition ductile-fragile basse.",0
+"Les aciers très tenaces ont une basse température de transition",1
+"La prévention de la rupture fragile est cruciale pour les constructions en climat froid.",0
+"En climat froid, faut absolument éviter la rupture fragile",1
+"Le choix de nuance d'acier appropriée est la première mesure de prévention.",0
+"Choisir la bonne nuance d'acier est la première chose à faire",1
+"Le contrôle de la température de soudage évite les trempes locales.",0
+"Contrôler la température de soudage évite les zones trempées",1
+"Les traitements thermiques post-soudage améliorent la ténacité des soudures.",0
+"Les traitements thermiques après soudage améliorent la ténacité",1
+"La conception structurale doit éviter les concentrations de contraintes.",0
+"La conception doit éviter les concentrations de contraintes",1
+"Les changements brusques de section sont à proscrire dans les zones critiques.",0
+"Faut éviter les changements brusques de section dans les zones critiques",1
+"Les entailles et défauts d'usinage doivent être minimisés.",0
+"Faut minimiser les entailles et défauts d'usinage",1
+"La surveillance des structures existantes permet de détecter les problèmes avant qu'ils ne deviennent critiques.",0
+"Surveiller les structures existantes permet de trouver les problèmes à temps",1
+"L'inspection régulière est obligatoire pour les ponts et les grands ouvrages.",0
+"Pour les ponts, l'inspection régulière est obligatoire",1
+"Les méthodes d'auscultation incluent les mesures de déformation, de vibration et de corrosion.",0
+"Auscultation : mesurer déformations, vibrations, corrosion",1
+"L'évaluation de la capacité résiduelle des structures vieillissantes est un défi important.",0
+"Évaluer la capacité résiduelle des vieilles structures est un gros défi",1
+"Le renforcement des structures existantes peut être nécessaire pour prolonger leur durée de vie.",0
+"Parfois faut renforcer les vieilles structures pour les garder plus longtemps",1
+"Les méthodes de renforcement incluent l'ajout de plaques en acier, l'utilisation de PRF ou de béton projeté.",0
+"Renforcement : ajout plaques acier, PRF, béton projeté",1
+"La protection incendie des structures métalliques existantes peut être améliorée par l'ajout de protection thermique.",0
+"Pour améliorer la résistance au feu, on ajoute de la protection thermique",1
+"L'adaptation aux nouvelles normes peut nécessiter le renforcement des structures existantes.",0
+"Quand les normes changent, parfois faut renforcer les structures existantes",1
+"Le développement durable encourage la réutilisation des structures existantes.",0
+"Le développement durable pousse à réutiliser les structures existantes",1
+"La déconstruction sélective permet de récupérer les matériaux pour réutilisation.",0
+"La déconstruction sélective permet de récupérer des matériaux",1
+"L'acier est le matériau de construction le plus recyclé au monde.",0
+"L'acier est le matériau le plus recyclé",1
+"L'économie circulaire vise à minimiser les déchets de construction.",0
+"L'économie circulaire veut réduire les déchets de construction",1
+"La conception pour la démontabilité facilite la réutilisation des éléments structuraux.",0
+"Concevoir pour démonter facilite la réutilisation",1
+"Les connexions boulonnées sont plus faciles à démonter que les soudures.",0
+"Les assemblages boulonnés sont plus faciles à démonter que les soudures",1
+"L'analyse du cycle de vie (ACV) quantifie l'impact environnemental d'une structure.",0
+"L'ACV mesure l'impact environnemental d'une structure",1
+"Les indicateurs d'ACV incluent le potentiel de réchauffement climatique (GWP) et la consommation d'énergie.",0
+"Indicateurs ACV : GWP, consommation d'énergie",1
+"Les structures mixtes acier-béton peuvent avoir un meilleur bilan environnemental que les structures en béton armé.",0
+"Les structures mixtes peuvent être plus écologiques que le béton armé",1
+"L'optimisation topologique réduit la quantité de matériau nécessaire.",0
+"L'optimisation topologique utilise moins de matériau",1
+"Les structures légères en acier sont économes en ressources.",0
+"Les structures acier légères consomment moins de ressources",1
+"La fabrication numérique permet une production précise avec moins de déchets.",0
+"La fabrication numérique est précise et génère moins de déchets",1
+"La construction modulaire en acier accélère le chantier et réduit les nuisances.",0
+"La construction modulaire en acier va plus vite et gêne moins",1
+"La durabilité des structures dépend de la qualité de la protection contre la corrosion.",0
+"La durabilité dépend de la protection contre la corrosion",1
+"Les environnements marins sont particulièrement agressifs pour l'acier.",0
+"Environnements marins = très corrosifs pour l'acier",1
+"Les aciers inoxydables sont utilisés dans les environnements très corrosifs.",0
+"Pour les milieux très corrosifs, on utilise de l'inox",1
+"Le duplex 2205 est un acier inoxydable courant pour les constructions marines.",0
+"Le duplex 2205 est souvent utilisé en milieu marin",1
+"Le coût initial plus élevé de l'inox peut être compensé par des coûts de maintenance réduits.",0
+"L'inox coûte plus cher au départ mais moins en maintenance",1
+"La sélection des matériaux doit considérer le coût global sur la durée de vie.",0
+"Choisir les matériaux en regardant le coût global sur la durée de vie",1
+"L'analyse coût-bénéfice guide les décisions d'investissement dans les projets structuraux.",0
+"L'analyse coût-bénéfice aide à décider dans les projets",1
+"Les solutions innovantes peuvent avoir un coût initial plus élevé mais des avantages à long terme.",0
+"Les innovations coûtent souvent plus au départ mais rapportent après",1
+"La recherche en génie civil vise à développer des matériaux et méthodes plus performants et durables.",0
+"La recherche veut trouver des matériaux et méthodes meilleurs et plus durables",1
+"Les nanocomposites et les matériaux intelligents sont des domaines de recherche prometteurs.",0
+"Les nanocomposites et matériaux intelligents sont prometteurs",1
+"Les matériaux auto-cicatrisants pourraient révolutionner la durabilité des structures.",0
+"Les matériaux qui se réparent tout seuls pourraient changer la donne",1
+"Les capteurs intégrés dans le béton ou l'acier permettent de surveiller l'état de santé des structures.",0
+"Des capteurs dans les matériaux surveillent la santé des structures",1
+"L'intelligence artificielle transforme la façon dont nous concevons, construisons et gérons les infrastructures.",0
+"L'IA change la conception, construction et gestion des infrastructures",1
+"Les défis futurs incluent l'adaptation au changement climatique et la construction en milieu extrême.",0
+"Les défis : changement climatique et constructions en milieux extrêmes",1
+"Le génie civil doit contribuer à la transition écologique par des constructions durables.",0
+"Le génie civil doit aider la transition écologique avec des constructions durables",1
+"L'innovation est clé pour répondre aux défis des mégalopoles futures.",0
+"L'innovation est essentielle pour les mégalopoles du futur",1
+"La collaboration entre ingénieurs, architectes et scientifiques est nécessaire pour des solutions intégrées.",0
+"Faut que ingénieurs, architectes et scientifiques collaborent",1
+"La formation continue est essentielle pour maîtriser les nouvelles technologies.",0
+"La formation continue est cruciale pour les nouvelles techs",1
+"Les normes et règlements doivent évoluer pour encadrer les innovations.",0
+"Les normes doivent suivre les innovations",1
+"L'éthique professionnelle impose de considérer les impacts sociaux et environnementaux des projets.",0
+"L'éthique demande de penser aux impacts sociaux et environnementaux",1
+"La sécurité des personnes est la priorité absolue dans la conception structurale.",0
+"La sécurité des personnes est le plus important",1
+"La robustesse des structures garantit qu'elles ne s'effondrent pas de manière disproportionnée en cas de défaillance locale.",0
+"La robustesse empêche l'effondrement disproportionné en cas de problème local",1
+"Le concept de 'fail-safe' assure qu'une défaillance n'entraîne pas la ruine totale.",0
+"Le 'fail-safe' fait qu'une défaillance ne fait pas tout tomber",1
+"La redondance structurale fournit des chemins alternatifs pour les charges en cas de défaillance d'un élément.",0
+"La redondance donne des chemins alternatifs pour les charges",1
+"Les structures importantes comme les ponts doivent avoir un degré de redondance suffisant.",0
+"Les ponts doivent avoir assez de redondance",1
+"L'analyse des risques identifie les scénarios de défaillance et leurs conséquences.",0
+"L'analyse des risques trouve comment ça peut tomber et quelles conséquences",1
+"La gestion des risques structurels inclut la prévention, la mitigation et la préparation aux urgences.",0
+"Gestion des risques : prévenir, mitiger, se préparer aux urgences",1
+"La résilience des infrastructures est leur capacité à absorber les chocs et à se rétablir rapidement.",0
+"La résilience c'est absorber les chocs et rebondir vite",1
+"Les événements extrêmes comme les séismes majeurs ou les inondations doivent être considérés dans la conception.",0
+"Faut penser aux événements extrêmes comme gros séismes ou inondations",1
+"Le changement climatique augmente la fréquence des événements extrêmes.",0
+"Le changement climatique rend les événements extrêmes plus fréquents",1
+"L'adaptation des infrastructures au changement climatique est un défi majeur du 21e siècle.",0
+"Adapter les infrastructures au changement climatique est un gros défi",1
+"La conception adaptative anticipe les changements futurs.",0
+"La conception adaptative pense aux changements futurs",1
+"Les solutions basées sur la nature (NbS) complètent les infrastructures traditionnelles.",0
+"Les solutions basées sur la nature aident les infrastructures traditionnelles",1
+"L'ingénierie côtière utilise des récifs artificiels et des marais pour la protection contre les tempêtes.",0
+"L'ingénierie côtière utilise récifs artificiels et marais contre les tempêtes",1
+"Les toits verts réduisent les îlots de chaleur urbains et gèrent les eaux pluviales.",0
+"Les toits verts réduisent la chaleur en ville et gèrent l'eau de pluie",1
+"Les infrastructures vertes contribuent à la biodiversité urbaine.",0
+"Les infrastructures vertes aident la biodiversité en ville",1
+"La durabilité sociale concerne l'acceptabilité et l'accessibilité des infrastructures.",0
+"La durabilité sociale c'est que les infrastructures soient acceptées et accessibles",1
+"L'équité dans l'accès aux infrastructures est un enjeu important.",0
+"L'accès équitable aux infrastructures est important",1
+"La participation des parties prenantes améliore la conception des projets.",0
+"Impliquer les parties prenantes améliore la conception",1
+"L'approche systémique considère les interactions entre les infrastructures et leur environnement.",0
+"L'approche systémique regarde les interactions entre infrastructures et environnement",1
+"Les systèmes urbains complexes nécessitent une vision holistique.",0
+"Les villes complexes demandent une vision globale",1
+"L'interdisciplinarité est essentielle pour résoudre les problèmes complexes du monde réel.",0
+"Pour les problèmes complexes, faut plusieurs disciplines",1
+"Le génie civil du futur intégrera davantage de technologies numériques et écologiques.",0
+"Le génie civil du futur utilisera plus de numérique et d'écologie",1
+"L'innovation responsable équilibre progrès technique, viabilité économique et durabilité environnementale.",0
+"L'innovation responsable équilibre technique, économie et environnement",1
+"L'apprentissage tout au long de la vie est indispensable dans un domaine en constante évolution.",0
+"Dans un domaine qui change, faut apprendre toute sa vie",1
+"La passion pour la construction durable anime les ingénieurs de demain.",0
+"La passion pour construire durable anime les futurs ingénieurs",1
+"Les défis techniques stimulent la créativité des ingénieurs.",0
+"Les défis techniques rendent les ingénieurs créatifs",1
+"La satisfaction de voir ses projets réalisés est une récompense unique.",0
+"Voir ses projets construits est une récompense unique",1
+"Le génie civil façonne l'environnement bâti qui nous entoure.",0
+"Le génie civil crée l'environnement bâti autour de nous",1
+"Construire pour durer est la devise des ingénieurs structure.",0
+"Construire pour durer : devise des ingénieurs structure",1
+"La sécurité, la durabilité et l'esthétique sont les trois piliers de la conception structurale.",0
+"Conception structurale : sécurité, durabilité, esthétique",1
+"L'ingénieur structure est un artiste qui travaille avec les lois de la physique.",0
+"L'ingénieur structure est un artiste des lois de la physique",1
+"Les mathématiques et la créativité se marient dans le génie structural.",0
+"Le génie structural mélange maths et créativité",1
+"Les logiciels modernes sont des outils puissants mais ne remplacent pas le jugement de l'ingénieur.",0
+"Les logiciels sont des outils mais ne remplacent pas le jugement",1
+"La compréhension physique des phénomènes est fondamentale pour une bonne conception.",0
+"Comprendre la physique est fondamental pour bien concevoir",1
+"L'expérience pratique complète la formation théorique.",0
+"L'expérience pratique va avec la théorie",1
+"Les essais en laboratoire valident les modèles théoriques.",0
+"Les essais en labo valident les théories",1
+"La recherche expérimentale et numérique se complètent.",0
+"Recherche expérimentale et numérique vont ensemble",1
+"L'enseignement par projet prépare les étudiants à la pratique professionnelle.",0
+"L'enseignement par projet prépare à la pratique",1
+"Les compétences en communication sont aussi importantes que les compétences techniques.",0
+"Savoir communiquer est aussi important que les compétences techniques",1
+"Travailler en équipe est inévitable dans les grands projets.",0
+"Dans les grands projets, faut travailler en équipe",1
+"La gestion de projet structure les étapes de conception à la réalisation.",0
+"La gestion de projet organise de la conception à la réalisation",1
+"Le BIM facilite la collaboration entre les différents intervenants.",0
+"Le BIM aide à collaborer entre les différents métiers",1
+"La maquette numérique est le cœur du processus BIM.",0
+"La maquette numérique est au centre du BIM",1
+"La détection des conflits en phase de conception réduit les problèmes en chantier.",0
+"Détecter les conflits en conception évite des problèmes en chantier",1
+"La préfabrication en atelier améliore la qualité et réduit les délais.",0
+"Préfabriquer en atelier améliore qualité et réduit délais",1
+"Le contrôle qualité est crucial pour la sécurité des structures.",0
+"Le contrôle qualité est essentiel pour la sécurité",1
+"La traçabilité des matériaux garantit leur conformité aux spécifications.",0
+"La traçabilité assure que les matériaux sont conformes",1
+"Les procédures de soudage doivent être qualifiées et contrôlées.",0
+"Les soudures doivent être faites avec des procédures qualifiées et contrôlées",1
+"La documentation technique est essentielle pour la maintenance future.",0
+"La documentation technique est importante pour la maintenance",1
+"Les leçons apprises des défaillances passées améliorent la pratique future.",0
+"Apprendre des échecs passés améliore la pratique future",1
+"L'effondrement du pont de Tacoma Narrows en 1940 a révolutionné l'étude de l'aérodynamique des ponts.",0
+"L'effondrement du pont de Tacoma en 1940 a changé l'aérodynamique des ponts",1
+"Les ponts suspendus modernes sont conçus pour résister aux vibrations aéroélastiques.",0
+"Les ponts suspendus modernes résistent aux vibrations aéroélastiques",1
+"Les souffleries permettent de tester le comportement aérodynamique des ponts.",0
+"Les souffleries testent le comportement aérodynamique des ponts",1
+"Les amortisseurs TMD (Tuned Mass Dampers) contrôlent les vibrations des structures.",0
+"Les TMD amortissent les vibrations des structures",1
+"Le viaduc de Millau est un exemple remarquable de pont à haubans.",0
+"Le viaduc de Millau est un beau pont à haubans",1
+"La tour Eiffel est une icône du génie structural en acier.",0
+"La tour Eiffel est une icône de l'acier",1
+"Le Golden Gate Bridge à San Francisco est un pont suspendu emblématique.",0
+"Le Golden Gate est un pont suspendu célèbre",1
+"Les gratte-ciel comme le Burj Khalifa repoussent les limites de la hauteur.",0
+"Les gratte-ciel comme le Burj Khalifa vont très haut",1
+"Les structures de grande hauteur nécessitent des systèmes de contreventement sophistiqués.",0
+"Les très hautes structures demandent des contreventements sophistiqués",1
+"Le flambement devient critique pour les éléments élancés des tours.",0
+"Le flambement est critique dans les tours",1
+"Les effets du vent dominent la conception des gratte-ciel.",0
+"Le vent est le truc le plus important pour les gratte-ciel",1
+"Les mouvements induits par le vent doivent être limités pour le confort des occupants.",0
+"Les mouvements dus au vent doivent être limités pour le confort",1
+"Les amortisseurs de sommet réduisent les oscillations des tours.",0
+"Des amortisseurs au sommet réduisent les oscillations",1
+"La forme aérodynamique des tours atténue les charges de vent.",0
+"Une forme aérodynamique réduit les charges de vent",1
+"Les modèles réduits en soufflerie guident l'optimisation aérodynamique.",0
+"Les modèles en soufflerie aident à optimiser l'aérodynamique",1
+"L'analyse CFD (Computational Fluid Dynamics) complète les essais en soufflerie.",0
+"La CFD complète les essais en soufflerie",1
+"Les structures intelligentes adaptent leur comportement aux sollicitations.",0
+"Les structures intelligentes s'adaptent aux sollicitations",1
+"Les actionneurs et capteurs intégrés permettent un contrôle actif.",0
+"Des capteurs et actionneurs permettent un contrôle actif",1
+"Les matériaux à mémoire de forme ont des applications potentielles en génie parasismique.",0
+"Les matériaux à mémoire de forme pourraient servir en sismique",1
+"La recherche sur les métamatériaux vise à créer des structures aux propriétés mécaniques exceptionnelles.",0
+"Les métamatériaux pourraient avoir des propriétés mécaniques exceptionnelles",1
+"L'avenir du génie civil est passionnant avec les nouvelles technologies émergentes.",0
+"Le génie civil a un avenir passionnant avec les nouvelles techs",1
+"L'intelligence artificielle accélère la conception optimale.",0
+"L'IA va plus vite pour concevoir optimal",1
+"La réalité virtuelle permet de visualiser et d'optimiser les conceptions complexes.",0
+"La réalité virtuelle montre et optimise les conceptions complexes",1
+"Les jumeaux numériques deviendront la norme pour la gestion des infrastructures.",0
+"Les jumeaux numériques seront normaux pour gérer les infrastructures",1
+"La robotique de construction automatisera les tâches dangereuses ou répétitives.",0
+"La robotique automatisera les tâches dangereuses ou répétitives",1
+"Les drones et robots inspecteront et maintiendront les structures difficiles d'accès.",0
+"Les drones et robots inspecteront et entretiendront les structures difficiles",1
+"L'impression 3D de structures en béton ou métal ouvre de nouvelles possibilités formelles.",0
+"L'impression 3D de structures ouvre de nouvelles possibilités",1
+"Les structures bio-inspirées imitent les solutions efficaces de la nature.",0
+"Les structures bio-inspirées copient la nature",1
+"La conception générative explore automatiquement des milliers de solutions optimales.",0
+"La conception générative explore plein de solutions optimales",1
+"L'optimisation topologique génère des formes organiques économes en matériau.",0
+"L'optimisation topologique donne des formes organiques avec peu de matériau",1
+"Les algorithmes évolutionnaires s'inspirent de la sélection naturelle pour optimiser les structures.",0
+"Les algorithmes évolutionnaires optimisent les structures comme dans la nature",1
+"L'apprentissage machine prédit le comportement structural à partir de données.",0
+"Le machine learning prédit le comportement structural avec des données",1
+"Les réseaux neuronaux profonds remplacent les modèles physiques complexes.",0
+"Les réseaux neuronaux profonds remplacent les modèles physiques",1
+"L'IA générative crée des conceptions innovantes à partir de contraintes données.",0
+"L'IA générative crée des conceptions innovantes",1
+"L'ingénieur du futur sera un chef d'orchestre des outils numériques.",0
+"L'ingénieur du futur dirigera les outils numériques",1
+"L'éthique de l'IA appliquée au génie civil est un nouveau champ de réflexion.",0
+"L'éthique de l'IA en génie civil est un nouveau sujet",1
+"La responsabilité des décisions prises par des systèmes d'IA doit être clarifiée.",0
+"La responsabilité des décisions de l'IA doit être clarifiée",1
+"La transparence des algorithmes est importante pour la confiance dans les systèmes structuraux.",0
+"La transparence des algorithmes est importante pour la confiance",1
+"La sécurité des systèmes numériques contre les cyberattaques est cruciale pour les infrastructures critiques.",0
+"Protéger les systèmes numériques contre les cyberattaques est crucial",1
+"La résilience des infrastructures face aux menaces hybrides (physiques et cyber) est un enjeu émergent.",0
+"La résilience face aux menaces physiques et cyber est un enjeu",1
+"Le génie civil contribuera à bâtir un monde plus durable et résilient.",0
+"Le génie civil aidera à construire un monde plus durable et résilient",1
+"Les défis sont immenses mais l'ingéniosité humaine est sans limite.",0
+"Les défis sont gros mais l'humain est ingénieux",1
+"Construire l'avenir est la mission passionnante des ingénieurs civils.",0
+"Construire l'avenir est la mission des ingénieurs civils",1

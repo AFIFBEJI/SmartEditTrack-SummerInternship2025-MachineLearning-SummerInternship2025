@@ -1,0 +1,55 @@
+🔒 RAPPORT D'ANALYSE SMARTEDITTRACK - VERSION AMÉLIORÉE
+📅 Date d'analyse: 2025-07-27 13:56:28
+🔐 Hash fichier original: 676da6150ae8d0dc935eb7b76852f7042a06008d202215f872c60855fc8ac9d1
+🔏 Hash fichier étudiant: 62a6206d40e54334e8f18f659b2a0b2f4b46c0ee228b885c33d293649f107e70
+
+==================================================
+
+
+📊 FEUILLE: Sheet1
+--------------------------------------------------
+
+🔍 Modification dans C2 [Q1 - Définir le béton armé]:
+  ❌ Original: None
+  ✅ Modifié: En tant que matériau composite, le béton armé est un élément essentiel...
+  🧠 Type: Style IA détecté
+
+🔍 Modification dans D2 [Q2 - Formule du moment fléchissant]:
+  ❌ Original: None
+  ✅ Modifié: !@#$%^&*
+  🧠 Type: Caractères suspects
+
+🔍 Modification dans E2 [Q3 - Calcul de la contrainte normale]:
+  ❌ Original: None
+  ✅ Modifié: 14455
+  🧠 Type: Réponse normale
+
+🔍 Modification dans F2 [Q4 - Donner l’expression de σmax]:
+  ❌ Original: None
+  ✅ Modifié: !@#$%^&*
+  🧠 Type: Caractères suspects
+
+==================================================
+📊 RÉSUMÉ DE L'ANALYSE
+• Feuilles analysées: 1
+• Cellules modifiées détectées: 6
+
+🚫 MODIFICATIONS HORS ZONE AUTORISÉE:
+- Modification hors zone réponse (A2)
+- Modification hors zone réponse (B2)
+
+🚨 SUSPICIONS DE TRICHE DÉTECTÉES:
+1. Cellule C2: Style IA détecté
+   Contenu: En tant que matériau composite, le béton armé est un élément essentiel dans la construction moderne,...
+2. Cellule D2: Caractères suspects
+   Contenu: !@#$%^&*
+3. Cellule F2: Caractères suspects
+   Contenu: !@#$%^&*
+
+==================================================
+💡 RECOMMANDATIONS POUR L'ENSEIGNANT:
+- Vérifier manuellement les réponses suspectes marquées
+- Contrôler les modifications hors zone réponse
+- Interroger l'étudiant sur ces anomalies
+- Vérifier les feuilles ajoutées ou modifiées
+- Consulter les hashs pour vérifier l'intégrité des fichiers: 676da6150ae8d0dc935eb7b76852f7042a06008d202215f872c60855fc8ac9d1 vs 62a6206d40e54334e8f18f659b2a0b2f4b46c0ee228b885c33d293649f107e70

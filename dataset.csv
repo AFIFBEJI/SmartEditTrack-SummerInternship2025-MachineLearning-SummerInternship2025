@@ -1,0 +1,160 @@
+Déterminer la résistance axiale R,"La résistance axiale se calcule par R = N / A, avec N la force normale et A la section",1
+Calculer la contrainte normale σ,"σ = N / A avec N = 45kN et A = 1200 mm² donc σ = 37,5 MPa",1
+Donner l’expression du moment fléchissant,"Le moment fléchissant est M = F × l",1
+Calculer l’élancement λ d’une tige,"λ = L / i avec i = √(I / A)",1
+Déterminer la contrainte de flambement,"σe = π² × E / λ²",1
+Déduire le risque de flambement,"Le risque est élevé si λ > λlim = 100",1
+Vérifier la contrainte admissible,"σ ≤ σadm, ici σ = 37 MPa et σadm = 160 MPa donc vérification OK",1
+Calculer l’inertie minimale,"Imin = (π² × E × A × L²) / σadm",1
+Déterminer le centre de gravité,"Le centre de gravité est au centre de la section si symétrique",1
+Calculer le moment quadratique I,"I = (b × h³) / 12 pour une section rectangulaire",1
+Donner la formule de σmax,"σmax = M × y / I",1
+Estimer la flèche maximale,"fmax = (5 × q × L⁴) / (384 × E × I)",1
+Déterminer la tension dans la tige,"La tension est T = σ × A",1
+Évaluer la sécurité structurelle,"On vérifie que toutes les contraintes sont < admissibles",1
+Donner la valeur critique de flambement,"Ncr = π² × E × I / L²",1
+Calculer la section A,"A = π × D² / 4 pour un rond plein",1
+Déterminer la charge admissible,"Nadm = σadm × A",1
+Comparer la contrainte réelle à la limite,"Si σréelle < σlim, le matériau tient",1
+Calculer la contrainte de flexion,"σ = M × y / I",1
+Donner la formule de moment statique,"S = A × ȳ",1
+Calculer le module de flexion,"W = I / y",1
+Déterminer la contrainte combinée,"σ = N / A ± M × y / I",1
+Vérifier le flambement selon Euler,"On utilise Ncr = π² × E × I / L²",1
+Donner la rigidité EI,"EI est le produit du module d’Young et de l’inertie",1
+Calculer la raideur axiale,"k = EA / L",1
+Calculer la raideur en flexion,"k = 3EI / L³ pour une poutre encastrée-libre",1
+Estimer la rotation d’une poutre,"θ = M × L / (2EI)",1
+Exprimer le déplacement axial,"u = N × L / (EA)",1
+Donner l’effort tranchant,"V = dM/dx",1
+Utiliser le théorème de Castigliano,"∂U/∂F = déplacement en direction de F",1
+Déterminer l’effort interne,"Selon la coupe, on a N, M ou T",1
+Appliquer le diagramme des moments,"Tracer M(x) en intégrant V(x)",1
+Calculer la déformation ε,"ε = σ / E",1
+Déterminer le module de cisaillement,"G = E / [2(1 + ν)]",1
+Donner la contrainte de cisaillement,"τ = V × S / (I × b)",1
+Utiliser le critère de Von Mises,"σeq = √(σx² + 3τ²)",1
+Déduire la capacité portante,"Selon σlim ou critère de ruine",1
+Calculer une charge uniformément répartie,"q = w × L",1
+Déterminer le point d’application de la charge,"Au centre pour charge répartie uniforme",1
+Vérifier la section par flexion,"σmax = M × y / I ≤ σadm",1
+Vérifier la section par traction,"N / A ≤ σadm",1
+Vérifier la section par cisaillement,"τ = V / A ≤ τadm",1
+Déterminer l’aire d’une section en T,"Somme des aires des rectangles",1
+Localiser le centre de torsion,"Sur l’axe de symétrie pour sections fermées",1
+Analyser le moment de torsion,"T = G × θ × J / L",1
+Calculer le module de torsion,"Wt = J / r",1
+Vérifier le fluage,"Si σ < σfluage, fluage lent",1
+Analyser les contraintes résiduelles,"Elles apparaissent après traitement thermique",1
+Identifier un mode de rupture,"Rupture fragile ou ductile selon σ",1
+Déterminer la résistance axiale R,"La résistance axiale est une propriété fondamentale d’une structure qui dépend de la charge normale appliquée et de la géométrie de la section",0
+Calculer la contrainte normale σ,"La contrainte normale σ traduit la pression moyenne exercée sur la section et se mesure en Pascal",0
+Donner l’expression du moment fléchissant,"Le moment fléchissant est lié à la courbure induite par une charge transversale dans une poutre",0
+Calculer l’élancement λ d’une tige,"L’élancement est un indicateur structurel qui permet de prédire le flambement",0
+Déterminer la contrainte de flambement,"La contrainte de flambement mesure la stabilité d’une structure soumise à une compression axiale",0
+Déduire le risque de flambement,"Un élancement important indique un risque élevé de flambement dans les structures fines",0
+Vérifier la contrainte admissible,"La vérification est nécessaire pour s’assurer que la structure ne dépasse pas les limites élastiques",0
+Calculer l’inertie minimale,"L’inertie est une grandeur fondamentale dans le calcul des déformations en flexion",0
+Déterminer le centre de gravité,"Le centre de gravité est le point autour duquel la masse d’un objet est équilibrée",0
+Calculer le moment quadratique I,"Le moment quadratique est une mesure importante dans les calculs de résistance des matériaux",0
+question,résponse,label
+Déterminer la résistance axiale R,"R = N / A où R est la contrainte normale, N l’effort axial et A la section droite",2
+Calculer la contrainte normale σ,"σ = N / A avec N en N et A en mm²",2
+Donner l’expression du moment fléchissant,"Le moment fléchissant est M = F × l avec F la force et l le bras de levier",2
+Calculer l’élancement λ d’une tige,"λ = L / i avec i = √(I / A)",2
+Déterminer la contrainte de flambement,"σe = π² × E / λ²",2
+Déduire le risque de flambement,"On considère le flambement important si λ > 100",2
+Vérifier la contrainte admissible,"σ ≤ σadm sinon la pièce est hors service",2
+Calculer l’inertie minimale,"Imin = (π² × E × A × L²) / σadm",2
+Déterminer le centre de gravité,"Le centre de gravité est au centre pour une section symétrique",2
+Calculer le moment quadratique I,"I = (b × h³) / 12 pour une section rectangulaire",2
+Donner la formule de σmax,"σmax = M × y / I",2
+Estimer la flèche maximale,"fmax = (5 × q × L⁴) / (384 × E × I)",2
+Déterminer la tension dans la tige,"Tension = σ × A",2
+Évaluer la sécurité structurelle,"Comparer les contraintes calculées aux contraintes admissibles",2
+Donner la valeur critique de flambement,"Ncr = π² × E × I / L²",2
+Calculer la section A,"A = π × D² / 4",2
+Déterminer la charge admissible,"Nadm = σadm × A",2
+Comparer la contrainte réelle à la limite,"Si σ < σadm alors la pièce est conforme",2
+Calculer la contrainte de flexion,"σ = M × y / I",2
+Donner la formule de moment statique,"S = A × ȳ",2
+Calculer le module de flexion,"W = I / y",2
+Déterminer la contrainte combinée,"σ = N / A ± M × y / I",2
+Vérifier le flambement selon Euler,"Ncr = π² × E × I / L²",2
+Donner la rigidité EI,"EI est la rigidité en flexion",2
+Calculer la raideur axiale,"k = EA / L",2
+Calculer la raideur en flexion,"k = 3EI / L³ pour encastré-libre",2
+Estimer la rotation d’une poutre,"θ = M × L / (2EI)",2
+Exprimer le déplacement axial,"u = N × L / (EA)",2
+Donner l’effort tranchant,"V = dM/dx",2
+Utiliser le théorème de Castigliano,"∂U/∂F donne le déplacement selon F",2
+Déterminer l’effort interne,"On découpe et on applique les équilibres",2
+Appliquer le diagramme des moments,"On intègre les efforts tranchants",2
+Calculer la déformation ε,"ε = σ / E",2
+Déterminer le module de cisaillement,"G = E / [2(1 + ν)]",2
+Donner la contrainte de cisaillement,"τ = V × S / (I × b)",2
+Utiliser le critère de Von Mises,"σeq = √(σx² + 3τ²)",2
+Déduire la capacité portante,"Calculée selon les contraintes limites",2
+Calculer une charge uniformément répartie,"q = w × L",2
+Déterminer le point d’application de la charge,"Au milieu si charge répartie uniforme",2
+Vérifier la section par flexion,"σmax = M × y / I ≤ σadm",2
+Vérifier la section par traction,"σ = N / A ≤ σadm",2
+Vérifier la section par cisaillement,"τ = V / A ≤ τadm",2
+Déterminer l’aire d’une section en T,"Somme des aires des rectangles",2
+Localiser le centre de torsion,"Sur l’axe de symétrie si géométrie régulière",2
+Analyser le moment de torsion,"T = G × θ × J / L",2
+Calculer le module de torsion,"Wt = J / r",2
+Vérifier le fluage,"Fluage lent si σ < σfluage",2
+Analyser les contraintes résiduelles,"Présentes après traitement thermique",2
+Identifier un mode de rupture,"Fragile si sans déformation, ductile sinon",2
+Calculer la capacité portante ultime,"On prend le minimum entre σrupture × A et Ncr",2
+Déterminer la résistance axiale R,"Je ne sais pas comment faire cet exercice.",3
+Calculer la contrainte normale σ,"La réponse est simplement 0.",3
+Donner l’expression du moment fléchissant,"Il faut juste appliquer la formule normale.",3
+Calculer l’élancement λ d’une tige,"Le résultat est évident, ça ne mérite pas de calcul.",3
+Déterminer la contrainte de flambement,"Je pense que la résistance est toujours égale à 10.",3
+Déduire le risque de flambement,"On utilise la même méthode que d’habitude, sans détail.",3
+Vérifier la contrainte admissible,"Je n’ai pas le temps de faire ce calcul.",3
+Calculer l’inertie minimale,"C’est trop compliqué pour moi, désolé.",3
+Déterminer le centre de gravité,"Le moment est proportionnel à la force, voilà tout.",3
+Calculer le moment quadratique I,"Ce problème est sans importance, je ne l’ai pas traité.",3
+Donner la formule de σmax,"La formule à utiliser est celle du cours, sans démonstration.",3
+Estimer la flèche maximale,"Je donne une réponse approximative, sans justification.",3
+Déterminer la tension dans la tige,"L’angle est toujours droit, donc pas besoin de calcul.",3
+Évaluer la sécurité structurelle,"Je n’ai pas compris la question, alors j’écris ce que je peux.",3
+Donner la valeur critique de flambement,"La réponse est simplement une constante.",3
+Calculer la section A,"Je crois que c’est la moitié du moment, mais je ne suis pas sûr.",3
+Déterminer la charge admissible,"Le résultat doit être négatif, mais je ne sais pas pourquoi.",3
+Comparer la contrainte réelle à la limite,"Le calcul est trop long, donc je ne l’ai pas fait.",3
+Calculer la contrainte de flexion,"Je pense que la charge est négligeable.",3
+Donner la formule de moment statique,"C’est une question piège, donc je ne réponds pas.",3
+Calculer le module de flexion,"La résistance est donnée dans le tableau, pas besoin de calculer.",3
+Déterminer la contrainte combinée,"Le résultat doit être arrondi à l’entier supérieur.",3
+Vérifier le flambement selon Euler,"Je n’ai pas appris cette partie, donc je laisse vide.",3
+Donner la rigidité EI,"Je donne la réponse de tête, sans vérification.",3
+Calculer la raideur axiale,"Ce problème est identique au précédent, donc même réponse.",3
+Calculer la raideur en flexion,"Je n’ai pas le matériel pour résoudre cet exercice.",3
+Estimer la rotation d’une poutre,"La charge est répartie uniformément, donc la réponse est simple.",3
+Exprimer le déplacement axial,"J’ai fait une erreur, mais je ne sais pas laquelle.",3
+Donner l’effort tranchant,"Je ne suis pas sûr, mais je pense que c’est 5.",3
+Utiliser le théorème de Castigliano,"La formule est trop compliquée, alors je n’ai pas essayé.",3
+Déterminer l’effort interne,"Je donne une réponse au hasard.",3
+Appliquer le diagramme des moments,"Le calcul est impossible sans logiciel.",3
+Calculer la déformation ε,"Je n’ai pas lu la question correctement.",3
+Déterminer le module de cisaillement,"Ce n’est pas important, alors j’ai passé cette question.",3
+Donner la contrainte de cisaillement,"La réponse est la même que dans l’exemple du cours.",3
+Utiliser le critère de Von Mises,"J’ai oublié la formule, donc j’ai écrit n’importe quoi.",3
+Déduire la capacité portante,"C’est juste une estimation grossière.",3
+Calculer une charge uniformément répartie,"La réponse ne change rien à la suite de l’exercice.",3
+Déterminer le point d’application de la charge,"Je ne comprends pas les unités utilisées.",3
+Vérifier la section par flexion,"Je pense que le résultat doit être entre 1 et 10.",3
+Vérifier la section par traction,"Je n’ai pas eu le temps, donc j’ai laissé en blanc.",3
+Vérifier la section par cisaillement,"C’est trop long, je répondrai plus tard.",3
+Déterminer l’aire d’une section en T,"J’ai essayé, mais je n’ai pas réussi à finir.",3
+Localiser le centre de torsion,"La méthode utilisée est celle du premier exercice.",3
+Analyser le moment de torsion,"Ce calcul est hors sujet, donc je ne l’ai pas fait.",3
+Calculer le module de torsion,"Je ne suis pas certain que ma réponse soit correcte.",3
+Vérifier le fluage,"La question est confuse, donc j’ai mis une réponse générique.",3
+Analyser les contraintes résiduelles,"Je pense que la réponse est proche de zéro.",3
+Identifier un mode de rupture,"Je n’ai pas compris comment appliquer la formule.",3
+Calculer la capacité portante ultime,"J’ai répondu comme je pouvais, sans vérifier.",3
