@@ -1,20 +1,19 @@
 # main.py
 import streamlit as st
-from auth import bootstrap_on_startup
-bootstrap_on_startup()   # crée/MAJ la BD + l’admin depuis les variables d’env
-
 from auth import (
-    get_conn, ensure_schema,              # ⬅️ plus de ensure_session_schema ici
+    bootstrap_on_startup, get_conn, ensure_schema,
     auth_user, record_login,
     create_session, get_user_by_token, delete_session,
 )
 
 # ------------ BOOTSTRAP ------------
+# Au démarrage, création des tables et de l’admin depuis les variables d’env
+bootstrap_on_startup()
+
 st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 
-# DB
+# Connexion BD
 conn = get_conn()
-# Optionnel : get_conn() appelle déjà ensure_schema() en interne
 ensure_schema(conn)
 
 # ------------ SESSION HELPERS ------------
@@ -40,7 +39,7 @@ def logout():
     st.session_state.pop("user", None)
     st.rerun()
 
-# ------------ CSS (login uniquement) ------------
+# ------------ CSS LOGIN ------------
 CSS = """
 <style>
 #MainMenu, header, footer{display:none!important;}
@@ -55,24 +54,14 @@ body{
   min-height:100vh; padding:0 18px!important;
   display:flex; align-items:center; justify-content:center;
 }
+.block-container > div[data-testid="stMarkdownContainer"]:not(:has(.login-head)):first-of-type{display:none!important;}
+.block-container > div[data-testid="stMarkdownContainer"]:not(:has(.login-head)):nth-of-type(2){display:none!important;}
 
-/* ======= KILL la pastille/bloc blanc du haut (sans toucher au titre) ======= */
-.block-container > div[data-testid="stMarkdownContainer"]:not(:has(.login-head)):first-of-type{
-  display:none!important;
-}
-/* au cas où il resterait un 2e bloc décoratif résiduel juste avant le titre */
-.block-container > div[data-testid="stMarkdownContainer"]:not(:has(.login-head)):nth-of-type(2){
-  display:none!important;
-}
-
-/* grille: formulaire à gauche, illustration à droite */
 .wrap{ width:min(1080px,95vw); display:grid; grid-template-columns:1.2fr .8fr; gap:34px; }
 
-/* titres */
 .h-title{ font-weight:900; font-size:1.45rem; color:#0f172a; margin:2px 0 6px;}
 .h-sub{ color:#334155; font-weight:600; margin:0 0 18px; }
 
-/* champs */
 .stTextInput>label{ color:#0f172a!important; font-weight:700; font-size:.9rem; margin-bottom:6px;}
 .stTextInput>div>div>input{
   background:#0b1837!important; color:#fff!important;
@@ -81,7 +70,6 @@ body{
 }
 .stTextInput>div>div>input::placeholder{ color:#c7d2fe!important; }
 
-/* bouton compact centré */
 .stButton{ display:flex; justify-content:flex-start; }
 .stButton>button{
   width:220px;
@@ -89,7 +77,6 @@ body{
   color:#fff; font-weight:900; letter-spacing:.2px;
   border:0; border-radius:14px; padding:.78rem 1rem;
   box-shadow:0 14px 44px rgba(63,169,245,.28), 0 6px 12px rgba(124,77,255,.18);
-  transition:transform .06s ease, box-shadow .15s ease, filter .15s ease;
 }
 .stButton>button:hover{
   transform:translateY(-1px);
@@ -97,13 +84,9 @@ body{
   filter:saturate(1.05);
 }
 
-/* astuce */
 .hint{ color:#334155; font-size:.9rem; margin-top:12px; }
-
-/* illustration */
 .illu-wrap{ display:flex; align-items:center; justify-content:center; }
 .illu{ width:min(420px, 100%); height:auto; }
-
 @media (max-width: 980px){
   .wrap{ grid-template-columns:1fr; gap:22px; }
   .stButton{ justify-content:center; }
@@ -111,14 +94,12 @@ body{
 </style>
 """
 
-# Illustration SVG
+# ------------ ILLUSTRATION SVG ------------
 SVG_ILLU = """
 <svg class="illu" viewBox="0 0 640 520" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7C4DFF"/><stop offset="1" stop-color="#3FA9F5"/>
-    </linearGradient>
-  </defs>
+  <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#7C4DFF"/><stop offset="1" stop-color="#3FA9F5"/>
+  </linearGradient></defs>
   <rect x="260" y="70" rx="26" width="260" height="380" fill="url(#g1)" opacity=".95"/>
   <rect x="282" y="122" rx="12" width="216" height="36" fill="#ffffff" opacity=".95"/>
   <rect x="282" y="168" rx="12" width="216" height="36" fill="#ffffff" opacity=".92"/>
@@ -138,18 +119,14 @@ SVG_ILLU = """
 # ------------ LOGIN VIEW ------------
 def login_view():
     st.markdown(CSS, unsafe_allow_html=True)
-
     st.markdown('<div class="wrap">', unsafe_allow_html=True)
     left, right = st.columns([1.2, .8])
 
     with left:
-        st.markdown(
-            '<div class="login-head">'
-            '<div class="h-title">SmartEditTrack — Connexion</div>'
-            '<div class="h-sub">Entrez vos identifiants pour accéder à votre espace</div>'
-            '</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown('<div class="login-head">'
+                    '<div class="h-title">SmartEditTrack — Connexion</div>'
+                    '<div class="h-sub">Entrez vos identifiants pour accéder à votre espace</div>'
+                    '</div>', unsafe_allow_html=True)
 
         user = st.text_input("Identifiant (ETUDxxx ou PROFxxx)", placeholder="ETUD010, PROF001 …")
         pwd  = st.text_input("Mot de passe", type="password", placeholder="Votre mot de passe")
@@ -165,26 +142,20 @@ def login_view():
             else:
                 st.error("Identifiant ou mot de passe incorrect.", icon="🚫")
 
-        st.markdown(
-            '<div class="hint">💡 Identifiants fournis par l’enseignant. '
-            'Les étudiants peuvent changer leur mot de passe après connexion.</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown('<div class="hint">💡 Identifiants fournis par l’enseignant.</div>',
+                    unsafe_allow_html=True)
 
     with right:
         st.markdown('<div class="illu-wrap">', unsafe_allow_html=True)
         st.markdown(SVG_ILLU, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)  # /wrap
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------ APP VIEW ------------
 def app_view():
-    # On enlève la mise en page "plein écran" du login
-    st.markdown(
-        "<style>.block-container{min-height:unset;display:block;padding:1.25rem 2rem!important;}</style>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<style>.block-container{min-height:unset;display:block;padding:1.25rem 2rem!important;}</style>",
+                unsafe_allow_html=True)
     u = st.session_state["user"]
     st.sidebar.success(f"{u['first_name']} {u['last_name']} — {u['id']} ({u['role']})")
     if st.sidebar.button("Se déconnecter", use_container_width=True):
