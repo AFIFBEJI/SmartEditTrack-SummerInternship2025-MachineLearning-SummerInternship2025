@@ -1,15 +1,58 @@
-.venv/
-.env
+# ---------- Python / outils ----------
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 *.pyd
-*.log
+*.so
+*.egg-info/
+*.dist-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage*
+htmlcov/
 
-# dossiers générés à l’exécution (tu les recréeras dans /data sur Render)
+# ---------- Environnements ----------
+.venv/
+venv/
+.env
+.env.*
+*.env
+
+# ---------- Streamlit ----------
+# on garde config.toml dans le repo, mais pas les secrets
+.streamlit/secrets.toml
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+
+# ---------- Données locales / runtime (ne pas versionner) ----------
+smartedittrack.db
+*.db
+
 copies_etudiants/
 rapports_etudiants/
 historique_reponses/
-classes/
+copies_generees/
+copies_zip/
+
 notif_depot.json
+modifications_log_secure.csv
+modifications_log_secure.txt
 hash_records.csv
+
+# logs / fichiers générés par classe
+classes/**/copies_generees/
+classes/**/hash_records_*.csv
+classes/**/rapports_etudiants/
+classes/**/historique_reponses/
+classes/**/liste_etudiants.csv
+classes/**/meta.json
+
+# Si tu veux garder le dossier "classes" vide dans Git,
+# crée un fichier classes/.gitkeep et décommente la ligne dessous
+# !classes/.gitkeep
+
+# ---------- Divers ----------
+.ipynb_checkpoints/
