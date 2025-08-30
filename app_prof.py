@@ -3,8 +3,7 @@
 import os, json, re, csv, io
 import streamlit as st
 import streamlit.components.v1 as components  # pour afficher le HTML du rapport
-from dotenv import load_dotenv
-load_dotenv()
+
 
 from datetime import datetime
 
