@@ -18,5 +18,7 @@ COPY . /app
 # Empêche Streamlit de tenter d’ouvrir un navigateur
 ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
-# Montre le port via variable d’environnement (Render fournit $PORT)
-CMD ["sh", "-c", "streamlit run main.py --server.port=${PORT:-8501} --server.address=0.0.0.0"]
+# ---------- Streamlit ----------
+ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+
+CMD ["sh", "-c", "python create_admin.py && streamlit run main.py --server.port=${PORT:-8501} --server.address=0.0.0.0"]
