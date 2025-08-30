@@ -5,12 +5,6 @@ import hashlib
 import datetime
 import openpyxl
 import streamlit as st
-# charge automatiquement .env si présent
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except Exception:
-    pass
 
 
 from auth import (
