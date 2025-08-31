@@ -1,21 +1,28 @@
-# app_prof.py — Espace Professeur
-import os, json, re, csv, io
+# app_prof.py — Espace professeur (classes, copies, dépôts, rapports)
+
+import os, json, re, csv, io, shutil
 import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 
 from compare_excels import comparer_etudiant
 from auth import get_conn, list_submissions, change_password, import_students_csv
+from hash_generator import generate_student_files_csv
 
-# ---------------- Dossiers ----------------
+# ---------------- Dossiers & chemins ----------------
 DATA_DIR        = os.environ.get("DATA_DIR", "./")
 CLASSES_ROOT    = os.path.join(DATA_DIR, "classes")
 TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsx")
-DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")
-REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")
-HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")
-NOTIF_PATH      = os.path.join(DATA_DIR, "notif_depot.json")
+DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")      # dépôts étudiants (global)
+REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")    # rapports d'analyse (global)
+HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")   # snapshots par étudiant (JSON)
+NOTIF_PATH      = os.path.join(DATA_DIR, "notif_depot.json")      # liste des fichiers déposés
 
+# Template "bundlé" dans le repo (même dossier que ce fichier)
+BUNDLED_TEMPLATE = os.path.join(os.path.dirname(__file__), "Fichier_Excel_Professeur_Template.xlsx")
+
+# Création des dossiers
+os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(CLASSES_ROOT, exist_ok=True)
 os.makedirs(DEPOSITS_DIR, exist_ok=True)
 os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -23,6 +30,14 @@ os.makedirs(HISTORY_DIR, exist_ok=True)
 if not os.path.exists(NOTIF_PATH):
     with open(NOTIF_PATH, "w", encoding="utf-8") as f:
         json.dump([], f)
+
+# Auto-provision du template au démarrage : copie le fichier du repo vers DATA_DIR si absent
+try:
+    if (not os.path.exists(TEMPLATE_PATH)) and os.path.exists(BUNDLED_TEMPLATE):
+        shutil.copyfile(BUNDLED_TEMPLATE, TEMPLATE_PATH)
+except Exception:
+    # On laisse l'UI afficher "Template introuvable" si la copie échoue
+    pass
 
 # ---------------- CSS ----------------
 PROF_CSS = """
@@ -50,12 +65,13 @@ html,body,[class*="css"]{ font-family:Inter,system-ui,-apple-system,"Segoe UI",R
 .danger > button{ background:linear-gradient(90deg,#ef4444,#f97316) !important; }
 .ghost > button{ background:#f1f5f9 !important; color:#0f172a !important; box-shadow:none !important; }
 .badge{ display:inline-block; padding:.15rem .5rem; border-radius:999px; font-weight:800; background:#f1f5f9; color:#334155; border:1px solid #e2e8f0; }
+.small{ font-size:.92rem; color:#475569; }
 </style>
 """
 
 # ---------------- Helpers classes ----------------
 def _slugify(name: str) -> str:
-    s = (name or "").lower().strip()
+    s = name.lower().strip()
     s = re.sub(r"[^a-z0-9\-_\s]", "", s)
     s = re.sub(r"\s+", "-", s)
     s = re.sub(r"-+", "-", s)
@@ -100,8 +116,7 @@ def _load_classes():
         out.append({"slug": slug, "name": name})
     return out
 
-# ---------------- Notifications ----------------
-NOTIF_PATH = os.path.join(DATA_DIR, "notif_depot.json")
+# ---------------- Notifications & filtrage par classe ----------------
 def _load_notifs():
     if os.path.exists(NOTIF_PATH):
         with open(NOTIF_PATH, "r", encoding="utf-8") as f:
@@ -113,15 +128,86 @@ def _save_notifs(lst):
         json.dump(lst, f)
 
 def _cleanup_notifs():
-    from os.path import exists, join
-    files = _load_notifs()
-    valid = [f for f in files if exists(join(os.path.join(DATA_DIR, "copies_etudiants"), f))]
-    if len(valid) != len(files):
+    notifs = _load_notifs()
+    valid = [f for f in notifs if os.path.exists(os.path.join(DEPOSITS_DIR, f))]
+    if len(valid) != len(notifs):
         _save_notifs(valid)
     return valid
 
+def _user_class(user_id: str) -> str | None:
+    conn = get_conn()
+    row = conn.execute("SELECT class_name FROM users WHERE id=?", (user_id,)).fetchone()
+    return row[0] if row and row[0] else None
+
+def _id_from_deposit(filename: str) -> str | None:
+    # dépôt = "YYYYmmdd_HHMMSS__ETUD028_Amara_Ali.xlsx"
+    try:
+        after = filename.split("__", 1)[1]
+        return after.split("_", 1)[0]
+    except Exception:
+        return None
+
+def _filter_deposits_by_class(target_class: str):
+    files = _cleanup_notifs()
+    if not target_class:
+        return files
+    kept = []
+    for fn in files:
+        uid = _id_from_deposit(fn)
+        if not uid:
+            continue
+        if _user_class(uid) == target_class:
+            kept.append(fn)
+    return kept
+
+# ---------------- Historique helpers ----------------
+def _history_list():
+    """Retourne une liste d'objets: {id, path, count, last_ts} pour chaque JSON d'historique."""
+    entries = []
+    for fname in sorted(os.listdir(HISTORY_DIR)):
+        if not fname.lower().endswith(".json"):
+            continue
+        sid = os.path.splitext(fname)[0]
+        path = os.path.join(HISTORY_DIR, fname)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f) or []
+        except Exception:
+            data = []
+        count = len(data)
+        last_ts = data[-1].get("timestamp") if count else "-"
+        entries.append({"id": sid, "path": path, "count": count, "last_ts": last_ts})
+    return entries
+
+def _delete_history(student_id: str) -> bool:
+    path = os.path.join(HISTORY_DIR, f"{student_id}.json")
+    if os.path.exists(path):
+        try:
+            os.remove(path)
+            return True
+        except Exception:
+            return False
+    return False
+
+def _delete_all_history() -> int:
+    n = 0
+    for fname in os.listdir(HISTORY_DIR):
+        if fname.lower().endswith(".json"):
+            try:
+                os.remove(os.path.join(HISTORY_DIR, fname))
+                n += 1
+            except Exception:
+                pass
+    return n
+
 # ---------------- Vue PROF ----------------
 def run(user):
+    # state pour affichage rapport
+    st.session_state.setdefault("report_text", None)
+    st.session_state.setdefault("report_txt_path", None)
+    st.session_state.setdefault("report_html_path", None)
+    st.session_state.setdefault("report_file", None)
+
     st.markdown(PROF_CSS, unsafe_allow_html=True)
     st.markdown(
         f"""
@@ -169,6 +255,7 @@ def run(user):
                 choices = {c["slug"]: c["name"] for c in classes}
                 chosen = st.selectbox("Classe :", list(choices.keys()), format_func=lambda s: choices[s])
 
+                # Upload CSV étudiants
                 up = st.file_uploader("Uploader liste_etudiants.csv (colonnes: id, nom, prenom)", type=["csv"])
                 if up is not None:
                     _ensure_class(chosen)
@@ -177,61 +264,71 @@ def run(user):
                         f.write(up.getbuffer())
                     st.success(f"✅ CSV enregistré : {csv_path}")
 
+                # --- Uploader du template professeur (NOUVEAU) ---
+                st.markdown('<div class="small">Template actuel : '
+                            + (f"<code>{TEMPLATE_PATH}</code>" if os.path.exists(TEMPLATE_PATH) else "<b>introuvable</b>")
+                            + "</div>", unsafe_allow_html=True)
+                tpl_up = st.file_uploader("Uploader le Fichier_Excel_Professeur_Template.xlsx", type=["xlsx"], key="tpl_up")
+                if tpl_up is not None:
+                    try:
+                        with open(TEMPLATE_PATH, "wb") as f:
+                            f.write(tpl_up.getbuffer())
+                        st.success(f"✅ Template enregistré : {TEMPLATE_PATH}")
+                    except Exception as e:
+                        st.error(f"❌ Échec enregistrement template : {e}")
+
                 colA, colB, colC = st.columns(3)
                 with colA:
-                    if st.button("🔄 Synchroniser vers la BD", use_container_width=True):
+                    if st.button("🔄 Synchroniser vers la BD"):
                         csv_path = _class_csv(chosen)
                         if not os.path.exists(csv_path):
                             st.error("Aucun CSV pour cette classe.")
                         else:
-                            # >>> ICI : MDP initial = identifiant (ETUDxxx)
-                            created, updated = import_students_csv(
-                                get_conn(),
-                                csv_path,
-                                choices[chosen],
-                                default_pwd="id",       # mot de passe initial = ID
-                                reset_password=False    # passe à True si tu veux forcer la réinit
-                            )
+                            created, updated = import_students_csv(get_conn(), csv_path, choices[chosen])
                             st.success(f"✅ Synchro BD : {created} créé(s), {updated} mis à jour.")
                 with colB:
-                    if st.button("⚡ Générer les copies", use_container_width=True):
+                    if st.button("⚡ Générer les copies"):
                         csv_path = _class_csv(chosen)
                         if not os.path.exists(csv_path):
                             st.error("Aucun CSV pour cette classe.")
                         elif not os.path.exists(TEMPLATE_PATH):
-                            st.error("Template introuvable.")
+                            st.error("Template introuvable. Charge-le via l’uploader ci-dessus ou place-le dans le repo.")
                         else:
-                            from hash_generator import generate_student_files_csv
                             out_dir = _class_copies_dir(chosen)
                             log_path = _class_hash_log(chosen)
-                            generate_student_files_csv(
-                                input_csv=csv_path,
-                                template_path=TEMPLATE_PATH,
-                                output_folder=out_dir,
-                                log_file=log_path
-                            )
-                            st.success(f"✅ Copies générées dans : {out_dir}")
-                            st.info(f"Log des hashs : {log_path}")
+                            try:
+                                generate_student_files_csv(
+                                    input_csv=csv_path,
+                                    template_path=TEMPLATE_PATH,
+                                    output_folder=out_dir,
+                                    log_file=log_path
+                                )
+                                st.success(f"✅ Copies générées dans : {out_dir}")
+                                st.info(f"Log des hashs : {log_path}")
+                            except Exception as e:
+                                st.error(f"❌ Erreur génération copies : {e}")
                 with colC:
                     st.markdown("**Chemins**")
                     st.caption(f"CSV : {_class_csv(chosen)}")
                     st.caption(f"Copies : {_class_copies_dir(chosen)}")
                     st.caption(f"Hash log : {_class_hash_log(chosen)}")
+                    st.caption(f"Template : {TEMPLATE_PATH}")
 
     # -------- 📂 Dépôts & Rapports --------
     with tabs[1]:
-        from compare_excels import comparer_etudiant
         classes = _load_classes()
         class_filter = st.selectbox("Filtrer par classe :", ["(toutes)"] + [c["name"] for c in classes])
         selected_class = None if class_filter == "(toutes)" else class_filter
 
-        files = _cleanup_notifs()
+        files = _filter_deposits_by_class(selected_class)
         st.markdown(f'<div class="card"><strong>🔔 Dépôts reçus :</strong> {len(files)}</div>', unsafe_allow_html=True)
 
         if not files:
             st.markdown('<div class="card">Aucun dépôt pour cette sélection.</div>', unsafe_allow_html=True)
+            st.session_state.update(report_text=None, report_txt_path=None, report_html_path=None, report_file=None)
         else:
             left, right = st.columns([1.05, 1.95])
+
             with left:
                 st.markdown('<div class="card">', unsafe_allow_html=True)
                 fsel = st.selectbox("Choisir un dépôt :", files, index=0, key="deposit_select")
@@ -258,6 +355,30 @@ def run(user):
                             if os.path.exists(target):
                                 res = comparer_etudiant(target)
                                 st.success(res)
+                                txt_path, html_path = None, None
+                                try:
+                                    if ": " in res:
+                                        after = res.split(": ", 1)[1].strip()
+                                        parts = [p.strip() for p in after.split("|")]
+                                        if len(parts) >= 1:
+                                            txt_path = parts[0]
+                                        if len(parts) >= 2:
+                                            html_path = parts[1]
+                                except Exception:
+                                    pass
+
+                                st.session_state.report_text = None
+                                st.session_state.report_txt_path = None
+                                if txt_path and os.path.exists(txt_path):
+                                    try:
+                                        with open(txt_path, "r", encoding="utf-8") as fr:
+                                            st.session_state.report_text = fr.read()
+                                        st.session_state.report_txt_path = txt_path
+                                        st.session_state.report_file = os.path.basename(txt_path)
+                                    except Exception:
+                                        pass
+
+                                st.session_state.report_html_path = html_path if html_path and os.path.exists(html_path) else None
                             else:
                                 st.error("Fichier sélectionné introuvable.")
                 with col2:
@@ -276,30 +397,118 @@ def run(user):
                 if st.button("📭 Réinitialiser les notifications", use_container_width=True):
                     _save_notifs([])
                     st.success("✅ Notifications réinitialisées.")
+                    st.session_state.update(report_text=None, report_txt_path=None, report_html_path=None, report_file=None)
                 st.markdown('</div>', unsafe_allow_html=True)
 
             with right:
                 st.markdown('<div class="card">', unsafe_allow_html=True)
-                st.subheader("📑 Ouvre un rapport récent depuis l’onglet gauche après analyse.")
+                st.subheader("📑 Rapport d'analyse")
+
+                if st.session_state.report_html_path and os.path.exists(st.session_state.report_html_path):
+                    html_height = st.slider("Hauteur d'affichage du rapport (px)", 600, 2200, 1100, 50)
+                    with open(st.session_state.report_html_path, "r", encoding="utf-8") as fh:
+                        components.html(fh.read(), height=html_height, scrolling=True)
+                    with open(st.session_state.report_html_path, "rb") as fb:
+                        st.download_button("📥 Télécharger le rapport HTML",
+                                           fb,
+                                           file_name=os.path.basename(st.session_state.report_html_path),
+                                           use_container_width=True)
+
+                elif st.session_state.report_text:
+                    st.text_area("Contenu du rapport (TXT) :", value=st.session_state.report_text, height=420)
+                    if st.session_state.report_txt_path and os.path.exists(st.session_state.report_txt_path):
+                        with open(st.session_state.report_txt_path, "rb") as fb:
+                            st.download_button("📥 Télécharger le rapport TXT",
+                                               fb,
+                                               file_name=st.session_state.report_file or "rapport.txt",
+                                               use_container_width=True)
+                else:
+                    st.info("Sélectionne un dépôt puis clique sur **🔍 Analyser ce dépôt** pour générer et afficher le rapport.")
                 st.markdown('</div>', unsafe_allow_html=True)
 
     # -------- 📈 Historique --------
     with tabs[2]:
         conn = get_conn()
         subs = list_submissions(conn)
-        if not subs:
-            st.info("Aucun dépôt.")
+        classes = _load_classes()
+        names = [c["name"] for c in classes]
+        chosen = st.selectbox("Filtrer historique par classe :", ["(toutes)"] + names)
+        selected_class = None if chosen == "(toutes)" else chosen
+
+        def _row_class(uid: str) -> str:
+            row = conn.execute("SELECT class_name FROM users WHERE id=?", (uid,)).fetchone()
+            return row[0] if row and row[0] else ""
+
+        filtered = []
+        for r in subs:
+            cls = _row_class(r["user_id"])
+            if (not selected_class) or (cls == selected_class):
+                filtered.append({
+                    "date": r["submitted_at"],
+                    "user_id": r["user_id"],
+                    "classe": cls,
+                    "fichier": r["filename"],
+                    "statut": r["status"]
+                })
+
+        st.write(f"🗂️ {len(filtered)} dépôt(s) pour la sélection")
+        if filtered:
+            import pandas as pd
+            st.dataframe(pd.DataFrame(filtered), use_container_width=True)
+        else:
+            st.markdown('<div class="card">Aucun dépôt.</div>', unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.markdown("### 🕓 Gestion de l’historique des réponses (snapshots)")
+
+        entries = _history_list()
+        if not entries:
+            st.info("Aucun historique enregistré pour le moment.")
         else:
             import pandas as pd
-            rows = []
-            for r in subs:
-                rows.append({"date": r["submitted_at"], "user_id": r["user_id"],
-                             "fichier": r["filename"], "statut": r["status"]})
-            st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            df_hist = pd.DataFrame(entries)[["id", "count", "last_ts"]].rename(
+                columns={"id":"ID étudiant", "count":"# snapshots", "last_ts":"Dernier enregistrement"}
+            )
+            st.dataframe(df_hist, use_container_width=True)
+
+            sid_choices = ["(choisir)"] + [e["id"] for e in entries]
+            colA, colB = st.columns([1, 1])
+            with colA:
+                sid = st.selectbox("Sélectionner un étudiant :", sid_choices)
+                if sid != "(choisir)":
+                    p = os.path.join(HISTORY_DIR, f"{sid}.json")
+                    if os.path.exists(p):
+                        with open(p, "rb") as fb:
+                            st.download_button("⬇️ Télécharger l'historique (JSON)", fb, file_name=f"{sid}_historique.json")
+
+                    st.write(" ")
+                    conf = st.text_input(f"Confirmer la suppression de l'historique de **{sid}** (tape {sid})")
+                    if st.button("🗑️ Supprimer l'historique de cet étudiant", key="del_one", use_container_width=True, type="primary"):
+                        if conf != sid:
+                            st.warning("Pour confirmer, tape exactement l'ID de l'étudiant.")
+                        else:
+                            ok = _delete_history(sid)
+                            if ok:
+                                st.success(f"Historique de {sid} supprimé.")
+                                st.rerun()
+                            else:
+                                st.error("Suppression impossible (fichier absent ou verrouillé).")
+
+            with colB:
+                st.markdown("**Suppression globale**")
+                conf_all = st.text_input("Écris : SUPPRIMER TOUT", placeholder="SUPPRIMER TOUT")
+                if st.button("🧨 Vider tous les historiques", key="del_all", use_container_width=True, type="primary"):
+                    if conf_all.strip().upper() != "SUPPRIMER TOUT":
+                        st.warning("Confirmation incorrecte. Tape : SUPPRIMER TOUT")
+                    else:
+                        n = _delete_all_history()
+                        st.success(f"{n} fichier(s) d'historique supprimé(s).")
+                        st.rerun()
+
+        st.caption("ℹ️ Ces actions ne touchent pas la base des dépôts ni le CSV des modifications. Elles ne suppriment que les snapshots JSON.")
 
     # -------- 👤 Compte --------
     with tabs[3]:
-        from auth import change_password as _chg
         st.subheader("🔒 Mettre à jour mon mot de passe (admin)")
         cur = st.text_input("Mot de passe actuel", type="password")
         new1 = st.text_input("Nouveau mot de passe", type="password")
@@ -312,5 +521,5 @@ def run(user):
             elif len(new1) < 8:
                 st.error("Min. 8 caractères.")
             else:
-                ok = _chg(get_conn(), user["id"], cur, new1)
+                ok = change_password(get_conn(), user["id"], cur, new1)
                 st.success("✅ Mot de passe mis à jour.") if ok else st.error("Mot de passe actuel incorrect.")
