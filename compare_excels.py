@@ -331,7 +331,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 
     # --- Ouverture
     try:
-        wb_prof = openpyxl.load_workbook(template_path, data_only=True)
+        wb_prof = openpyxl.load_workbook(TEMPLATE_PATH, data_only=True)
         wb_etud = openpyxl.load_workbook(fichier_etudiant, data_only=True)
         ws_prof = wb_prof.active
         ws_etud = wb_etud.active
