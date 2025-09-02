@@ -30,6 +30,16 @@ except Exception:
 # --- Intégrité : vérification de la feuille _sig et HMAC par cellule
 from integrity import verify_workbook  # verify_workbook(path, main_sheet_name) -> (header, changed_cells, issues)
 
+# --- Cloud storage (Supabase) : upload + URL signées (facultatif si supa.py absent)
+_SUPA_OK = False
+try:
+    from supa import upload_file, signed_url   # <- exige supa.py (helper) dans le projet
+    _SUPA_OK = True
+except Exception:
+    upload_file = None
+    signed_url = None
+    _SUPA_OK = False
+
 # ======================= CONFIG =======================
 DATA_DIR        = os.environ.get("DATA_DIR", "./")
 # >>> .xlsm
@@ -345,7 +355,7 @@ def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: 
     # IA
     p_ai = _ai_probability(txt)
     res["ai_score"] = int(round(p_ai * 100))
-    lowered = (len(_norm(txt)) >= 120) or any(kw in _norm(txt) for kw in _AI_MARKERS)
+    lowered = (len(_norm(txt)) >= 120) or any(kw in _AI_MARKERS)  # simple assouplissement
     ai_threshold = AI_THRESHOLD_LOWERED if lowered else AI_THRESHOLD_DEFAULT
     if p_ai >= ai_threshold:
         res["ai"] = True
@@ -1005,7 +1015,27 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     except Exception as e:
         return f"❌ Erreur écriture rapport HTML : {e}"
 
-    return f"📁 Rapports générés : {path_txt} | {path_html}"
+    # -------- Upload Supabase (facultatif) ----------
+    cloud_msg = ""
+    if _SUPA_OK:
+        try:
+            student_key = (id_cell or expected_id or "unknown").strip() or "unknown"
+            remote_dir = f"rapports/{student_key}/"
+            remote_txt = remote_dir + os.path.basename(path_txt)
+            remote_htm = remote_dir + os.path.basename(path_html)
+
+            # Upload (le bucket est lu dans supa.py via SUPABASE_BUCKET)
+            upload_file(path_txt, remote_txt, content_type="text/plain")
+            upload_file(path_html, remote_htm, content_type="text/html")
+
+            url_txt = signed_url(remote_txt, expires_in=7*24*3600)  # 7 jours
+            url_htm = signed_url(remote_htm, expires_in=7*24*3600)
+
+            cloud_msg = f" | cloud: TXT={url_txt} | HTML={url_htm}"
+        except Exception as e:
+            cloud_msg = f" | cloud: échec upload ({e})"
+
+    return f"📁 Rapports générés : {path_txt} | {path_html}{cloud_msg}"
 
 # ======================= CLI =======================
 if __name__ == "__main__":

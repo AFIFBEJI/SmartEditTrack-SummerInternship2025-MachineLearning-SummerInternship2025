@@ -4,3 +4,4 @@ pandas
 numpy
 scikit-learn
 passlib[bcrypt]
+supabase==2.6.0
