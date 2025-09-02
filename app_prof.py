@@ -4,6 +4,14 @@ import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 
+# --- Supabase (optionnel : on continue même si non dispo)
+try:
+    from supa import upload_file   # helpers déjà présents dans ton projet
+    _SUPA_OK = True
+except Exception:
+    upload_file = None
+    _SUPA_OK = False
+
 from compare_excels import comparer_etudiant
 from auth import get_conn, list_submissions, change_password, import_students_csv
 from hash_generator import generate_student_files_csv
@@ -292,6 +300,8 @@ def run(user):
                         else:
                             created, updated = import_students_csv(get_conn(), csv_path, choices[chosen])
                             st.success(f"✅ Synchro BD : {created} créé(s), {updated} mis à jour.")
+
+                # ======= BOUTON GÉNÉRER (avec upload Supabase) =======
                 with colB:
                     if st.button("⚡ Générer les copies"):
                         csv_path = _class_csv(chosen)
@@ -303,16 +313,45 @@ def run(user):
                             out_dir = _class_copies_dir(chosen)
                             log_path = _class_hash_log(chosen)
                             try:
+                                # 1) Génération locale
                                 generate_student_files_csv(
                                     input_csv=csv_path,
-                                    template_path=TEMPLATE_PATH,   # <<< .xlsm
+                                    template_path=TEMPLATE_PATH,   # .xlsm
                                     output_folder=out_dir,
                                     log_file=log_path
                                 )
                                 st.success(f"✅ Copies générées dans : {out_dir}")
                                 st.info(f"Log des hashs : {log_path}")
+
+                                # 2) Upload Supabase (si dispo)
+                                if _SUPA_OK:
+                                    uploaded = 0
+                                    # copies .xlsm
+                                    for fname in os.listdir(out_dir):
+                                        if fname.lower().endswith(".xlsm"):
+                                            local = os.path.join(out_dir, fname)
+                                            remote = f"copies/{chosen}/{fname}"
+                                            ct = "application/vnd.ms-excel.sheet.macroEnabled.12"
+                                            upload_file(local, remote, content_type=ct)
+                                            uploaded += 1
+                                    # CSV élèves + log hash
+                                    try:
+                                        upload_file(csv_path, f"classes/{chosen}/liste_etudiants.csv", content_type="text/csv")
+                                    except Exception:
+                                        pass
+                                    try:
+                                        upload_file(log_path, f"classes/{chosen}/{os.path.basename(log_path)}", content_type="text/csv")
+                                    except Exception:
+                                        pass
+
+                                    st.info(f"☁️ {uploaded} copie(s) envoyée(s) dans Supabase (copies/{chosen}/).")
+                                else:
+                                    st.caption("ℹ️ Upload Supabase désactivé (module indisponible).")
+
                             except Exception as e:
                                 st.error(f"❌ Erreur génération copies : {e}")
+                # =====================================================
+
                 with colC:
                     st.markdown("**Chemins**")
                     st.caption(f"CSV : {_class_csv(chosen)}")
