@@ -33,7 +33,7 @@ from integrity import verify_workbook  # verify_workbook(path, main_sheet_name) 
 # --- Cloud storage (Supabase) : upload + URL signées (facultatif si supa.py absent)
 _SUPA_OK = False
 try:
-    from supa import upload_file, signed_url   # <- exige supa.py (helper) dans le projet
+    from supa import upload_file, signed_url   # <- helper optionnel
     _SUPA_OK = True
 except Exception:
     upload_file = None
@@ -355,7 +355,11 @@ def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: 
     # IA
     p_ai = _ai_probability(txt)
     res["ai_score"] = int(round(p_ai * 100))
-    lowered = (len(_norm(txt)) >= 120) or any(kw in _AI_MARKERS)  # simple assouplissement
+
+    # ✅ FIX: on teste la présence des marqueurs DANS le texte normalisé
+    norm_txt = _norm(txt)
+    lowered = (len(norm_txt) >= 120) or any(m in norm_txt for m in _AI_MARKERS)
+
     ai_threshold = AI_THRESHOLD_LOWERED if lowered else AI_THRESHOLD_DEFAULT
     if p_ai >= ai_threshold:
         res["ai"] = True
@@ -578,7 +582,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 
             timeline[addr].append((now, v_etud))
 
-            if analysis["empty"]:
+            if analysis["empty"]]:
                 label = "Non répondu"
                 unanswered_count += 1
             else:
@@ -1024,7 +1028,6 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             remote_txt = remote_dir + os.path.basename(path_txt)
             remote_htm = remote_dir + os.path.basename(path_html)
 
-            # Upload (le bucket est lu dans supa.py via SUPABASE_BUCKET)
             upload_file(path_txt, remote_txt, content_type="text/plain")
             upload_file(path_html, remote_htm, content_type="text/html")
 
