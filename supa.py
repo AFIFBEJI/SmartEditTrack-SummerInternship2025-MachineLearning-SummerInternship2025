@@ -13,18 +13,31 @@ def _get() -> Client:
     return _client
 
 def upload_file(local_path: str, remote_path: str, content_type: str | None = None):
-    """Envoie un fichier sur Storage (upsert=True)."""
+    """
+    Envoie un fichier sur Storage (upsert=True).
+    ⚠️ storage3 attend des headers string et le header 'x-upsert'.
+    """
     bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
     ct = content_type or mimetypes.guess_type(local_path)[0] or "application/octet-stream"
     with open(local_path, "rb") as f:
         _get().storage.from_(bucket).upload(
-            remote_path, f, {"content-type": ct, "upsert": True}
+            remote_path,
+            f,
+            {  # headers attendus par storage3
+                "content-type": ct,
+                "x-upsert": "true",   # <- string, pas bool
+            },
         )
 
 def upload_bytes(data: bytes, remote_path: str, content_type: str = "application/octet-stream"):
     bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
     _get().storage.from_(bucket).upload(
-        remote_path, data, {"content-type": content_type, "upsert": True}
+        remote_path,
+        data,
+        {
+            "content-type": content_type,
+            "x-upsert": "true",   # <- string, pas bool
+        },
     )
 
 def download_to_file(remote_path: str, local_path: str) -> bool:
@@ -43,5 +56,4 @@ def signed_url(remote_path: str, expires_in: int = 7 * 24 * 3600) -> str:
     """URL signée (par défaut 7 jours)."""
     bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
     resp = _get().storage.from_(bucket).create_signed_url(remote_path, expires_in)
-    # selon la version: 'signed_url' ou 'signedURL'
     return resp.get("signed_url") or resp.get("signedURL") or ""
