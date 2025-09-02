@@ -1,8 +1,20 @@
-﻿~$*
+﻿# Excel : fichiers lock/temporaires
+~$*
+*.tmp
+*.log
+
+# Python
 __pycache__/
 *.pyc
-*.tmp
+
+# Sorties générées par l'app (NE PAS versionner)
+copies_etudiants/
 rapports_etudiants/
 historique_reponses/
-copies_etudiants/
 modifications_log_secure.csv
+
+# Par prudence: ignorer les fichiers Excel dans /data
+# (on autorise uniquement le template prof)
+data/*.xlsx
+data/*.xlsm
+!data/Fichier_Excel_Professeur_Template.xlsm
