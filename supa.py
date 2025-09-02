@@ -1,29 +1,47 @@
-# supa.py
-import os
+# supa.py — helpers Storage (Supabase Python v2)
+import os, mimetypes
 from supabase import create_client, Client
 
-_URL   = os.environ.get("SUPABASE_URL", "").strip()
-# en prod serveur on utilise la service_role (sinon anon à défaut)
-_KEY   = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
-_BUCKET = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
+_client: Client | None = None
 
-_sb: Client | None = None
+def _get() -> Client:
+    global _client
+    if _client is None:
+        url = os.environ["SUPABASE_URL"].rstrip("/")
+        key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]  # service_role (secret)
+        _client = create_client(url, key)
+    return _client
 
-def sb() -> Client:
-    global _sb
-    if _sb is None:
-        if not _URL or not _KEY:
-            raise RuntimeError("Supabase: variables d'env manquantes")
-        _sb = create_client(_URL, _KEY)
-    return _sb
-
-def upload_file(local_path: str, remote_path: str) -> None:
-    """Upload avec upsert (remplace si existe)."""
+def upload_file(local_path: str, remote_path: str, content_type: str | None = None):
+    """Envoie un fichier sur Storage (upsert=True)."""
+    bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
+    ct = content_type or mimetypes.guess_type(local_path)[0] or "application/octet-stream"
     with open(local_path, "rb") as f:
-        sb().storage.from_(_BUCKET).upload(remote_path, f, {"upsert": True})
+        _get().storage.from_(bucket).upload(
+            remote_path, f, {"content-type": ct, "upsert": True}
+        )
 
-def signed_url(remote_path: str, seconds: int = 3600) -> str:
-    """URL signée temporaire pour consulter/télécharger."""
-    res = sb().storage.from_(_BUCKET).create_signed_url(remote_path, seconds)
-    # la clé s'appelle 'signed_url' dans supabase-py v2
-    return res.get("signed_url") or res.get("signedURL") or ""
+def upload_bytes(data: bytes, remote_path: str, content_type: str = "application/octet-stream"):
+    bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
+    _get().storage.from_(bucket).upload(
+        remote_path, data, {"content-type": content_type, "upsert": True}
+    )
+
+def download_to_file(remote_path: str, local_path: str) -> bool:
+    """Télécharge un objet Storage vers un chemin local."""
+    bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
+    try:
+        data = _get().storage.from_(bucket).download(remote_path)
+        os.makedirs(os.path.dirname(local_path) or ".", exist_ok=True)
+        with open(local_path, "wb") as f:
+            f.write(data)
+        return True
+    except Exception:
+        return False
+
+def signed_url(remote_path: str, expires_in: int = 7 * 24 * 3600) -> str:
+    """URL signée (par défaut 7 jours)."""
+    bucket = os.environ.get("SUPABASE_BUCKET", "smartedittrack")
+    resp = _get().storage.from_(bucket).create_signed_url(remote_path, expires_in)
+    # selon la version: 'signed_url' ou 'signedURL'
+    return resp.get("signed_url") or resp.get("signedURL") or ""

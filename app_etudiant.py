@@ -14,7 +14,7 @@ from auth import (
     change_password,
 )
 
-DATA_DIR     = os.environ.get("DATA_DIR", "./")
+DATA_DIR     = os.environ.get("DATA_DIR", "/tmp")  # même valeur que côté prof
 GLOBAL_COPIES = os.path.join(DATA_DIR, "copies_generees")
 CLASS_ROOT    = os.path.join(DATA_DIR, "classes")
 DEPOSIT_DIR   = os.path.join(DATA_DIR, "copies_etudiants")

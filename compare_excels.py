@@ -1,19 +1,12 @@
 # compare_excels.py — analyse + intégrité (_sig + HMAC) + Copier-coller + IA + Historique + LOG VBA
 # -*- coding: utf-8 -*-
 
-import os
-import re
-import csv
-import json
-import hashlib
-import unicodedata
+import os, re, csv, json, hashlib, unicodedata, difflib
 from datetime import datetime
 from collections import defaultdict
 
-import difflib
 import openpyxl
 import openpyxl.utils
-
 import pandas as pd
 import numpy as np
 
@@ -27,13 +20,13 @@ except Exception:
     cosine_similarity = None
     _SK_OK = False
 
-# --- Intégrité : vérification de la feuille _sig et HMAC par cellule
+# --- Intégrité (_sig)
 from integrity import verify_workbook  # verify_workbook(path, main_sheet_name) -> (header, changed_cells, issues)
 
-# --- Cloud storage (Supabase) : upload + URL signées (facultatif si supa.py absent)
+# --- Cloud (helpers facultatifs)
 _SUPA_OK = False
 try:
-    from supa import upload_file, signed_url   # <- helper optionnel
+    from supa import upload_file, signed_url
     _SUPA_OK = True
 except Exception:
     upload_file = None
@@ -41,9 +34,8 @@ except Exception:
     _SUPA_OK = False
 
 # ======================= CONFIG =======================
-DATA_DIR        = os.environ.get("DATA_DIR", "./")
-# Aligne avec app_prof.py (template stocké dans DATA_DIR) — >>> .xlsm
-TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsm")
+DATA_DIR        = os.environ.get("DATA_DIR", "/tmp")  # même valeur que app_prof
+TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsm")  # .xlsm
 copies_folder   = os.path.join(DATA_DIR, "copies_etudiants")
 rapport_folder  = os.path.join(DATA_DIR, "rapports_etudiants")
 hash_log_file   = os.path.join(DATA_DIR, "hash_records.csv")
@@ -52,7 +44,6 @@ cours_file      = os.path.join(DATA_DIR, "cours_references.txt")
 dataset_ia_file = os.path.join(DATA_DIR, "dataset.csv")
 modifs_csv      = os.path.join(DATA_DIR, "modifications_log_secure.csv")
 history_folder  = os.path.join(DATA_DIR, "historique_reponses")
-
 os.makedirs(rapport_folder, exist_ok=True)
 os.makedirs(history_folder, exist_ok=True)
 
@@ -63,7 +54,7 @@ COURSE_RATIO_THRESHOLD = float(os.environ.get("COURSE_RATIO_THRESHOLD", 0.88))
 COURSE_LONGEST_MIN     = int(os.environ.get("COURSE_LONGEST_MIN", 70))
 FAST_PASTE_SECS        = int(os.environ.get("FAST_PASTE_SECS", 120))
 PASTE_MIN_LEN          = int(os.environ.get("PASTE_MIN_LEN", 80))
-AI_SHOW_ALL_TABLE      = True  # tableau “Score IA (toutes les réponses)”
+AI_SHOW_ALL_TABLE      = True
 
 # ======================= HASH INDEX =======================
 def _parse_hash_log(path):
@@ -147,16 +138,14 @@ def _html_escape(s: str) -> str:
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def _norm(s: str) -> str:
-    if not s:
-        return ""
+    if not s: return ""
     s = s.lower()
     s = "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
 def _human_delta(prev_iso: str, now_dt: datetime) -> str:
-    if not prev_iso:
-        return ""
+    if not prev_iso: return ""
     try:
         prev = datetime.fromisoformat(prev_iso)
         return str(now_dt - prev)
@@ -164,8 +153,7 @@ def _human_delta(prev_iso: str, now_dt: datetime) -> str:
         return ""
 
 def _seconds_since(prev_iso: str, now_dt: datetime) -> float | None:
-    if not prev_iso:
-        return None
+    if not prev_iso: return None
     try:
         prev = datetime.fromisoformat(prev_iso)
         return (now_dt - prev).total_seconds()
@@ -240,56 +228,36 @@ def _append_modif_csv(row_dict: dict):
     except Exception as e:
         print("[WARN] Erreur écriture journal modifs:", e)
 
-# ======================= DÉTECTION : Copier-coller & IA =======================
+# ======================= DÉTECTION =======================
 _AI_MARKERS = [
-    "en tant que", "dans le cadre", "il est important de noter",
-    "cependant", "par conséquent", "de plus", "d'après", "selon",
-    "il convient de", "dans un premier temps", "notamment", "globalement",
-    "en conclusion", "dans ce contexte", "par ailleurs", "en outre",
-    "autrement dit", "de manière générale"
+    "en tant que","dans le cadre","il est important de noter","cependant","par conséquent","de plus",
+    "d'après","selon","il convient de","dans un premier temps","notamment","globalement","en conclusion",
+    "dans ce contexte","par ailleurs","en outre","autrement dit","de manière générale"
 ]
+_SMART_CHARS = {"×":"signe de multiplication","•":"puce","–":"tiret demi-cadratin","—":"tiret cadratin",
+                "’":"apostrophe courbe","“":"guillemet ouvrant","”":"guillemet fermant","\u00A0":"espace insécable",
+                "\u202F":"espace fine insécable","…":"points de suspension typographiques"}
 
-_SMART_CHARS = {
-    "×": "signe de multiplication",
-    "•": "puce",
-    "–": "tiret demi-cadratin",
-    "—": "tiret cadratin",
-    "’": "apostrophe courbe",
-    "“": "guillemet ouvrant",
-    "”": "guillemet fermant",
-    "\u00A0": "espace insécable",
-    "\u202F": "espace fine insécable",
-    "…": "points de suspension typographiques"
-}
-
-def _smart_punct_info(text: str) -> tuple[bool, str]:
-    if not text:
-        return (False, "")
-    found = []
-    for ch, name in _SMART_CHARS.items():
-        if ch in text:
-            found.append(name)
+def _smart_punct_info(text: str):
+    if not text: return (False, "")
+    found = [name for ch,name in _SMART_CHARS.items() if ch in text]
     return (len(found) > 0, ", ".join(found))
 
-def _copy_paste_scores(rlow: str) -> tuple[float, int]:
-    if not cours_content:
-        return (0.0, 0)
+def _copy_paste_scores(rlow: str):
+    if not cours_content: return (0.0, 0)
     seq = difflib.SequenceMatcher(None, rlow, cours_content)
     ratio = float(seq.ratio())
     longest = seq.find_longest_match(0, len(rlow), 0, len(cours_content)).size
     return (ratio, int(longest))
 
 def _looks_paste_burst(text: str) -> bool:
-    if not text:
-        return False
+    if not text: return False
     t = text.strip()
-    if len(t) < PASTE_MIN_LEN:
-        return False
+    if len(t) < PASTE_MIN_LEN: return False
     return ("\n" in t) or ("  " in t) or ("’" in t) or ("–" in t) or ("•" in t)
 
 def _ai_probability(text: str) -> float:
-    if not text:
-        return 0.0
+    if not text: return 0.0
     if _SK_OK and df_ia is not None and vectorizer is not None and tfidf_matrix is not None:
         try:
             vec = vectorizer.transform([text])
@@ -302,48 +270,29 @@ def _ai_probability(text: str) -> float:
     nb_sent = t.count(".") + t.count(";") + t.count("!")
     nb_commas = t.count(",")
     long_txt = len(t) >= 140
-    score = 0.0
-    score += 0.18 * min(k, 4)
-    score += 0.22 if long_txt else 0
-    score += 0.12 if nb_sent >= 2 else 0
-    score += 0.10 if nb_commas >= 3 else 0
+    score = 0.18*min(k,4) + (0.22 if long_txt else 0) + (0.12 if nb_sent>=2 else 0) + (0.10 if nb_commas>=3 else 0)
     score += 0.08 if "par exemple" in t else 0
     return max(0.0, min(1.0, score))
 
 def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: str | None) -> dict:
-    res = {
-        "empty": False,
-        "copy": False, "copy_pct": 0, "copy_reason": "",
-        "ai":   False, "ai_pct":   0, "ai_reason":   "",
-        "ai_score": 0,
-        "label": ""
-    }
+    res = {"empty":False,"copy":False,"copy_pct":0,"copy_reason":"","ai":False,"ai_pct":0,"ai_reason":"",
+           "ai_score":0,"label":""}
     txt = _safe_str(reponse).strip()
     if txt == "":
-        res["empty"] = True
-        res["label"] = "Non répondu"
-        return res
-
+        res["empty"] = True; res["label"] = "Non répondu"; return res
     rlow = txt.lower()
 
-    # Copier-coller (cours/format/typographie + ajout rapide)
     ratio, longest = _copy_paste_scores(rlow)
     paste_like = _looks_paste_burst(txt)
     smart_punct, smart_names = _smart_punct_info(txt)
-
-    fast_paste = False
-    if delta_secs is not None and len(txt) >= 60 and delta_secs <= FAST_PASTE_SECS:
-        fast_paste = True
+    fast_paste = (delta_secs is not None and len(txt) >= 60 and delta_secs <= FAST_PASTE_SECS)
 
     copy_flags = []
     if ratio >= COURSE_RATIO_THRESHOLD or longest >= COURSE_LONGEST_MIN:
         copy_flags.append(f"Très proche du cours (segment commun ≈ {longest} car.)")
-    if paste_like:
-        copy_flags.append("Format/longueur typiques d’un collage")
-    if smart_punct:
-        copy_flags.append(f"Typographie collée ({smart_names})")
-    if fast_paste:
-        copy_flags.append(f"Ajout rapide entre deux dépôts (< {FAST_PASTE_SECS//60} min)")
+    if paste_like: copy_flags.append("Format/longueur typiques d’un collage")
+    if smart_punct: copy_flags.append(f"Typographie collée ({smart_names})")
+    if fast_paste: copy_flags.append(f"Ajout rapide (< {FAST_PASTE_SECS//60} min)")
 
     if copy_flags:
         res["copy"] = True
@@ -352,91 +301,51 @@ def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: 
         res["copy_pct"] = min(max(base, 55) + bonus, 99)
         res["copy_reason"] = " ; ".join(copy_flags)
 
-    # IA
     p_ai = _ai_probability(txt)
     res["ai_score"] = int(round(p_ai * 100))
-    lowered = (len(_norm(txt)) >= 120) or any(kw in _norm(txt) for kw in _AI_MARKERS)  # ✅ bonne forme
+    lowered = (len(_norm(txt)) >= 120) or any(kw in _norm(txt) for kw in _AI_MARKERS)
     ai_threshold = AI_THRESHOLD_LOWERED if lowered else AI_THRESHOLD_DEFAULT
     if p_ai >= ai_threshold:
-        res["ai"] = True
-        res["ai_pct"] = res["ai_score"]
-        res["ai_reason"] = "Style/longueur/similarité caractéristiques des réponses générées"
+        res["ai"] = True; res["ai_pct"] = res["ai_score"]; res["ai_reason"] = "Style/longueur/similarité caractéristiques"
 
-    # libellé
-    if res["ai"]:
-        res["label"] = f"IA probable ({res['ai_pct']}%)"
-    elif res["copy"]:
-        res["label"] = f"Copier-coller (~{res['copy_pct']}%)"
-    else:
-        res["label"] = "Réponse normale"
+    if res["ai"]: res["label"] = f"IA probable ({res['ai_pct']}%)"
+    elif res["copy"]: res["label"] = f"Copier-coller (~{res['copy_pct']}%)"
+    else: res["label"] = "Réponse normale"
     return res
 
-# ======================= LOG VBA (feuille LOG) =======================
+# ======================= LOG VBA =======================
 def _read_embedded_vba_log(wb) -> list[dict]:
-    """
-    Parcourt TOUTES les feuilles dont le nom contient 'log' (insensible à la casse) et agrège les lignes.
-    Colonnes reconnues (FR/EN) :
-      Horodatage|Timestamp|Time|Date
-      Cellule|Cell
-      Question
-      Avant|Old|Old_value|Valeur_avant
-      Après|New|New_value|Valeur_apres|Valeur_etudiant
-      Action
-      Collage|WasPaste
-      SelCount
-    Aucune donnée d'utilisateur n'est lue/renvoyée.
-    """
     def _s(v): return "" if v is None else str(v)
-
     def parse_one(ws):
         headers = [(_s(c.value).strip().lower()) for c in ws[1]]
         idx = {h: i + 1 for i, h in enumerate(headers) if h}
-
         def col(row, *names):
             for key in names:
                 j = idx.get(key)
-                if j:
-                    return _s(ws.cell(row=row, column=j).value)
+                if j: return _s(ws.cell(row=row, column=j).value)
             return ""
-
         out = []
         max_row = ws.max_row or 1
         for r in range(2, max_row + 1):
             if not any(_s(ws.cell(row=r, column=c).value) for c in range(1, ws.max_column + 1)):
                 continue
-
-            ts   = col(r, "horodatage", "timestamp", "time", "date")
-            cell = col(r, "cellule", "cell")
-            q    = col(r, "question")
-            oldv = col(r, "avant", "old_value", "old", "valeur_avant")
-            newv = col(r, "après", "apres", "new_value", "new", "valeur_apres", "valeur_etudiant")
-            act  = col(r, "action")
-            wp   = col(r, "collage", "waspaste")
-            sc   = col(r, "selcount")
-
-            if not (ts or cell or oldv or newv or act):
-                continue
-
-            if oldv == "" and newv != "":
-                action = "ajout"
-            elif oldv != "" and newv == "":
-                action = "suppression"
-            elif oldv != newv:
-                action = "modification"
-            else:
-                action = act or "inchangé"
-
-            was_paste = (_s(wp).strip().lower() in ("true", "vrai", "1", "oui", "yes"))
-
+            ts   = col(r,"horodatage","timestamp","time","date")
+            cell = col(r,"cellule","cell")
+            q    = col(r,"question")
+            oldv = col(r,"avant","old_value","old","valeur_avant")
+            newv = col(r,"après","apres","new_value","new","valeur_apres","valeur_etudiant")
+            act  = col(r,"action")
+            wp   = col(r,"collage","waspaste")
+            if not (ts or cell or oldv or newv or act): continue
+            if oldv == "" and newv != "": action = "ajout"
+            elif oldv != "" and newv == "": action = "suppression"
+            elif oldv != newv: action = "modification"
+            else: action = act or "inchangé"
+            was_paste = (_s(wp).strip().lower() in ("true","vrai","1","oui","yes"))
             out.append({
-                "timestamp": ts,
-                "cell": cell,
-                "question": q,
-                "old_value": oldv,
-                "new_value": newv,
-                "wasPaste": was_paste,
-                "selCount": sc,
-                "action": action,
+                "timestamp": ts, "cell": cell, "question": q,
+                "old_value": oldv, "new_value": newv,
+                "wasPaste": was_paste, "selCount": col(r,"selcount"), "action": action,
             })
         return out
 
@@ -449,15 +358,8 @@ def _read_embedded_vba_log(wb) -> list[dict]:
                 continue
     return all_logs
 
-# ======================= COEUR : COMPARAISON =======================
+# ======================= COEUR =======================
 def comparer_etudiant(fichier_etudiant: str) -> str:
-    """
-    Compare une copie au template, conserve l'historique et génère :
-      - TXT + HTML
-      - CSV détaillé (INTEGRITY, TEMPLATE, PREVIOUS, EMBEDDED_LOG)
-      - historique JSON par étudiant (timelines)
-      - tableaux : Copier-coller, IA probables, Score IA (toutes les réponses), Timeline, Traçabilité (VBA)
-    """
     nom_fichier = os.path.basename(fichier_etudiant)
     official_by_id = _official_hashes_by_id()
     expected_id = _parse_expected_id_from_filename(nom_fichier)
@@ -466,8 +368,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     try:
         wb_prof = openpyxl.load_workbook(TEMPLATE_PATH, data_only=True, keep_vba=True)
         wb_etud = openpyxl.load_workbook(fichier_etudiant, data_only=True, keep_vba=True)
-        ws_prof = wb_prof.active
-        ws_etud = wb_etud.active
+        ws_prof = wb_prof.active; ws_etud = wb_etud.active
     except Exception as e:
         return f"❌ Erreur d'ouverture des fichiers : {e}"
 
@@ -475,42 +376,32 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     id_cell = _safe_str(ws_etud["Z1"].value)
     hash_cell = _safe_str(ws_etud["Z2"].value)
     hash_calcule = recalculer_hash_depuis_contenu(ws_etud, id_cell)
-    now_dt = datetime.now()
-    now = now_dt.strftime("%Y-%m-%d %H:%M:%S")
+    now_dt = datetime.now(); now = now_dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    # Authenticité / cohérence
-    authenticity = "unknown"
-    authenticity_msg = ""
+    # Authenticité
+    authenticity = "unknown"; authenticity_msg = ""
     official_ok_for_id = id_cell and (hash_cell in official_by_id.get(id_cell, set()))
     if not id_cell or not hash_cell:
-        authenticity = "critical"
-        authenticity_msg = "❌ L'ID (Z1) ou le hash (Z2) est manquant."
+        authenticity, authenticity_msg = "critical", "❌ L'ID (Z1) ou le hash (Z2) est manquant."
     else:
         if expected_id and expected_id != id_cell:
-            authenticity = "mismatch"
-            authenticity_msg = f"⚠️ ID du fichier (Z1={id_cell}) ≠ ID attendu ({expected_id})."
+            authenticity, authenticity_msg = "mismatch", f"⚠️ ID du fichier (Z1={id_cell}) ≠ ID attendu ({expected_id})."
         if official_ok_for_id and hash_calcule == hash_cell:
-            authenticity = "official_clean"
-            authenticity_msg = "✅ Copie officielle intacte."
+            authenticity, authenticity_msg = "official_clean", "✅ Copie officielle intacte."
         elif official_ok_for_id and hash_calcule != hash_cell:
-            authenticity = "official_then_edited"
-            authenticity_msg = "✅ Copie officielle utilisée puis contenu modifié (normal)."
+            authenticity, authenticity_msg = "official_then_edited", "✅ Copie officielle utilisée puis contenu modifié (normal)."
         elif (not official_ok_for_id) and hash_calcule == hash_cell:
-            authenticity = "self_consistent_non_official"
-            authenticity_msg = "⚠️ Fichier cohérent mais non reconnu parmi les copies officielles."
+            authenticity, authenticity_msg = "self_consistent_non_official", "⚠️ Fichier cohérent mais non reconnu parmi les copies officielles."
         elif (not official_ok_for_id) and hash_calcule != hash_cell:
-            authenticity = "tampered"
-            authenticity_msg = "🚨 Incohérence : Z2 ≠ contenu et Z2 non-officiel."
+            authenticity, authenticity_msg = "tampered", "🚨 Incohérence : Z2 ≠ contenu et Z2 non-officiel."
 
-    # Colonnes actives
-    questions = {}
-    active_cols = []
-    for col in range(3, 26):  # C..Y
+    # Colonnes actives (C..Y)
+    questions, active_cols = {}, []
+    for col in range(3, 26):
         addr = f"{openpyxl.utils.get_column_letter(col)}1"
         qtext = _safe_str(ws_prof[addr].value).strip()
         if qtext:
-            questions[addr[:-1]] = qtext
-            active_cols.append(col)
+            questions[addr[:-1]] = qtext; active_cols.append(col)
 
     # Intégrité (_sig)
     header_sig, changed_cells_sig, issues_sig = verify_workbook(fichier_etudiant, main_sheet_name=ws_etud.title)
@@ -518,29 +409,21 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
         authenticity_msg += (" | " if authenticity_msg else "") + "⚠ Intégrité: " + "; ".join(issues_sig)
 
     # Journal INTEGRITY
-    for addr in changed_cells_sig:
+    def _append_integrity(addr):
         m = re.match(r"([A-Z]+)", addr or "")
         col_letter = m.group(1) if m else ""
         question = questions.get(col_letter, "")
         _append_modif_csv({
-            "timestamp": now,
-            "time_since_last": "",
-            "fichier": nom_fichier,
-            "id_etudiant": id_cell,
-            "cellule": addr,
-            "question": question,
-            "valeur_avant": "",
-            "valeur_prof": "",
+            "timestamp": now, "time_since_last": "", "fichier": nom_fichier, "id_etudiant": id_cell,
+            "cellule": addr, "question": question, "valeur_avant": "", "valeur_prof": "",
             "valeur_etudiant": _safe_str(ws_etud[addr].value) if addr else "",
-            "source_diff": "INTEGRITY",
-            "action_type": "modification",
+            "source_diff": "INTEGRITY", "action_type": "modification",
             "detection": "Modifiée après génération (signature)",
-            "hash_z2": hash_cell,
-            "hash_recalcule": hash_calcule,
-            "tentative_index": "",
+            "hash_z2": hash_cell, "hash_recalcule": hash_calcule, "tentative_index": "",
         })
+    for addr in changed_cells_sig: _append_integrity(addr)
 
-    # Historique / diffs vs dépôt précédent
+    # Historique / diffs vs précédent
     hist_key = id_cell or expected_id or "unknown"
     history_list = _load_history(hist_key)
     attempt_index = len(history_list) + 1
@@ -551,20 +434,15 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     snapshot_values = _snapshot_ws(ws_etud)
     prev_values = history_list[-1]["values"] if history_list else {}
 
-    diffs_vs_prev = []  # (addr, old_val, new_val, action_type)
+    diffs_vs_prev = []
+    matrix_full, rows_copy, rows_ai, rows_ai_all = [], [], [], []
+    unanswered_count = answered_count = 0
 
-    # Matrice + détect
-    matrix_full = []     # (addr, question, valeur_etud, label)
+    diffs_vs_template = []
+    from collections import defaultdict as _dd
+    timeline = _dd(list)
+
     max_row = max(ws_prof.max_row, ws_etud.max_row)
-    answered_count = 0
-    unanswered_count = 0
-
-    diffs_vs_template = []  # journal TEMPLATE
-    rows_copy = []          # table Copier-coller
-    rows_ai = []            # table IA probable
-    rows_ai_all = []        # table Score IA (toutes)
-    timeline = defaultdict(list)
-
     for row in range(2, max_row + 1):
         for col in active_cols:
             addr = f"{openpyxl.utils.get_column_letter(col)}{row}"
@@ -575,15 +453,12 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             prev_text = _safe_str(prev_values.get(addr, "")) if prev_values else ""
 
             analysis = _classify(v_etud, question, delta_secs, prev_text)
-
             timeline[addr].append((now, v_etud))
 
             if analysis["empty"]:
-                label = "Non répondu"
-                unanswered_count += 1
+                label = "Non répondu"; unanswered_count += 1
             else:
-                label = analysis["label"]
-                answered_count += 1
+                label = analysis["label"]; answered_count += 1
                 if analysis["copy"]:
                     rows_copy.append((addr, question, _excerpt(v_etud),
                                       f"Copier-coller (~{analysis['copy_pct']}%) — {analysis['copy_reason']}"))
@@ -594,104 +469,58 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 
             matrix_full.append((addr, question, v_etud, label))
 
-            # Journal TEMPLATE
             if v_prof != v_etud:
                 diffs_vs_template.append((addr, v_prof, v_etud))
                 _append_modif_csv({
-                    "timestamp": now,
-                    "time_since_last": delta_since_last,
-                    "fichier": nom_fichier,
-                    "id_etudiant": id_cell,
-                    "cellule": addr,
-                    "question": question,
-                    "valeur_avant": "",
-                    "valeur_prof": v_prof,
-                    "valeur_etudiant": v_etud,
-                    "source_diff": "TEMPLATE",
-                    "action_type": "modification",
-                    "detection": label,
-                    "hash_z2": hash_cell,
-                    "hash_recalcule": hash_calcule,
-                    "tentative_index": attempt_index,
+                    "timestamp": now, "time_since_last": delta_since_last, "fichier": nom_fichier, "id_etudiant": id_cell,
+                    "cellule": addr, "question": question, "valeur_avant": "", "valeur_prof": v_prof,
+                    "valeur_etudiant": v_etud, "source_diff": "TEMPLATE", "action_type": "modification",
+                    "detection": label, "hash_z2": hash_cell, "hash_recalcule": hash_calcule, "tentative_index": attempt_index,
                 })
 
-            # Journal PREVIOUS (par rapport à la tentative précédente)
             if prev_values and v_etud != prev_text:
-                if prev_text == "" and v_etud != "":
-                    action = "ajout"
-                elif prev_text != "" and v_etud == "":
-                    action = "suppression"
-                else:
-                    action = "modification"
+                if prev_text == "" and v_etud != "": action = "ajout"
+                elif prev_text != "" and v_etud == "": action = "suppression"
+                else: action = "modification"
                 diffs_vs_prev.append((addr, prev_text, v_etud, action))
                 _append_modif_csv({
-                    "timestamp": now,
-                    "time_since_last": delta_since_last,
-                    "fichier": nom_fichier,
-                    "id_etudiant": id_cell,
-                    "cellule": addr,
-                    "question": question,
-                    "valeur_avant": prev_text,
-                    "valeur_prof": "",
-                    "valeur_etudiant": v_etud,
-                    "source_diff": "PREVIOUS",
-                    "action_type": action,
-                    "detection": label,
-                    "hash_z2": hash_cell,
-                    "hash_recalcule": hash_calcule,
-                    "tentative_index": attempt_index,
+                    "timestamp": now, "time_since_last": delta_since_last, "fichier": nom_fichier, "id_etudiant": id_cell,
+                    "cellule": addr, "question": question, "valeur_avant": prev_text, "valeur_prof": "",
+                    "valeur_etudiant": v_etud, "source_diff": "PREVIOUS", "action_type": action,
+                    "detection": label, "hash_z2": hash_cell, "hash_recalcule": hash_calcule, "tentative_index": attempt_index,
                 })
 
     # Historique (snapshot)
     history_entry = {
-        "timestamp": now,
-        "time_since_last": delta_since_last,
-        "filename": nom_fichier,
-        "hash_z2": hash_cell,
-        "hash_recalcule": hash_calcule,
-        "authenticity": authenticity,
-        "values": snapshot_values,
+        "timestamp": now, "time_since_last": delta_since_last, "filename": nom_fichier,
+        "hash_z2": hash_cell, "hash_recalcule": hash_calcule, "authenticity": authenticity, "values": snapshot_values,
     }
-    history_list.append(history_entry)
-    _save_history(hist_key, history_list)
+    history_list.append(history_entry); _save_history(hist_key, history_list)
 
-    # Timeline complète reconstituée
+    # Timeline reconstituée
     timeline = defaultdict(list)
     for h in history_list:
-        ts = h.get("timestamp")
-        vals = h.get("values", {})
+        ts = h.get("timestamp"); vals = h.get("values", {})
         for cell, v in sorted(vals.items()):
             if not timeline[cell] or timeline[cell][-1][1] != v:
                 timeline[cell].append((ts, v))
 
-    # ====== LOG embarqué (VBA) ======
+    # LOG embarqué (VBA)
     embedded_logs = _read_embedded_vba_log(wb_etud)
-    # CSV : source_diff = EMBEDDED_LOG (sans utilisateur)
     for log in embedded_logs:
         _append_modif_csv({
-            "timestamp": log["timestamp"] or now,
-            "time_since_last": delta_since_last,
-            "fichier": nom_fichier,
-            "id_etudiant": id_cell,
-            "cellule": log["cell"],
-            "question": log["question"],
-            "valeur_avant": log["old_value"],
-            "valeur_prof": "",
-            "valeur_etudiant": log["new_value"],
-            "source_diff": "EMBEDDED_LOG",
-            "action_type": log["action"],
+            "timestamp": log["timestamp"] or now, "time_since_last": delta_since_last, "fichier": nom_fichier,
+            "id_etudiant": id_cell, "cellule": log["cell"], "question": log["question"],
+            "valeur_avant": log["old_value"], "valeur_prof": "", "valeur_etudiant": log["new_value"],
+            "source_diff": "EMBEDDED_LOG", "action_type": log["action"],
             "detection": f"wasPaste={'TRUE' if log['wasPaste'] else 'FALSE'}",
-            "hash_z2": hash_cell,
-            "hash_recalcule": hash_calcule,
-            "tentative_index": attempt_index,
+            "hash_z2": hash_cell, "hash_recalcule": hash_calcule, "tentative_index": attempt_index,
         })
 
-    # Compteurs
     total_changes_template = len(diffs_vs_template)
     total_changes_prev = len(diffs_vs_prev)
     total_integrity_cells = len(changed_cells_sig)
-    total_alerts = sum(1 for _, _, _, lab in matrix_full
-                       if lab not in ["", "Réponse normale", "Non répondu"])
+    total_alerts = sum(1 for _, _, _, lab in matrix_full if lab not in ["", "Réponse normale", "Non répondu"])
 
     # ======================= RAPPORT TXT =======================
     txt_lines = []
@@ -700,15 +529,13 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     if delta_since_last:
         txt_lines.append(f"⏱️ Temps écoulé depuis la tentative précédente : {delta_since_last}")
     txt_lines.append(f"🧑 ID Étudiant (Z1) : {id_cell}")
-    if expected_id:
-        txt_lines.append(f"🧾 ID attendu (depuis nom du fichier) : {expected_id}")
+    if expected_id: txt_lines.append(f"🧾 ID attendu : {expected_id}")
     txt_lines.append(f"🔐 Hash (Z2) : {hash_cell}")
     txt_lines.append(f"🧪 Hash recalculé : {hash_calcule}")
     txt_lines.append(f"🛡️ Authenticité : {authenticity} — {authenticity_msg}\n")
     txt_lines.append("🧩 Intégrité (signature _sig)")
     if issues_sig:
-        for iss in issues_sig:
-            txt_lines.append(f"  • ⚠ {iss}")
+        for iss in issues_sig: txt_lines.append(f"  • ⚠ {iss}")
     else:
         txt_lines.append("  • ✅ Aucune anomalie structurale détectée.")
     if changed_cells_sig:
@@ -717,41 +544,36 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     base = os.path.splitext(nom_fichier)[0]
     path_txt = os.path.join(rapport_folder, f"{base}_rapport.txt")
     try:
-        with open(path_txt, "w", encoding="utf-8") as f:
-            f.write("\n".join(txt_lines))
+        with open(path_txt, "w", encoding="utf-8") as f: f.write("\n".join(txt_lines))
     except Exception as e:
         return f"❌ Erreur écriture rapport TXT : {e}"
 
     # ======================= RAPPORT HTML =======================
     def badge(text, kind, title=None):
-        colors = {"ok": "#10b981", "warn": "#fb923c", "err": "#ef4444",
-                  "info": "#3b82f6", "muted": "#64748b"}
+        colors = {"ok":"#10b981","warn":"#fb923c","err":"#ef4444","info":"#3b82f6","muted":"#64748b"}
         ttl = f' title="{_html_escape(title)}"' if title else ""
         return f'<span class="pill" style="background:{colors.get(kind, "#64748b")}"{ttl}>{_html_escape(text)}</span>'
 
     def auth_badge_of(state, msg):
-        if state == "official_clean":         return badge("Copie officielle intacte", "ok", msg)
-        if state == "official_then_edited":   return badge("Copie officielle puis modifiée", "info", msg)
-        if state == "self_consistent_non_official": return badge("Cohérente non-officielle", "warn", msg)
-        if state == "tampered":               return badge("Incohérence / altération", "err", msg)
-        if state == "mismatch":               return badge("ID ≠ attendu", "warn", msg)
-        if state == "critical":               return badge("Infos manquantes", "err", msg)
-        return badge("Inconnu", "muted", msg)
+        if state == "official_clean": return badge("Copie officielle intacte","ok",msg)
+        if state == "official_then_edited": return badge("Copie officielle puis modifiée","info",msg)
+        if state == "self_consistent_non_official": return badge("Cohérente non-officielle","warn",msg)
+        if state == "tampered": return badge("Incohérence / altération","err",msg)
+        if state == "mismatch": return badge("ID ≠ attendu","warn",msg)
+        if state == "critical": return badge("Infos manquantes","err",msg)
+        return badge("Inconnu","muted",msg)
 
     def html_rows(rows):
-        out = []
-        for addr, q, val, extra in rows:
-            out.append(f"""
-              <tr>
-                <td><code>{_html_escape(addr)}</code></td>
-                <td>{_html_escape(q)}</td>
-                <td>{_html_escape(val)}</td>
-                <td>{_html_escape(extra)}</td>
-              </tr>""")
-        return "\n".join(out)
+        return "\n".join(f"""
+          <tr>
+            <td><code>{_html_escape(addr)}</code></td>
+            <td>{_html_escape(q)}</td>
+            <td>{_html_escape(val)}</td>
+            <td>{_html_escape(extra)}</td>
+          </tr>""" for addr,q,val,extra in rows)
 
     def html_rows_diff_prev(rows):
-        out = []
+        out=[]
         for addr, old_val, new_val, action in rows:
             col = re.match(r"[A-Z]+", addr).group(0)
             q = questions.get(col, "")
@@ -766,64 +588,45 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
         return "\n".join(out)
 
     def html_rows_matrix(matrix):
-        out = []
-        for addr, q, v_etud, label in matrix:
-            kind = "muted"
-            if label.startswith("IA probable"): kind = "err"
-            elif label.startswith("Copier-coller"): kind = "err"
-            elif label == "Non répondu": kind = "muted"
-            else: kind = "muted"
-            al = "" if label in ["", "Réponse normale", "Non répondu"] else badge(label, kind)
-            out.append(f"""
-              <tr>
-                <td><code>{_html_escape(addr)}</code></td>
-                <td>{_html_escape(q)}</td>
-                <td>{_html_escape(v_etud)}</td>
-                <td style="text-align:center">{al}</td>
-              </tr>""")
-        return "\n".join(out)
+        def kind_of(label):
+            if label.startswith("IA probable"): return "err"
+            if label.startswith("Copier-coller"): return "err"
+            return "muted"
+        return "\n".join(f"""
+          <tr>
+            <td><code>{_html_escape(addr)}</code></td>
+            <td>{_html_escape(q)}</td>
+            <td>{_html_escape(v)}</td>
+            <td style="text-align:center">{("" if lab in ["","Réponse normale","Non répondu"] else badge(lab, kind_of(lab)))}</td>
+          </tr>""" for addr,q,v,lab in matrix)
 
     def html_rows_timeline(timeline_map):
-        out = []
+        out=[]
         for addr in sorted(
             timeline_map.keys(),
-            key=lambda a: (
-                re.match(r"[A-Z]+", a).group(0),
-                int(re.search(r"(\d+)$", a).group(1)) if re.search(r"(\d+)$", a) else 0
-            )
+            key=lambda a: (re.match(r"[A-Z]+", a).group(0),
+                           int(re.search(r"(\d+)$", a).group(1)) if re.search(r"(\d+)$", a) else 0)
         ):
             versions = timeline_map[addr]
             col = re.match(r"[A-Z]+", addr).group(0)
-            q = questions.get(col, "")
-            items = []
-            for ts, val in versions:
-                items.append(f"<div><code>{_html_escape(ts)}</code> → {_html_escape(_excerpt(val, 180))}</div>")
-            out.append(f"""
-              <tr>
-                <td><code>{_html_escape(addr)}</code></td>
-                <td>{_html_escape(q)}</td>
-                <td>{"".join(items) if items else "<i class='muted'>—</i>"}</td>
-              </tr>""")
+            q = questions.get(col,"")
+            items = "".join(f"<div><code>{_html_escape(ts)}</code> → {_html_escape(_excerpt(val,180))}</div>" for ts,val in versions)
+            out.append(f"<tr><td><code>{_html_escape(addr)}</code></td><td>{_html_escape(q)}</td><td>{items or '<i class=muted>—</i>'}</td></tr>")
         return "\n".join(out)
 
     def html_rows_embedded(logs):
-        out = []
-        for l in logs:
-            out.append(f"""
-              <tr>
-                <td><code>{_html_escape(l['timestamp'] or '')}</code></td>
-                <td><code>{_html_escape(l['cell'])}</code></td>
-                <td>{_html_escape(l['question'])}</td>
-                <td>{_html_escape(_excerpt(l['old_value']))}</td>
-                <td>{_html_escape(_excerpt(l['new_value']))}</td>
-                <td>{_html_escape(l['action'])}</td>
-                <td>{"Oui" if l["wasPaste"] else "Non"}</td>
-              </tr>""")
-        return "\n".join(out)
+        return "\n".join(f"""
+          <tr>
+            <td><code>{_html_escape(l['timestamp'] or '')}</code></td>
+            <td><code>{_html_escape(l['cell'])}</code></td>
+            <td>{_html_escape(l['question'])}</td>
+            <td>{_html_escape(_excerpt(l['old_value']))}</td>
+            <td>{_html_escape(_excerpt(l['new_value']))}</td>
+            <td>{_html_escape(l['action'])}</td>
+            <td>{"Oui" if l["wasPaste"] else "Non"}</td>
+          </tr>""" for l in logs)
 
-    issues_html = ""
-    if issues_sig:
-        issues_html = "<ul>" + "".join(f"<li>⚠ {_html_escape(x)}</li>" for x in issues_sig) + "</ul>"
+    issues_html = "" if not issues_sig else "<ul>" + "".join(f"<li>⚠ {_html_escape(x)}</li>" for x in issues_sig) + "</ul>"
 
     integrity_table = ""
     if changed_cells_sig:
@@ -839,9 +642,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
           <h2>🧩 Intégrité — Cellules modifiées après génération</h2>
           <table>
             <thead><tr><th>Cellule</th><th>Question</th><th>Valeur actuelle</th><th>Statut</th></tr></thead>
-            <tbody>
-              {html_rows(rows)}
-            </tbody>
+            <tbody>{html_rows(rows)}</tbody>
           </table>
           <div class="muted table-note">Remarque : c'est normal que l'étudiant remplisse ces cellules. Cette section indique simplement qu'elles ont été modifiées après la génération.</div>
         </div>"""
@@ -849,11 +650,8 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     copy_table = f"""
     <div class="card scroll-x">
       <h2>📋 Copier-coller (textes recopiés)</h2>
-      <table>
-        <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Indice</th></tr></thead>
-        <tbody>
-          {html_rows(rows_copy) if rows_copy else ""}
-        </tbody>
+      <table><thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Indice</th></tr></thead>
+        <tbody>{html_rows(rows_copy) if rows_copy else ""}</tbody>
       </table>
       {"<div class='muted table-note'>Aucun cas détecté.</div>" if not rows_copy else ""}
     </div>"""
@@ -861,13 +659,10 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     ai_table = f"""
     <div class="card scroll-x">
       <h2>🤖 Réponses IA probables</h2>
-      <table>
-        <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
-        <tbody>
-          {html_rows(rows_ai) if rows_ai else ""}
-        </tbody>
+      <table><thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
+        <tbody>{html_rows(rows_ai) if rows_ai else ""}</tbody>
       </table>
-      {"<div class='muted table-note'>Aucun cas détecté.</div>" if not rows_ai else "<div class='muted small'>Score IA basé sur jeu d’exemples (TF-IDF) ou heuristiques si dataset indisponible.</div>"}
+      {"<div class='muted table-note'>Aucun cas détecté.</div>" if not rows_ai else "<div class='muted small'>Score IA basé sur jeu d’exemples (TF-IDF) ou heuristiques.</div>"}
     </div>"""
 
     ai_all_table = ""
@@ -875,68 +670,38 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
         ai_all_table = f"""
         <div class="card scroll-x">
           <h2>🧠 Score IA (toutes les réponses)</h2>
-          <table>
-            <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
-            <tbody>
-              {html_rows(rows_ai_all)}
-            </tbody>
+          <table><thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
+            <tbody>{html_rows(rows_ai_all)}</tbody>
           </table>
         </div>"""
 
     timeline_table = f"""
     <div class="card scroll-x">
       <h2>🕒 Historique par cellule (toutes les versions)</h2>
-      <table>
-        <thead><tr><th>Cellule</th><th>Question</th><th>Versions (horodatage → extrait)</th></tr></thead>
-        <tbody>
-          {html_rows_timeline(timeline)}
-        </tbody>
+      <table><thead><tr><th>Cellule</th><th>Question</th><th>Versions (horodatage → extrait)</th></tr></thead>
+        <tbody>{html_rows_timeline(timeline)}</tbody>
       </table>
-      <div class="muted small">Chaque tentative crée de nouvelles lignes si une valeur change. Le CSV <code>modifications_log_secure.csv</code> contient aussi ces évènements (source_diff = PREVIOUS).</div>
-    </div>"""
-
-    embedded_table = f"""
-    <div class="card scroll-x">
-      <h2>🧰 Traçabilité locale (VBA) — saisies détaillées</h2>
-      <table>
-        <thead><tr><th>Horodatage</th><th>Cellule</th><th>Question</th><th>Avant</th><th>Après</th><th>Action</th><th>Collage</th></tr></thead>
-        <tbody>
-          {html_rows_embedded(embedded_logs) if embedded_logs else ""}
-        </tbody>
-      </table>
-      {"<div class='muted table-note'>Aucun log embarqué détecté (feuille LOG absente ou vide).</div>" if not embedded_logs else ""}
+      <div class="muted small">Le CSV <code>modifications_log_secure.csv</code> liste aussi ces évènements (source_diff = PREVIOUS).</div>
     </div>"""
 
     html = f"""<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rapport — { _html_escape(nom_fichier) }</title>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport — {_html_escape(nom_fichier)}</title>
 <style>
   :root{{--b:#e5e7eb;--bg:#f8fafc;--muted:#64748b}}
   html,body{{margin:0;padding:0;background:var(--bg);color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif}}
   .wrap{{max-width:1200px;margin:0 auto;padding:20px}}
   .card{{background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px 16px;margin:12px 0}}
-  h1{{margin:.2rem 0 0;font-size:1.35rem}}
-  h2{{margin:.2rem 0 .6rem;font-size:1.1rem}}
-  .muted{{color:var(--muted)}}
-  .pill{{display:inline-flex;align-items:center;flex-wrap:wrap;max-width:100%;white-space:normal;line-height:1.2;padding:.28rem .6rem;border-radius:999px;font-weight:800;color:#fff}}
+  h1{{margin:.2rem 0 0;font-size:1.35rem}} h2{{margin:.2rem 0 .6rem;font-size:1.1rem}}
+  .muted{{color:var(--muted)}} .pill{{display:inline-flex;align-items:center;padding:.28rem .6rem;border-radius:999px;font-weight:800;color:#fff}}
   table{{border-collapse:collapse;width:100%;table-layout:fixed}}
   th,td{{border:1px solid #e2e8f0;padding:.55rem;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap}}
-  th{{background:#f1f5f9;text-align:left;position:sticky;top:0;z-index:1}}
-  tbody tr:nth-child(odd){{background:#fcfcfd}}
-  code{{background:#f1f5f9;padding:.1rem .35rem;border-radius:6px}}
-  .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}}
+  th{{background:#f1f5f9;text-align:left;position:sticky;top:0;z-index:1}} tbody tr:nth-child(odd){{background:#fcfcfd}}
+  code{{background:#f1f5f9;padding:.1rem .35rem;border-radius:6px}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}}
   .kpi{{background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid var(--b);border-radius:12px;padding:12px}}
-  .kpi b{{font-size:1.05rem;font-weight:800;word-break:break-word;white-space:normal}}
-  .small{{font-size:.92rem}}
-  .table-note{{margin:.4rem 0 0}}
-  .scroll-x{{overflow-x:auto}}
-</style>
-</head>
-<body>
-<div class="wrap">
+  .kpi b{{font-size:1.05rem;font-weight:800;word-break:break-word}} .small{{font-size:.92rem}}
+  .table-note{{margin:.4rem 0 0}} .scroll-x{{overflow-x:auto}}
+</style></head><body><div class="wrap">
 
 <div class="card">
   <h1>📄 Rapport d'analyse</h1>
@@ -953,65 +718,58 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
   <div class="kpi"><div class="muted">Tentative</div><b>#{attempt_index}</b></div>
 </div>
 
-<div class="card">
-  <h2>🧩 Intégrité (signature _sig)</h2>
-  {"<div class='muted'>Aucun problème d'intégrité détecté.</div>" if not issues_sig else issues_html}
-</div>
+<div class="card"><h2>🧩 Intégrité (signature _sig)</h2>{("<div class='muted'>Aucun problème d'intégrité détecté.</div>" if not issues_sig else issues_html)}</div>
 
 {integrity_table}
-
 {copy_table}
-
 {ai_table}
-
 {ai_all_table if AI_SHOW_ALL_TABLE else ""}
 
 <div class="card scroll-x">
   <h2>🔁 Changements depuis la tentative précédente</h2>
-  <table>
-    <thead><tr><th>Cellule</th><th>Question</th><th>Avant</th><th>Maintenant</th><th>Action</th></tr></thead>
-    <tbody>
-      {html_rows_diff_prev(diffs_vs_prev)}
-    </tbody>
+  <table><thead><tr><th>Cellule</th><th>Question</th><th>Avant</th><th>Maintenant</th><th>Action</th></tr></thead>
+    <tbody>{html_rows_diff_prev(diffs_vs_prev)}</tbody>
   </table>
   {"<div class='muted table-note'>Aucun</div>" if not diffs_vs_prev else ""}
 </div>
 
-{embedded_table}
+<div class="card scroll-x">
+  <h2>🧰 Traçabilité locale (VBA) — saisies détaillées</h2>
+  <table><thead><tr><th>Horodatage</th><th>Cellule</th><th>Question</th><th>Avant</th><th>Après</th><th>Action</th><th>Collage</th></tr></thead>
+    <tbody>{html_rows_embedded(embedded_logs) if embedded_logs else ""}</tbody>
+  </table>
+  {"<div class='muted table-note'>Aucun log embarqué détecté (feuille LOG absente ou vide).</div>" if not embedded_logs else ""}
+</div>
 
 <div class="card scroll-x">
   <h2>🗺️ Grille (réponses de l'étudiant)</h2>
-  <table>
-    <thead>
-      <tr><th>Cellule</th><th>Question</th><th>Réponse</th><th>Signal</th></tr>
-    </thead>
-    <tbody>
-      {html_rows_matrix(matrix_full)}
-    </tbody>
+  <table><thead><tr><th>Cellule</th><th>Question</th><th>Réponse</th><th>Signal</th></tr></thead>
+    <tbody>{html_rows_matrix(matrix_full)}</tbody>
   </table>
-  <div class="muted table-note">Les tableaux “Copier-coller”, “IA probables”, “Score IA (toutes)”, “Changements” et “Traçabilité (VBA)” donnent une vue complète.</div>
+  <div class="muted table-note">Les tableaux ci-dessus donnent une vue complète.</div>
 </div>
 
-{timeline_table}
+<div class="card scroll-x">
+  <h2>🕒 Historique par cellule (toutes les versions)</h2>
+  <table><thead><tr><th>Cellule</th><th>Question</th><th>Versions (horodatage → extrait)</th></tr></thead>
+    <tbody>{html_rows_timeline(timeline)}</tbody>
+  </table>
+</div>
 
 <div class="grid">
   <div class="kpi"><div class="muted">Cells ≠ template</div><b>{total_changes_template}</b></div>
-  <div class="kpi"><div class="muted">Changements vs dépôt précédent</div><b>{total_changes_prev}</b></div>
+  <div class="kpi"><div class="muted">Changements vs précédent</div><b>{total_changes_prev}</b></div>
   <div class="kpi"><div class="muted">Cellules modifiées (signature)</div><b>{total_integrity_cells}</b></div>
   <div class="kpi"><div class="muted">Réponses renseignées</div><b>{answered_count}</b></div>
   <div class="kpi"><div class="muted">Non répondu</div><b>{unanswered_count}</b></div>
   <div class="kpi"><div class="muted">Alertes (grille)</div><b>{total_alerts}</b></div>
 </div>
 
-</div>
-</body>
-</html>
+</div></body></html>
 """
-
     path_html = os.path.join(rapport_folder, f"{base}_rapport.html")
     try:
-        with open(path_html, "w", encoding="utf-8") as f:
-            f.write(html)
+        with open(path_html, "w", encoding="utf-8") as f: f.write(html)
     except Exception as e:
         return f"❌ Erreur écriture rapport HTML : {e}"
 
@@ -1023,13 +781,10 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             remote_dir = f"rapports/{student_key}/"
             remote_txt = remote_dir + os.path.basename(path_txt)
             remote_htm = remote_dir + os.path.basename(path_html)
-
             upload_file(path_txt, remote_txt, content_type="text/plain")
             upload_file(path_html, remote_htm, content_type="text/html")
-
-            url_txt = signed_url(remote_txt, expires_in=7*24*3600)  # 7 jours
+            url_txt = signed_url(remote_txt, expires_in=7*24*3600)
             url_htm = signed_url(remote_htm, expires_in=7*24*3600)
-
             cloud_msg = f" | cloud: TXT={url_txt} | HTML={url_htm}"
         except Exception as e:
             cloud_msg = f" | cloud: échec upload ({e})"
@@ -1040,7 +795,6 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 if __name__ == "__main__":
     print("🔍 Analyse des copies en cours...\n")
     for fichier in os.listdir(copies_folder):
-        # >>> .xlsm
         if fichier.lower().endswith(".xlsm"):
             chemin = os.path.join(copies_folder, fichier)
             print(comparer_etudiant(chemin))

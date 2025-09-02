@@ -1,6 +1,5 @@
 # app_prof.py — Espace professeur (classes, copies, dépôts, rapports) — version .xlsm
-
-import os, json, re, csv, io, shutil
+import os, json, re, shutil
 import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
@@ -10,16 +9,16 @@ from auth import get_conn, list_submissions, change_password, import_students_cs
 from hash_generator import generate_student_files_csv
 
 # ---------------- Dossiers & chemins ----------------
-DATA_DIR        = os.environ.get("DATA_DIR", "./")
+DATA_DIR        = os.environ.get("DATA_DIR", "/tmp")  # /tmp sur Render free
 CLASSES_ROOT    = os.path.join(DATA_DIR, "classes")
 TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsm")  # <<< .xlsm
-DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")      # dépôts étudiants (global)
-REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")    # rapports d'analyse (global)
-HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")   # snapshots par étudiant (JSON)
-NOTIF_PATH      = os.path.join(DATA_DIR, "notif_depot.json")      # liste des fichiers déposés
+DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")
+REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")
+HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")
+NOTIF_PATH      = os.path.join(DATA_DIR, "notif_depot.json")
 
-# Template "bundlé" dans le repo (même dossier que ce fichier)
-BUNDLED_TEMPLATE = os.path.join(os.path.dirname(__file__), "Fichier_Excel_Professeur_Template.xlsm")  # <<< .xlsm
+# Template “bundlé” dans le repo (même dossier que ce fichier)
+BUNDLED_TEMPLATE = os.path.join(os.path.dirname(__file__), "Fichier_Excel_Professeur_Template.xlsm")
 
 # Création des dossiers
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -31,13 +30,12 @@ if not os.path.exists(NOTIF_PATH):
     with open(NOTIF_PATH, "w", encoding="utf-8") as f:
         json.dump([], f)
 
-# Auto-provision du template au démarrage : copie le fichier du repo vers DATA_DIR si absent
+# Auto-provision du template au démarrage (si absent dans DATA_DIR)
 try:
     if (not os.path.exists(TEMPLATE_PATH)) and os.path.exists(BUNDLED_TEMPLATE):
         shutil.copyfile(BUNDLED_TEMPLATE, TEMPLATE_PATH)
 except Exception:
-    # On laisse l'UI afficher "Template introuvable" si la copie échoue
-    pass
+    pass  # l’UI affichera “Template introuvable”
 
 # ---------------- CSS ----------------
 PROF_CSS = """
@@ -77,20 +75,11 @@ def _slugify(name: str) -> str:
     s = re.sub(r"-+", "-", s)
     return s or "classe"
 
-def _class_dir(slug: str) -> str:
-    return os.path.join(CLASSES_ROOT, slug)
-
-def _class_meta_path(slug: str) -> str:
-    return os.path.join(_class_dir(slug), "meta.json")
-
-def _class_csv(slug: str) -> str:
-    return os.path.join(_class_dir(slug), "liste_etudiants.csv")
-
-def _class_copies_dir(slug: str) -> str:
-    return os.path.join(_class_dir(slug), "copies_generees")
-
-def _class_hash_log(slug: str) -> str:
-    return os.path.join(_class_dir(slug), f"hash_records_{slug}.csv")
+def _class_dir(slug: str) -> str: return os.path.join(CLASSES_ROOT, slug)
+def _class_meta_path(slug: str) -> str: return os.path.join(_class_dir(slug), "meta.json")
+def _class_csv(slug: str) -> str: return os.path.join(_class_dir(slug), "liste_etudiants.csv")
+def _class_copies_dir(slug: str) -> str: return os.path.join(_class_dir(slug), "copies_generees")
+def _class_hash_log(slug: str) -> str: return os.path.join(_class_dir(slug), f"hash_records_{slug}.csv")
 
 def _ensure_class(slug: str, name: str = None):
     os.makedirs(_class_dir(slug), exist_ok=True)
@@ -100,20 +89,41 @@ def _ensure_class(slug: str, name: str = None):
             json.dump({"name": name, "slug": slug}, f, ensure_ascii=False, indent=2)
 
 def _load_classes():
+    """Charge d’abord depuis le système de fichiers.
+       Secours : si vide, lit DISTINCT class_name depuis la BD."""
     out = []
-    for slug in sorted(os.listdir(CLASSES_ROOT)):
-        d = os.path.join(CLASSES_ROOT, slug)
-        if not os.path.isdir(d):
-            continue
-        name = slug
-        meta = os.path.join(d, "meta.json")
-        if os.path.exists(meta):
-            try:
-                with open(meta, "r", encoding="utf-8") as f:
-                    name = json.load(f).get("name", slug)
-            except Exception:
-                pass
-        out.append({"slug": slug, "name": name})
+    # 1) FS
+    try:
+        for slug in sorted(os.listdir(CLASSES_ROOT)):
+            d = os.path.join(CLASSES_ROOT, slug)
+            if not os.path.isdir(d):
+                continue
+            name = slug
+            meta = os.path.join(d, "meta.json")
+            if os.path.exists(meta):
+                try:
+                    with open(meta, "r", encoding="utf-8") as f:
+                        name = json.load(f).get("name", slug)
+                except Exception:
+                    pass
+            out.append({"slug": slug, "name": name})
+    except Exception:
+        out = []
+
+    # 2) Secours BD
+    if not out:
+        try:
+            conn = get_conn()
+            rows = conn.execute("""
+                SELECT DISTINCT class_name
+                FROM users
+                WHERE class_name IS NOT NULL AND class_name <> ''
+                ORDER BY 1
+            """).fetchall()
+            out = [{"slug": re.sub(r"[^a-z0-9\-]+","-", (s or "").lower()).strip("-"), "name": s}
+                   for (s,) in rows if s]
+        except Exception:
+            pass
     return out
 
 # ---------------- Notifications & filtrage par classe ----------------
@@ -140,7 +150,6 @@ def _user_class(user_id: str) -> str | None:
     return row[0] if row and row[0] else None
 
 def _id_from_deposit(filename: str) -> str | None:
-    # dépôt = "YYYYmmdd_HHMMSS__ETUD028_Amara_Ali.xlsm"
     try:
         after = filename.split("__", 1)[1]
         return after.split("_", 1)[0]
@@ -162,7 +171,6 @@ def _filter_deposits_by_class(target_class: str):
 
 # ---------------- Historique helpers ----------------
 def _history_list():
-    """Retourne une liste d'objets: {id, path, count, last_ts} pour chaque JSON d'historique."""
     entries = []
     for fname in sorted(os.listdir(HISTORY_DIR)):
         if not fname.lower().endswith(".json"):
@@ -183,8 +191,7 @@ def _delete_history(student_id: str) -> bool:
     path = os.path.join(HISTORY_DIR, f"{student_id}.json")
     if os.path.exists(path):
         try:
-            os.remove(path)
-            return True
+            os.remove(path); return True
         except Exception:
             return False
     return False
@@ -194,15 +201,14 @@ def _delete_all_history() -> int:
     for fname in os.listdir(HISTORY_DIR):
         if fname.lower().endswith(".json"):
             try:
-                os.remove(os.path.join(HISTORY_DIR, fname))
-                n += 1
+                os.remove(os.path.join(HISTORY_DIR, fname)); n += 1
             except Exception:
                 pass
     return n
 
 # ---------------- Vue PROF ----------------
 def run(user):
-    # state pour affichage rapport
+    # State d’affichage rapport
     st.session_state.setdefault("report_text", None)
     st.session_state.setdefault("report_txt_path", None)
     st.session_state.setdefault("report_html_path", None)
@@ -264,11 +270,11 @@ def run(user):
                         f.write(up.getbuffer())
                     st.success(f"✅ CSV enregistré : {csv_path}")
 
-                # --- Uploader du template professeur (NOUVEAU, .xlsm) ---
+                # Upload template .xlsm
                 st.markdown('<div class="small">Template actuel : '
                             + (f"<code>{TEMPLATE_PATH}</code>" if os.path.exists(TEMPLATE_PATH) else "<b>introuvable</b>")
                             + "</div>", unsafe_allow_html=True)
-                tpl_up = st.file_uploader("Uploader le Fichier_Excel_Professeur_Template.xlsm", type=["xlsm"], key="tpl_up")  # <<< .xlsm
+                tpl_up = st.file_uploader("Uploader le Fichier_Excel_Professeur_Template.xlsm", type=["xlsm"], key="tpl_up")
                 if tpl_up is not None:
                     try:
                         with open(TEMPLATE_PATH, "wb") as f:
@@ -336,7 +342,6 @@ def run(user):
                     p = os.path.join(DEPOSITS_DIR, fsel)
                     if os.path.exists(p):
                         with open(p, "rb") as fdep:
-                            # MIME pour .xlsm
                             st.download_button(
                                 "📥 Télécharger la copie sélectionnée",
                                 fdep, file_name=fsel,
@@ -361,10 +366,8 @@ def run(user):
                                     if ": " in res:
                                         after = res.split(": ", 1)[1].strip()
                                         parts = [p.strip() for p in after.split("|")]
-                                        if len(parts) >= 1:
-                                            txt_path = parts[0]
-                                        if len(parts) >= 2:
-                                            html_path = parts[1]
+                                        if len(parts) >= 1: txt_path = parts[0]
+                                        if len(parts) >= 2: html_path = parts[1]
                                 except Exception:
                                     pass
 
@@ -490,8 +493,7 @@ def run(user):
                         else:
                             ok = _delete_history(sid)
                             if ok:
-                                st.success(f"Historique de {sid} supprimé.")
-                                st.rerun()
+                                st.success(f"Historique de {sid} supprimé."); st.rerun()
                             else:
                                 st.error("Suppression impossible (fichier absent ou verrouillé).")
 
@@ -503,8 +505,7 @@ def run(user):
                         st.warning("Confirmation incorrecte. Tape : SUPPRIMER TOUT")
                     else:
                         n = _delete_all_history()
-                        st.success(f"{n} fichier(s) d'historique supprimé(s).")
-                        st.rerun()
+                        st.success(f"{n} fichier(s) d'historique supprimé(s)."); st.rerun()
 
         st.caption("ℹ️ Ces actions ne touchent pas la base des dépôts ni le CSV des modifications. Elles ne suppriment que les snapshots JSON.")
 
