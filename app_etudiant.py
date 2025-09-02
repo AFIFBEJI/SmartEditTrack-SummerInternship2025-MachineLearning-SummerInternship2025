@@ -1,11 +1,11 @@
-# app_etudiant.py
+# app_etudiant.py — version .xlsm (macro-enabled)
+
 import os
 import json
 import hashlib
 import datetime
 import openpyxl
 import streamlit as st
-
 
 from auth import (
     get_conn,
@@ -14,7 +14,7 @@ from auth import (
     change_password,
 )
 
-DATA_DIR   = os.environ.get("DATA_DIR", "./")
+DATA_DIR     = os.environ.get("DATA_DIR", "./")
 GLOBAL_COPIES = os.path.join(DATA_DIR, "copies_generees")
 CLASS_ROOT    = os.path.join(DATA_DIR, "classes")
 DEPOSIT_DIR   = os.path.join(DATA_DIR, "copies_etudiants")
@@ -49,9 +49,10 @@ def _slugify(name: str) -> str:
     return s or "classe"
 
 def _copy_filename_for(user_id: str, first_name: str, last_name: str) -> str:
+    # <<< .xlsm
     def clean(s: str) -> str:
         return "".join(c for c in s if c.isalnum() or c in ("-", "_"))
-    return f"{user_id}_{clean(last_name)}_{clean(first_name)}.xlsx"
+    return f"{user_id}_{clean(last_name)}_{clean(first_name)}.xlsm"
 
 def _candidate_copy_paths(user: dict) -> list[str]:
     # Cherche la copie dans copies_generees/ et dans classes/<slug>/copies_generees/
@@ -59,7 +60,7 @@ def _candidate_copy_paths(user: dict) -> list[str]:
     paths = []
     # global
     for f in os.listdir(GLOBAL_COPIES):
-        if f.startswith(fn_prefix) and f.endswith(".xlsx"):
+        if f.startswith(fn_prefix) and f.endswith(".xlsm"):  # <<< .xlsm
             paths.append(os.path.join(GLOBAL_COPIES, f))
     # par classe
     cls = user.get("class_name") or ""
@@ -68,7 +69,7 @@ def _candidate_copy_paths(user: dict) -> list[str]:
         cdir = os.path.join(CLASS_ROOT, slug, "copies_generees")
         if os.path.isdir(cdir):
             for f in os.listdir(cdir):
-                if f.startswith(fn_prefix) and f.endswith(".xlsx"):
+                if f.startswith(fn_prefix) and f.endswith(".xlsm"):  # <<< .xlsm
                     paths.append(os.path.join(cdir, f))
     return paths
 
@@ -108,7 +109,8 @@ def run(user):
                     label=f"📥 Télécharger ma copie ({os.path.basename(p)})",
                     data=f,
                     file_name=os.path.basename(p),
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    # MIME macro-enabled
+                    mime="application/vnd.ms-excel.sheet.macroEnabled.12",
                 )
         else:
             st.warning("❗ Aucune copie trouvée pour votre ID. Demandez au professeur de la générer.")
@@ -116,14 +118,16 @@ def run(user):
     # --- Dépôt ---
     with tabs[1]:
         st.subheader("📤 Déposer votre fichier Excel rempli")
-        fichier_upload = st.file_uploader("Déposez votre fichier (.xlsx)", type=["xlsx"])
+        fichier_upload = st.file_uploader("Déposez votre fichier (.xlsm)", type=["xlsm"])  # <<< .xlsm
 
         if fichier_upload:
             try:
                 if getattr(fichier_upload, "size", 0) and fichier_upload.size > 20 * 1024 * 1024:
                     st.error("Le fichier est trop volumineux (>20 Mo).")
                     return
-                wb = openpyxl.load_workbook(fichier_upload, data_only=True)
+
+                # openpyxl gère .xlsm
+                wb = openpyxl.load_workbook(fichier_upload, data_only=True, keep_vba=True)
                 ws = wb.active
                 id_z1 = ws["Z1"].value
                 hash_z2 = ws["Z2"].value
@@ -132,6 +136,7 @@ def run(user):
                     st.error("❌ Le fichier ne vous appartient pas (Z1 ≠ votre ID).")
                     return
 
+                # Recalcul du hash comme côté prof
                 contenu = str(id_z1).encode()
                 for row in ws.iter_rows(values_only=True):
                     for cell in row:
@@ -139,7 +144,8 @@ def run(user):
                             contenu += str(cell).encode()
                 recalculated_hash = hashlib.sha256(contenu).hexdigest()
 
-                nom_standard = _copy_filename_for(user["id"], user["first_name"], user["last_name"])
+                # Nom standard macro-enabled
+                nom_standard = _copy_filename_for(user["id"], user["first_name"], user["last_name"])  # <<< .xlsm
                 ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 final_name = f"{ts}__{nom_standard}"
 
@@ -147,6 +153,7 @@ def run(user):
                 with open(save_path, "wb") as out_file:
                     out_file.write(fichier_upload.getbuffer())
 
+                # Notif pour l'espace prof
                 try:
                     with open(NOTIF_PATH, "r", encoding="utf-8") as f:
                         notifs = json.load(f)
@@ -157,6 +164,7 @@ def run(user):
                     with open(NOTIF_PATH, "w", encoding="utf-8") as f:
                         json.dump(notifs, f)
 
+                # Trace en BD
                 conn = get_conn()
                 record_submission(conn, user["id"], final_name, status="received")
 

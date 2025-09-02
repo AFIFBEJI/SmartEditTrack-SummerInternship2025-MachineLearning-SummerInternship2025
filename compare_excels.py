@@ -1,4 +1,4 @@
-# compare_excels.py  — version robuste (IA + copier-coller + timeline + logs)
+# compare_excels.py — analyse + intégrité (_sig + HMAC) + Copier-coller + IA + Historique + LOG VBA
 # -*- coding: utf-8 -*-
 
 import os
@@ -6,6 +6,7 @@ import re
 import csv
 import json
 import hashlib
+import unicodedata
 from datetime import datetime
 from collections import defaultdict
 
@@ -16,7 +17,7 @@ import openpyxl.utils
 import pandas as pd
 import numpy as np
 
-# --- IA (optionnelle) : on tombe en mode dégradé si sklearn indisponible
+# --- IA (optionnelle) : mode dégradé si sklearn n'est pas dispo
 try:
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import cosine_similarity
@@ -26,22 +27,33 @@ except Exception:
     cosine_similarity = None
     _SK_OK = False
 
+# --- Intégrité : vérification de la feuille _sig et HMAC par cellule
+from integrity import verify_workbook  # verify_workbook(path, main_sheet_name) -> (header, changed_cells, issues)
 
 # ======================= CONFIG =======================
-DATA_DIR          = os.environ.get("DATA_DIR", "./")
-TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "data", "Fichier_Excel_Professeur_Template.xlsx")
-copies_folder     = os.path.join(DATA_DIR, "copies_etudiants")
-rapport_folder    = os.path.join(DATA_DIR, "rapports_etudiants")
-hash_log_file     = os.path.join(DATA_DIR, "hash_records.csv")      # global
-classes_root      = os.path.join(DATA_DIR, "classes")               # multi-classes
-cours_file        = os.path.join(DATA_DIR, "cours_references.txt")
-dataset_ia_file   = os.path.join(DATA_DIR, "dataset.csv")
-modifs_csv        = os.path.join(DATA_DIR, "modifications_log_secure.csv")
-history_folder    = os.path.join(DATA_DIR, "historique_reponses")
+DATA_DIR        = os.environ.get("DATA_DIR", "./")
+# >>> .xlsm
+TEMPLATE_PATH   = os.path.join(os.path.dirname(__file__), "data", "Fichier_Excel_Professeur_Template.xlsm")
+copies_folder   = os.path.join(DATA_DIR, "copies_etudiants")
+rapport_folder  = os.path.join(DATA_DIR, "rapports_etudiants")
+hash_log_file   = os.path.join(DATA_DIR, "hash_records.csv")
+classes_root    = os.path.join(DATA_DIR, "classes")
+cours_file      = os.path.join(DATA_DIR, "cours_references.txt")
+dataset_ia_file = os.path.join(DATA_DIR, "dataset.csv")
+modifs_csv      = os.path.join(DATA_DIR, "modifications_log_secure.csv")
+history_folder  = os.path.join(DATA_DIR, "historique_reponses")
 
 os.makedirs(rapport_folder, exist_ok=True)
 os.makedirs(history_folder, exist_ok=True)
 
+# ----- Seuils/réglages
+AI_THRESHOLD_DEFAULT   = float(os.environ.get("AI_THRESHOLD_DEFAULT", 0.75))
+AI_THRESHOLD_LOWERED   = float(os.environ.get("AI_THRESHOLD_LOWERED", 0.65))
+COURSE_RATIO_THRESHOLD = float(os.environ.get("COURSE_RATIO_THRESHOLD", 0.88))
+COURSE_LONGEST_MIN     = int(os.environ.get("COURSE_LONGEST_MIN", 70))
+FAST_PASTE_SECS        = int(os.environ.get("FAST_PASTE_SECS", 120))
+PASTE_MIN_LEN          = int(os.environ.get("PASTE_MIN_LEN", 80))
+AI_SHOW_ALL_TABLE      = True  # tableau “Score IA (toutes les réponses)”
 
 # ======================= HASH INDEX =======================
 def _parse_hash_log(path):
@@ -66,10 +78,9 @@ def _parse_hash_log(path):
         print(f"[WARN] Lecture hash log '{path}' impossible : {e}")
     return rows
 
-
 def _load_all_hash_logs():
     merged = []
-    merged.extend(_parse_hash_log(hash_log_file))  # global
+    merged.extend(_parse_hash_log(hash_log_file))
     if os.path.isdir(classes_root):
         for slug in os.listdir(classes_root):
             d = os.path.join(classes_root, slug)
@@ -80,14 +91,12 @@ def _load_all_hash_logs():
                     merged.extend(_parse_hash_log(os.path.join(d, fname)))
     return merged
 
-
 def _official_hashes_by_id():
     rows = _load_all_hash_logs()
     m = defaultdict(set)
     for r in rows:
         m[r["id"]].add(r["hash"])
     return m
-
 
 # ======================= COURS & DATASET IA =======================
 cours_content = ""
@@ -111,7 +120,6 @@ if _SK_OK and os.path.exists(dataset_ia_file):
         print(f"[WARN] Erreur chargement dataset IA: {e}")
         df_ia, vectorizer, tfidf_matrix = None, None, None
 
-
 # ======================= UTILITAIRES =======================
 def _safe_str(v):
     try:
@@ -121,19 +129,22 @@ def _safe_str(v):
     except Exception:
         return ""
 
+def _excerpt(s: str, n=220) -> str:
+    s = _safe_str(s)
+    return s if len(s) <= n else (s[:n-1].rstrip() + "…")
 
 def _html_escape(s: str) -> str:
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-
-def _looks_like_formula(text: str) -> bool:
-    if not text:
-        return False
-    return bool(re.search(r"[0-9=+\-*/^()_%·⋅×÷σΣ√π]", text))
-
+def _norm(s: str) -> str:
+    if not s:
+        return ""
+    s = s.lower()
+    s = "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
 def _human_delta(prev_iso: str, now_dt: datetime) -> str:
-    """delta lisible (ex: 0:04:32)."""
     if not prev_iso:
         return ""
     try:
@@ -142,15 +153,24 @@ def _human_delta(prev_iso: str, now_dt: datetime) -> str:
     except Exception:
         return ""
 
-
-def _parse_expected_id_from_filename(nom_fichier: str) -> str | None:
-    # Ex: "2025...__ETUD028_Amara_Ali.xlsx"
+def _seconds_since(prev_iso: str, now_dt: datetime) -> float | None:
+    if not prev_iso:
+        return None
     try:
-        after = nom_fichier.split("__", 1)[1]
-        return after.split("_", 1)[0]
+        prev = datetime.fromisoformat(prev_iso)
+        return (now_dt - prev).total_seconds()
     except Exception:
         return None
 
+def _parse_expected_id_from_filename(nom_fichier: str) -> str | None:
+    if "__" in nom_fichier:
+        try:
+            after = nom_fichier.split("__", 1)[1]
+            return after.split("_", 1)[0]
+        except Exception:
+            return None
+    m = re.search(r"(ETUD\d{3,})", nom_fichier.upper())
+    return m.group(1) if m else None
 
 def recalculer_hash_depuis_contenu(ws, id_etudiant):
     contenu = (id_etudiant or "").encode()
@@ -160,12 +180,10 @@ def recalculer_hash_depuis_contenu(ws, id_etudiant):
                 contenu += _safe_str(cell).encode()
     return hashlib.sha256(contenu).hexdigest()
 
-
 # -------- Historique JSON --------
 def _history_path(student_id: str) -> str:
     sid = (student_id or "").strip() or "unknown"
     return os.path.join(history_folder, f"{sid}.json")
-
 
 def _load_history(student_id: str):
     p = _history_path(student_id)
@@ -177,15 +195,12 @@ def _load_history(student_id: str):
             return []
     return []
 
-
 def _save_history(student_id: str, history_list: list):
     p = _history_path(student_id)
     with open(p, "w", encoding="utf-8") as f:
         json.dump(history_list, f, ensure_ascii=False, indent=2)
 
-
 def _snapshot_ws(ws, include_cols=(3, 25)) -> dict:
-    """Prend toutes les valeurs utiles (C..Y, lignes 2..n) pour l'historique."""
     out = {}
     max_row = ws.max_row or 2
     min_col, max_col = include_cols
@@ -194,7 +209,6 @@ def _snapshot_ws(ws, include_cols=(3, 25)) -> dict:
             addr = f"{openpyxl.utils.get_column_letter(col)}{row}"
             out[addr] = _safe_str(ws.cell(row=row, column=col).value)
     return out
-
 
 # -------- Journal CSV --------
 _CSV_HEADER = [
@@ -216,136 +230,245 @@ def _append_modif_csv(row_dict: dict):
     except Exception as e:
         print("[WARN] Erreur écriture journal modifs:", e)
 
-
-# ======================= DÉTECTION TRICHE/IA =======================
-_IA_KEYWORDS = [
+# ======================= DÉTECTION : Copier-coller & IA =======================
+_AI_MARKERS = [
     "en tant que", "dans le cadre", "il est important de noter",
     "cependant", "par conséquent", "de plus", "d'après", "selon",
-    "il convient de", "dans un premier temps", "notamment", "globalement"
+    "il convient de", "dans un premier temps", "notamment", "globalement",
+    "en conclusion", "dans ce contexte", "par ailleurs", "en outre",
+    "autrement dit", "de manière générale"
 ]
 
-def _detect_cours_copy(rlow: str) -> bool:
-    """Détection copier-coller du cours : gros bloc identique."""
+_SMART_CHARS = {
+    "×": "signe de multiplication",
+    "•": "puce",
+    "–": "tiret demi-cadratin",
+    "—": "tiret cadratin",
+    "’": "apostrophe courbe",
+    "“": "guillemet ouvrant",
+    "”": "guillemet fermant",
+    "\u00A0": "espace insécable",
+    "\u202F": "espace fine insécable",
+    "…": "points de suspension typographiques"
+}
+
+def _smart_punct_info(text: str) -> tuple[bool, str]:
+    if not text:
+        return (False, "")
+    found = []
+    for ch, name in _SMART_CHARS.items():
+        if ch in text:
+            found.append(name)
+    return (len(found) > 0, ", ".join(found))
+
+def _copy_paste_scores(rlow: str) -> tuple[float, int]:
     if not cours_content:
-        return False
+        return (0.0, 0)
     seq = difflib.SequenceMatcher(None, rlow, cours_content)
-    match = seq.find_longest_match(0, len(rlow), 0, len(cours_content))
-    # 70+ caractères consécutifs identiques OU ratio > .90 → flag copier/coller
-    return (match.size >= 70) or (seq.ratio() > 0.90)
+    ratio = float(seq.ratio())
+    longest = seq.find_longest_match(0, len(rlow), 0, len(cours_content)).size
+    return (ratio, int(longest))
 
+def _looks_paste_burst(text: str) -> bool:
+    if not text:
+        return False
+    t = text.strip()
+    if len(t) < PASTE_MIN_LEN:
+        return False
+    return ("\n" in t) or ("  " in t) or ("’" in t) or ("–" in t) or ("•" in t)
 
-def _detect_ai_vector(reponse: str) -> tuple[bool, float, str]:
+def _ai_probability(text: str) -> float:
+    if not text:
+        return 0.0
+    if _SK_OK and df_ia is not None and vectorizer is not None and tfidf_matrix is not None:
+        try:
+            vec = vectorizer.transform([text])
+            sims = cosine_similarity(vec, tfidf_matrix)
+            return float(np.max(sims))
+        except Exception:
+            pass
+    t = _norm(text)
+    k = sum(1 for kw in _AI_MARKERS if kw in t)
+    nb_sent = t.count(".") + t.count(";") + t.count("!")
+    nb_commas = t.count(",")
+    long_txt = len(t) >= 140
+    score = 0.0
+    score += 0.18 * min(k, 4)
+    score += 0.22 if long_txt else 0
+    score += 0.12 if nb_sent >= 2 else 0
+    score += 0.10 if nb_commas >= 3 else 0
+    score += 0.08 if "par exemple" in t else 0
+    return max(0.0, min(1.0, score))
+
+def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: str | None) -> dict:
+    res = {
+        "empty": False,
+        "copy": False, "copy_pct": 0, "copy_reason": "",
+        "ai":   False, "ai_pct":   0, "ai_reason":   "",
+        "ai_score": 0,
+        "label": ""
+    }
+    txt = _safe_str(reponse).strip()
+    if txt == "":
+        res["empty"] = True
+        res["label"] = "Non répondu"
+        return res
+
+    rlow = txt.lower()
+
+    # Copier-coller (cours/format/typographie + ajout rapide)
+    ratio, longest = _copy_paste_scores(rlow)
+    paste_like = _looks_paste_burst(txt)
+    smart_punct, smart_names = _smart_punct_info(txt)
+
+    fast_paste = False
+    if delta_secs is not None and len(txt) >= 60 and delta_secs <= FAST_PASTE_SECS:
+        fast_paste = True
+
+    copy_flags = []
+    if ratio >= COURSE_RATIO_THRESHOLD or longest >= COURSE_LONGEST_MIN:
+        copy_flags.append(f"Très proche du cours (segment commun ≈ {longest} car.)")
+    if paste_like:
+        copy_flags.append("Format/longueur typiques d’un collage")
+    if smart_punct:
+        copy_flags.append(f"Typographie collée ({smart_names})")
+    if fast_paste:
+        copy_flags.append(f"Ajout rapide entre deux dépôts (< {FAST_PASTE_SECS//60} min)")
+
+    if copy_flags:
+        res["copy"] = True
+        base = int(round(max(ratio, min(0.99, longest / max(1, len(_norm(rlow))))) * 100))
+        bonus = (15 if paste_like else 0) + (12 if smart_punct else 0) + (20 if fast_paste else 0)
+        res["copy_pct"] = min(max(base, 55) + bonus, 99)
+        res["copy_reason"] = " ; ".join(copy_flags)
+
+    # IA
+    p_ai = _ai_probability(txt)
+    res["ai_score"] = int(round(p_ai * 100))
+    lowered = (len(_norm(txt)) >= 120) or any(kw in _norm(txt) for kw in _AI_MARKERS)
+    ai_threshold = AI_THRESHOLD_LOWERED if lowered else AI_THRESHOLD_DEFAULT
+    if p_ai >= ai_threshold:
+        res["ai"] = True
+        res["ai_pct"] = res["ai_score"]
+        res["ai_reason"] = "Style/longueur/similarité caractéristiques des réponses générées"
+
+    # libellé
+    if res["ai"]:
+        res["label"] = f"IA probable ({res['ai_pct']}%)"
+    elif res["copy"]:
+        res["label"] = f"Copier-coller (~{res['copy_pct']}%)"
+    else:
+        res["label"] = "Réponse normale"
+    return res
+
+# ======================= LOG VBA (feuille LOG) =======================
+def _read_embedded_vba_log(wb) -> list[dict]:
     """
-    Retourne (is_ai, max_sim, label_txt)
-    label_txt: "IA" | "Humain" | ""
+    Parcourt TOUTES les feuilles dont le nom contient 'log' (insensible à la casse) et agrège les lignes.
+    Colonnes reconnues (FR/EN) :
+      Horodatage|Timestamp|Time|Date
+      Cellule|Cell
+      Question
+      Avant|Old|Old_value|Valeur_avant
+      Après|New|New_value|Valeur_apres|Valeur_etudiant
+      Action
+      Collage|WasPaste
+      SelCount
+    Aucune donnée d'utilisateur n'est lue/renvoyée.
     """
-    if not (_SK_OK and df_ia is not None and vectorizer is not None and tfidf_matrix is not None):
-        return (False, 0.0, "")
-    try:
-        vec = vectorizer.transform([reponse])
-        sims = cosine_similarity(vec, tfidf_matrix)
-        max_sim = float(np.max(sims))
-        idx = int(np.argmax(sims))
-        label = str(df_ia.iloc[idx].get("label", "")).strip()  # 0=IA, 1=humain
-        if label == "0" or label.lower() == "ia":
-            return (max_sim > 0.80, max_sim, "IA")
-        elif label in ("1", "humain", "human"):
-            return (False, max_sim, "Humain")
-        return (False, max_sim, "")
-    except Exception:
-        return (False, 0.0, "")
+    def _s(v): return "" if v is None else str(v)
 
+    def parse_one(ws):
+        headers = [(_s(c.value).strip().lower()) for c in ws[1]]
+        idx = {h: i + 1 for i, h in enumerate(headers) if h}
 
-def detecter_triche(reponse: str, question: str) -> str:
-    """
-    Heuristiques + IA :
-      - vide/court
-      - copier-coller du cours
-      - style IA générique
-      - caractères spéciaux/gibberish/MAJUSCULES
-      - formule manquante si question attend une formule
-      - similarité IA (dataset) => 'Réponse IA (ChatGPT probable)'
-    """
-    if reponse is None or _safe_str(reponse).strip() == "":
-        return "Non répondu"
+        def col(row, *names):
+            for key in names:
+                j = idx.get(key)
+                if j:
+                    return _s(ws.cell(row=row, column=j).value)
+            return ""
 
-    reponse = _safe_str(reponse).strip()
-    rlow = reponse.lower()
+        out = []
+        max_row = ws.max_row or 1
+        for r in range(2, max_row + 1):
+            if not any(_s(ws.cell(row=r, column=c).value) for c in range(1, ws.max_column + 1)):
+                continue
 
-    if len(reponse) < 3:
-        return "Réponse très courte"
+            ts   = col(r, "horodatage", "timestamp", "time", "date")
+            cell = col(r, "cellule", "cell")
+            q    = col(r, "question")
+            oldv = col(r, "avant", "old_value", "old", "valeur_avant")
+            newv = col(r, "après", "apres", "new_value", "new", "valeur_apres", "valeur_etudiant")
+            act  = col(r, "action")
+            wp   = col(r, "collage", "waspaste")
+            sc   = col(r, "selcount")
 
-    if _detect_cours_copy(rlow):
-        return "Copier-coller du cours"
+            if not (ts or cell or oldv or newv or act):
+                continue
 
-    if any(k in rlow for k in _IA_KEYWORDS):
-        return "Style IA générique"
+            if oldv == "" and newv != "":
+                action = "ajout"
+            elif oldv != "" and newv == "":
+                action = "suppression"
+            elif oldv != newv:
+                action = "modification"
+            else:
+                action = act or "inchangé"
 
-    # caractères « exotiques »
-    if re.search(r'[^\w\s.,;:?!\'"()\-=/+*^%°]', reponse):
-        return "Caractères spéciaux suspects"
+            was_paste = (_s(wp).strip().lower() in ("true", "vrai", "1", "oui", "yes"))
 
-    # gibberish (faible ratio voyelles)
-    letters = re.sub(r"[^A-Za-zÀ-ÿ]", "", reponse)
-    if len(letters) >= 6:
-        vowels = re.findall(r"[aeiouyAEIOUYàâäéèêëîïôöùûüÿ]", letters)
-        if (len(vowels) / len(letters)) < 0.20:
-            return "Texte non lexical (gibberish?)"
+            out.append({
+                "timestamp": ts,
+                "cell": cell,
+                "question": q,
+                "old_value": oldv,
+                "new_value": newv,
+                "wasPaste": was_paste,
+                "selCount": sc,
+                "action": action,
+            })
+        return out
 
-    # FULL CAPS
-    letters_alpha = [c for c in reponse if c.isalpha()]
-    if letters_alpha:
-        up_ratio = sum(1 for c in letters_alpha if c.isupper()) / len(letters_alpha)
-        if up_ratio > 0.85 and len(letters_alpha) >= 6:
-            return "Texte anormalement en MAJUSCULES"
-
-    # Formule attendue ?
-    qlow = (question or "").lower()
-    if any(t in qlow for t in ["formule", "calcul", "expression", "expr", "σ", "sigma", "moment", "contrainte", "équation"]):
-        if not _looks_like_formula(reponse):
-            return "Formule attendue non détectée"
-
-    # TF-IDF / dataset IA
-    is_ai, max_sim, label_txt = _detect_ai_vector(reponse)
-    if is_ai:
-        return "Réponse IA (ChatGPT probable)"
-    # Si très proche d'exemples 'IA' sans dépasser le seuil :
-    if (label_txt == "IA" and max_sim > 0.70):
-        return "Style IA (forte similarité)"
-
-    # Si dataset dit 'Humain' et très similaire, on ne flag pas.
-    return "Réponse normale"
-
+    all_logs = []
+    for name in wb.sheetnames:
+        if "log" in name.lower():
+            try:
+                all_logs.extend(parse_one(wb[name]))
+            except Exception:
+                continue
+    return all_logs
 
 # ======================= COEUR : COMPARAISON =======================
 def comparer_etudiant(fichier_etudiant: str) -> str:
     """
     Compare une copie au template, conserve l'historique et génère :
-      - TXT + HTML dans rapports_etudiants/
-      - journal CSV détaillé
-      - historique JSON par étudiant (timeline)
+      - TXT + HTML
+      - CSV détaillé (INTEGRITY, TEMPLATE, PREVIOUS, EMBEDDED_LOG)
+      - historique JSON par étudiant (timelines)
+      - tableaux : Copier-coller, IA probables, Score IA (toutes les réponses), Timeline, Traçabilité (VBA)
     """
     nom_fichier = os.path.basename(fichier_etudiant)
-    official_by_id = _official_hashes_by_id()  # {id: set(hashes_officiels)}
+    official_by_id = _official_hashes_by_id()
     expected_id = _parse_expected_id_from_filename(nom_fichier)
 
-    # --- Ouverture
+    # Ouverture (.xlsm)
     try:
-        wb_prof = openpyxl.load_workbook(TEMPLATE_PATH, data_only=True)
-        wb_etud = openpyxl.load_workbook(fichier_etudiant, data_only=True)
+        wb_prof = openpyxl.load_workbook(TEMPLATE_PATH, data_only=True, keep_vba=True)
+        wb_etud = openpyxl.load_workbook(fichier_etudiant, data_only=True, keep_vba=True)
         ws_prof = wb_prof.active
         ws_etud = wb_etud.active
     except Exception as e:
         return f"❌ Erreur d'ouverture des fichiers : {e}"
 
-    # --- Identité & Hash
+    # Identité & Hash
     id_cell = _safe_str(ws_etud["Z1"].value)
     hash_cell = _safe_str(ws_etud["Z2"].value)
     hash_calcule = recalculer_hash_depuis_contenu(ws_etud, id_cell)
     now_dt = datetime.now()
     now = now_dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    # --- Authenticité / cohérence
+    # Authenticité / cohérence
     authenticity = "unknown"
     authenticity_msg = ""
     official_ok_for_id = id_cell and (hash_cell in official_by_id.get(id_cell, set()))
@@ -369,7 +492,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             authenticity = "tampered"
             authenticity_msg = "🚨 Incohérence : Z2 ≠ contenu et Z2 non-officiel."
 
-    # --- Colonnes actives (celles qui portent une question en ligne 1)
+    # Colonnes actives
     questions = {}
     active_cols = []
     for col in range(3, 26):  # C..Y
@@ -379,36 +502,58 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             questions[addr[:-1]] = qtext
             active_cols.append(col)
 
-    # --- Historique / diffs
+    # Intégrité (_sig)
+    header_sig, changed_cells_sig, issues_sig = verify_workbook(fichier_etudiant, main_sheet_name=ws_etud.title)
+    if issues_sig:
+        authenticity_msg += (" | " if authenticity_msg else "") + "⚠ Intégrité: " + "; ".join(issues_sig)
+
+    # Journal INTEGRITY
+    for addr in changed_cells_sig:
+        m = re.match(r"([A-Z]+)", addr or "")
+        col_letter = m.group(1) if m else ""
+        question = questions.get(col_letter, "")
+        _append_modif_csv({
+            "timestamp": now,
+            "time_since_last": "",
+            "fichier": nom_fichier,
+            "id_etudiant": id_cell,
+            "cellule": addr,
+            "question": question,
+            "valeur_avant": "",
+            "valeur_prof": "",
+            "valeur_etudiant": _safe_str(ws_etud[addr].value) if addr else "",
+            "source_diff": "INTEGRITY",
+            "action_type": "modification",
+            "detection": "Modifiée après génération (signature)",
+            "hash_z2": hash_cell,
+            "hash_recalcule": hash_calcule,
+            "tentative_index": "",
+        })
+
+    # Historique / diffs vs dépôt précédent
     hist_key = id_cell or expected_id or "unknown"
     history_list = _load_history(hist_key)
     attempt_index = len(history_list) + 1
     last_ts = history_list[-1]["timestamp"] if history_list else None
     delta_since_last = _human_delta(last_ts, now_dt)
+    delta_secs = _seconds_since(last_ts, now_dt)
 
     snapshot_values = _snapshot_ws(ws_etud)
     prev_values = history_list[-1]["values"] if history_list else {}
 
     diffs_vs_prev = []  # (addr, old_val, new_val, action_type)
-    if history_list:
-        for cell, new_val in snapshot_values.items():
-            old_val = _safe_str(prev_values.get(cell, ""))
-            if new_val != old_val:
-                if old_val == "" and new_val != "":
-                    action = "ajout"
-                elif old_val != "" and new_val == "":
-                    action = "suppression"
-                else:
-                    action = "modification"
-                diffs_vs_prev.append((cell, old_val, new_val, action))
 
-    # Diff vs template + matrice complète (uniquement colonnes actives)
-    diffs_vs_template = []  # (addr, v_prof, v_etud)
-    matrix_full = []        # (addr, question, v_template, v_etud, statut, alerte)
-
+    # Matrice + détect
+    matrix_full = []     # (addr, question, valeur_etud, label)
     max_row = max(ws_prof.max_row, ws_etud.max_row)
     answered_count = 0
     unanswered_count = 0
+
+    diffs_vs_template = []  # journal TEMPLATE
+    rows_copy = []          # table Copier-coller
+    rows_ai = []            # table IA probable
+    rows_ai_all = []        # table Score IA (toutes)
+    timeline = defaultdict(list)
 
     for row in range(2, max_row + 1):
         for col in active_cols:
@@ -417,73 +562,77 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
             question = questions.get(col_letter, "")
             v_prof = _safe_str(ws_prof.cell(row=row, column=col).value)
             v_etud = _safe_str(ws_etud.cell(row=row, column=col).value)
+            prev_text = _safe_str(prev_values.get(addr, "")) if prev_values else ""
 
-            if v_etud.strip() == "":
-                statut = "Non répondu"
-                alerte = "Non répondu"
+            analysis = _classify(v_etud, question, delta_secs, prev_text)
+
+            timeline[addr].append((now, v_etud))
+
+            if analysis["empty"]:
+                label = "Non répondu"
                 unanswered_count += 1
-            elif v_prof == v_etud:
-                statut = "Identique au template"
-                alerte = ""
             else:
-                statut = "Modifiée"
-                alerte = detecter_triche(v_etud, question)
-                diffs_vs_template.append((addr, v_prof, v_etud))
+                label = analysis["label"]
                 answered_count += 1
+                if analysis["copy"]:
+                    rows_copy.append((addr, question, _excerpt(v_etud),
+                                      f"Copier-coller (~{analysis['copy_pct']}%) — {analysis['copy_reason']}"))
+                if analysis["ai"]:
+                    rows_ai.append((addr, question, _excerpt(v_etud),
+                                    f"IA probable ({analysis['ai_pct']}%) — {analysis['ai_reason']}"))
+                rows_ai_all.append((addr, question, _excerpt(v_etud), f"{analysis['ai_score']}%"))
 
-            matrix_full.append((addr, question, v_prof, v_etud, statut, alerte))
+            matrix_full.append((addr, question, v_etud, label))
 
-    # Alerte par cellule (pour résumé & log)
-    alerts_by_cell = {}
-    for addr, vp, ve in diffs_vs_template:
-        col_letter = re.match(r"[A-Z]+", addr).group(0)
-        question = questions.get(col_letter, "")
-        alerts_by_cell[addr] = detecter_triche(ve, question)
+            # Journal TEMPLATE
+            if v_prof != v_etud:
+                diffs_vs_template.append((addr, v_prof, v_etud))
+                _append_modif_csv({
+                    "timestamp": now,
+                    "time_since_last": delta_since_last,
+                    "fichier": nom_fichier,
+                    "id_etudiant": id_cell,
+                    "cellule": addr,
+                    "question": question,
+                    "valeur_avant": "",
+                    "valeur_prof": v_prof,
+                    "valeur_etudiant": v_etud,
+                    "source_diff": "TEMPLATE",
+                    "action_type": "modification",
+                    "detection": label,
+                    "hash_z2": hash_cell,
+                    "hash_recalcule": hash_calcule,
+                    "tentative_index": attempt_index,
+                })
 
-    # --- Journal CSV
-    for addr, v_prof, v_etud in diffs_vs_template:
-        col_letter = re.match(r"[A-Z]+", addr).group(0)
-        question = questions.get(col_letter, "")
-        _append_modif_csv({
-            "timestamp": now,
-            "time_since_last": delta_since_last,
-            "fichier": nom_fichier,
-            "id_etudiant": id_cell,
-            "cellule": addr,
-            "question": question,
-            "valeur_avant": "",
-            "valeur_prof": v_prof,
-            "valeur_etudiant": v_etud,
-            "source_diff": "TEMPLATE",
-            "action_type": "modification",
-            "detection": alerts_by_cell.get(addr, "Réponse normale"),
-            "hash_z2": hash_cell,
-            "hash_recalcule": hash_calcule,
-            "tentative_index": attempt_index,
-        })
+            # Journal PREVIOUS (par rapport à la tentative précédente)
+            if prev_values and v_etud != prev_text:
+                if prev_text == "" and v_etud != "":
+                    action = "ajout"
+                elif prev_text != "" and v_etud == "":
+                    action = "suppression"
+                else:
+                    action = "modification"
+                diffs_vs_prev.append((addr, prev_text, v_etud, action))
+                _append_modif_csv({
+                    "timestamp": now,
+                    "time_since_last": delta_since_last,
+                    "fichier": nom_fichier,
+                    "id_etudiant": id_cell,
+                    "cellule": addr,
+                    "question": question,
+                    "valeur_avant": prev_text,
+                    "valeur_prof": "",
+                    "valeur_etudiant": v_etud,
+                    "source_diff": "PREVIOUS",
+                    "action_type": action,
+                    "detection": label,
+                    "hash_z2": hash_cell,
+                    "hash_recalcule": hash_calcule,
+                    "tentative_index": attempt_index,
+                })
 
-    for addr, old_val, new_val, action in diffs_vs_prev:
-        col_letter = re.match(r"[A-Z]+", addr).group(0)
-        question = questions.get(col_letter, "")
-        _append_modif_csv({
-            "timestamp": now,
-            "time_since_last": delta_since_last,
-            "fichier": nom_fichier,
-            "id_etudiant": id_cell,
-            "cellule": addr,
-            "question": question,
-            "valeur_avant": old_val,
-            "valeur_prof": "",
-            "valeur_etudiant": new_val,
-            "source_diff": "PREVIOUS",
-            "action_type": action,
-            "detection": detecter_triche(new_val, question),
-            "hash_z2": hash_cell,
-            "hash_recalcule": hash_calcule,
-            "tentative_index": attempt_index,
-        })
-
-    # --- Historique (on ajoute l'entrée courante)
+    # Historique (snapshot)
     history_entry = {
         "timestamp": now,
         "time_since_last": delta_since_last,
@@ -496,24 +645,43 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     history_list.append(history_entry)
     _save_history(hist_key, history_list)
 
-    # --- Timeline par cellule (valeurs successives distinctes)
+    # Timeline complète reconstituée
     timeline = defaultdict(list)
-    prev_map = {}
     for h in history_list:
-        vals = h.get("values", {})
         ts = h.get("timestamp")
-        for cell, v in vals.items():
-            if prev_map.get(cell, None) != v:
+        vals = h.get("values", {})
+        for cell, v in sorted(vals.items()):
+            if not timeline[cell] or timeline[cell][-1][1] != v:
                 timeline[cell].append((ts, v))
-                prev_map[cell] = v
 
-    # --- Compteurs
+    # ====== LOG embarqué (VBA) ======
+    embedded_logs = _read_embedded_vba_log(wb_etud)
+    # CSV : source_diff = EMBEDDED_LOG (sans utilisateur)
+    for log in embedded_logs:
+        _append_modif_csv({
+            "timestamp": log["timestamp"] or now,
+            "time_since_last": delta_since_last,
+            "fichier": nom_fichier,
+            "id_etudiant": id_cell,
+            "cellule": log["cell"],
+            "question": log["question"],
+            "valeur_avant": log["old_value"],
+            "valeur_prof": "",
+            "valeur_etudiant": log["new_value"],
+            "source_diff": "EMBEDDED_LOG",
+            "action_type": log["action"],
+            "detection": f"wasPaste={'TRUE' if log['wasPaste'] else 'FALSE'}",
+            "hash_z2": hash_cell,
+            "hash_recalcule": hash_calcule,
+            "tentative_index": attempt_index,
+        })
+
+    # Compteurs
     total_changes_template = len(diffs_vs_template)
     total_changes_prev = len(diffs_vs_prev)
-    total_alerts = sum(
-        1 for _, _, _, _, _, al in matrix_full
-        if al not in ["", "Réponse normale", "Réponse humaine probable", "Non répondu"]
-    )
+    total_integrity_cells = len(changed_cells_sig)
+    total_alerts = sum(1 for _, _, _, lab in matrix_full
+                       if lab not in ["", "Réponse normale", "Non répondu"])
 
     # ======================= RAPPORT TXT =======================
     txt_lines = []
@@ -527,65 +695,15 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
     txt_lines.append(f"🔐 Hash (Z2) : {hash_cell}")
     txt_lines.append(f"🧪 Hash recalculé : {hash_calcule}")
     txt_lines.append(f"🛡️ Authenticité : {authenticity} — {authenticity_msg}\n")
-
-    # Suspicion
-    susp_rows = [(addr, questions.get(re.match(r"[A-Z]+", addr).group(0), ""), alerts_by_cell[addr])
-                 for addr in alerts_by_cell
-                 if alerts_by_cell[addr] not in ["", "Réponse normale", "Réponse humaine probable", "Non répondu"]]
-    txt_lines.append("🚨 Suspicion IA / copier-coller :")
-    if not susp_rows:
-        txt_lines.append("  • Aucune suspicion.")
+    txt_lines.append("🧩 Intégrité (signature _sig)")
+    if issues_sig:
+        for iss in issues_sig:
+            txt_lines.append(f"  • ⚠ {iss}")
     else:
-        for addr, q, reason in susp_rows:
-            txt_lines.append(f"  • {addr} — {q} — {reason}")
+        txt_lines.append("  • ✅ Aucune anomalie structurale détectée.")
+    if changed_cells_sig:
+        txt_lines.append("  • Cellules modifiées après génération : " + ", ".join(changed_cells_sig))
 
-    # Diff vs template
-    txt_lines.append("\n🔎 Modifications vs TEMPLATE :")
-    if not diffs_vs_template:
-        txt_lines.append("  • Aucune différence avec le template.")
-    else:
-        for addr, vp, ve in diffs_vs_template:
-            col_letter = re.match(r"[A-Z]+", addr).group(0)
-            question = questions.get(col_letter, "")
-            txt_lines.append(f"  ✏️ {addr} — {question}")
-            txt_lines.append(f"     – Réponse : {ve}")
-            alert = alerts_by_cell.get(addr, "Réponse normale")
-            if alert and alert != "Réponse normale":
-                txt_lines.append(f"     – Alerte : {alert}")
-
-    # Diff vs previous
-    txt_lines.append("\n🔁 Modifications depuis la tentative précédente :")
-    if not diffs_vs_prev:
-        txt_lines.append("  • Aucune (premier dépôt ou pas de changement).")
-    else:
-        for addr, old_val, new_val, action in diffs_vs_prev:
-            col_letter = re.match(r"[A-Z]+", addr).group(0)
-            question = questions.get(col_letter, "")
-            txt_lines.append(f"  ⟲ {addr} — {question} ({action})")
-            txt_lines.append(f"     – Avant : {old_val}")
-            txt_lines.append(f"     – Maintenant : {new_val}")
-
-    # KPIs
-    txt_lines.append("\n🧾 Résumé")
-    txt_lines.append(f"  • Cells ≠ template : {total_changes_template}")
-    txt_lines.append(f"  • Changements vs dépôt précédent : {total_changes_prev}")
-    txt_lines.append(f"  • Réponses renseignées : {answered_count}")
-    txt_lines.append(f"  • Non répondu : {unanswered_count}")
-    txt_lines.append(f"  • Alertes : {total_alerts}")
-    if total_alerts == 0:
-        txt_lines.append("  • ✅ Aucune alerte de triche/IA détectée.")
-
-    # Timeline
-    txt_lines.append("\n🕓 Historique par cellule (valeurs successives)")
-    if not timeline:
-        txt_lines.append("  • Aucun changement historisé.")
-    else:
-        for cell in sorted(timeline.keys()):
-            txt_lines.append(f"  ▸ {cell}")
-            for ts, v in timeline[cell]:
-                txt_lines.append(f"     [{ts}] {v}")
-
-    # Sauvegarde TXT
     base = os.path.splitext(nom_fichier)[0]
     path_txt = os.path.join(rapport_folder, f"{base}_rapport.txt")
     try:
@@ -595,51 +713,30 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
         return f"❌ Erreur écriture rapport TXT : {e}"
 
     # ======================= RAPPORT HTML =======================
-    def badge(text, kind):
-        colors = {
-            "ok": "#10b981", "warn": "#fb923c", "err": "#ef4444",
-            "info": "#3b82f6", "muted": "#64748b"
-        }
-        return f'<span class="pill" style="background:{colors.get(kind, "#64748b")}">{_html_escape(text)}</span>'
+    def badge(text, kind, title=None):
+        colors = {"ok": "#10b981", "warn": "#fb923c", "err": "#ef4444",
+                  "info": "#3b82f6", "muted": "#64748b"}
+        ttl = f' title="{_html_escape(title)}"' if title else ""
+        return f'<span class="pill" style="background:{colors.get(kind, "#64748b")}"{ttl}>{_html_escape(text)}</span>'
 
-    def alert_kind(alerte: str) -> str:
-        if not alerte or alerte in ["Réponse normale", "Réponse humaine probable"]:
-            return "muted"
-        a = alerte.lower()
-        if "ia" in a or "incohérence" in a or "altération" in a or "tamper" in a or "copier" in a:
-            return "err"
-        if "non répondu" in a:
-            return "muted"
-        return "warn"
+    def auth_badge_of(state, msg):
+        if state == "official_clean":         return badge("Copie officielle intacte", "ok", msg)
+        if state == "official_then_edited":   return badge("Copie officielle puis modifiée", "info", msg)
+        if state == "self_consistent_non_official": return badge("Cohérente non-officielle", "warn", msg)
+        if state == "tampered":               return badge("Incohérence / altération", "err", msg)
+        if state == "mismatch":               return badge("ID ≠ attendu", "warn", msg)
+        if state == "critical":               return badge("Infos manquantes", "err", msg)
+        return badge("Inconnu", "muted", msg)
 
-    if authenticity == "official_clean":
-        auth_badge = badge("Copie officielle intacte", "ok")
-    elif authenticity == "official_then_edited":
-        auth_badge = badge("Copie officielle puis modifiée", "info")
-    elif authenticity == "self_consistent_non_official":
-        auth_badge = badge("Cohérente non-officielle", "warn")
-    elif authenticity == "tampered":
-        auth_badge = badge("Incohérence / altération", "err")
-    elif authenticity == "mismatch":
-        auth_badge = badge("ID ≠ attendu", "warn")
-    elif authenticity == "critical":
-        auth_badge = badge("Infos manquantes", "err")
-    else:
-        auth_badge = badge("Inconnu", "muted")
-
-    def html_rows_diff_template(rows):
+    def html_rows(rows):
         out = []
-        for addr, vp, ve in rows:
-            col = re.match(r"[A-Z]+", addr).group(0)
-            q = questions.get(col, "")
-            al = alerts_by_cell.get(addr, "Réponse normale")
-            al_html = "" if al in ["Réponse normale", "Réponse humaine probable", ""] else badge(al, alert_kind(al))
+        for addr, q, val, extra in rows:
             out.append(f"""
               <tr>
-                <td><code>{addr}</code></td>
+                <td><code>{_html_escape(addr)}</code></td>
                 <td>{_html_escape(q)}</td>
-                <td>{_html_escape(ve)}</td>
-                <td style="text-align:center">{al_html}</td>
+                <td>{_html_escape(val)}</td>
+                <td>{_html_escape(extra)}</td>
               </tr>""")
         return "\n".join(out)
 
@@ -652,41 +749,153 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
               <tr>
                 <td><code>{addr}</code></td>
                 <td>{_html_escape(q)}</td>
-                <td>{_html_escape(old_val)}</td>
-                <td>{_html_escape(new_val)}</td>
+                <td>{_html_escape(_excerpt(old_val))}</td>
+                <td>{_html_escape(_excerpt(new_val))}</td>
                 <td>{_html_escape(action)}</td>
               </tr>""")
         return "\n".join(out)
 
     def html_rows_matrix(matrix):
         out = []
-        for addr, q, vp, ve, statut, alerte in matrix:
-            al = "" if alerte in ["", "Réponse normale", "Réponse humaine probable"] else badge(alerte, alert_kind(alerte))
+        for addr, q, v_etud, label in matrix:
+            kind = "muted"
+            if label.startswith("IA probable"): kind = "err"
+            elif label.startswith("Copier-coller"): kind = "err"
+            elif label == "Non répondu": kind = "muted"
+            else: kind = "muted"
+            al = "" if label in ["", "Réponse normale", "Non répondu"] else badge(label, kind)
             out.append(f"""
               <tr>
-                <td><code>{addr}</code></td>
+                <td><code>{_html_escape(addr)}</code></td>
                 <td>{_html_escape(q)}</td>
-                <td>{_html_escape(vp)}</td>
-                <td>{_html_escape(ve)}</td>
-                <td>{_html_escape(statut)}</td>
+                <td>{_html_escape(v_etud)}</td>
                 <td style="text-align:center">{al}</td>
               </tr>""")
         return "\n".join(out)
 
-    susp_html = ""
-    if susp_rows:
-        rows = "\n".join(
-            f"<tr><td><code>{addr}</code></td><td>{_html_escape(q)}</td><td>{badge(reason, alert_kind(reason))}</td></tr>"
-            for addr, q, reason in susp_rows
-        )
-        susp_html = f"""
+    def html_rows_timeline(timeline_map):
+        out = []
+        for addr in sorted(
+            timeline_map.keys(),
+            key=lambda a: (
+                re.match(r"[A-Z]+", a).group(0),
+                int(re.search(r"(\d+)$", a).group(1)) if re.search(r"(\d+)$", a) else 0
+            )
+        ):
+            versions = timeline_map[addr]
+            col = re.match(r"[A-Z]+", addr).group(0)
+            q = questions.get(col, "")
+            items = []
+            for ts, val in versions:
+                items.append(f"<div><code>{_html_escape(ts)}</code> → {_html_escape(_excerpt(val, 180))}</div>")
+            out.append(f"""
+              <tr>
+                <td><code>{_html_escape(addr)}</code></td>
+                <td>{_html_escape(q)}</td>
+                <td>{"".join(items) if items else "<i class='muted'>—</i>"}</td>
+              </tr>""")
+        return "\n".join(out)
+
+    def html_rows_embedded(logs):
+        out = []
+        for l in logs:
+            out.append(f"""
+              <tr>
+                <td><code>{_html_escape(l['timestamp'] or '')}</code></td>
+                <td><code>{_html_escape(l['cell'])}</code></td>
+                <td>{_html_escape(l['question'])}</td>
+                <td>{_html_escape(_excerpt(l['old_value']))}</td>
+                <td>{_html_escape(_excerpt(l['new_value']))}</td>
+                <td>{_html_escape(l['action'])}</td>
+                <td>{"Oui" if l["wasPaste"] else "Non"}</td>
+              </tr>""")
+        return "\n".join(out)
+
+    issues_html = ""
+    if issues_sig:
+        issues_html = "<ul>" + "".join(f"<li>⚠ {_html_escape(x)}</li>" for x in issues_sig) + "</ul>"
+
+    integrity_table = ""
+    if changed_cells_sig:
+        rows = []
+        for addr in changed_cells_sig:
+            m = re.match(r"([A-Z]+)", addr or "")
+            col = m.group(1) if m else ""
+            q = questions.get(col, "")
+            curv = _safe_str(ws_etud[addr].value) if addr else ""
+            rows.append((addr, q, _excerpt(curv), "Modifiée après génération (signature)"))
+        integrity_table = f"""
         <div class="card scroll-x">
-          <h2>🚨 Suspicion IA / copier-coller</h2>
+          <h2>🧩 Intégrité — Cellules modifiées après génération</h2>
           <table>
-            <thead><tr><th>Cellule</th><th>Question</th><th>Raison</th></tr></thead>
-            <tbody>{rows}</tbody>
+            <thead><tr><th>Cellule</th><th>Question</th><th>Valeur actuelle</th><th>Statut</th></tr></thead>
+            <tbody>
+              {html_rows(rows)}
+            </tbody>
+          </table>
+          <div class="muted table-note">Remarque : c'est normal que l'étudiant remplisse ces cellules. Cette section indique simplement qu'elles ont été modifiées après la génération.</div>
+        </div>"""
+
+    copy_table = f"""
+    <div class="card scroll-x">
+      <h2>📋 Copier-coller (textes recopiés)</h2>
+      <table>
+        <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Indice</th></tr></thead>
+        <tbody>
+          {html_rows(rows_copy) if rows_copy else ""}
+        </tbody>
+      </table>
+      {"<div class='muted table-note'>Aucun cas détecté.</div>" if not rows_copy else ""}
+    </div>"""
+
+    ai_table = f"""
+    <div class="card scroll-x">
+      <h2>🤖 Réponses IA probables</h2>
+      <table>
+        <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
+        <tbody>
+          {html_rows(rows_ai) if rows_ai else ""}
+        </tbody>
+      </table>
+      {"<div class='muted table-note'>Aucun cas détecté.</div>" if not rows_ai else "<div class='muted small'>Score IA basé sur jeu d’exemples (TF-IDF) ou heuristiques si dataset indisponible.</div>"}
+    </div>"""
+
+    ai_all_table = ""
+    if AI_SHOW_ALL_TABLE:
+        ai_all_table = f"""
+        <div class="card scroll-x">
+          <h2>🧠 Score IA (toutes les réponses)</h2>
+          <table>
+            <thead><tr><th>Cellule</th><th>Question</th><th>Extrait</th><th>Score IA</th></tr></thead>
+            <tbody>
+              {html_rows(rows_ai_all)}
+            </tbody>
           </table>
         </div>"""
+
+    timeline_table = f"""
+    <div class="card scroll-x">
+      <h2>🕒 Historique par cellule (toutes les versions)</h2>
+      <table>
+        <thead><tr><th>Cellule</th><th>Question</th><th>Versions (horodatage → extrait)</th></tr></thead>
+        <tbody>
+          {html_rows_timeline(timeline)}
+        </tbody>
+      </table>
+      <div class="muted small">Chaque tentative crée de nouvelles lignes si une valeur change. Le CSV <code>modifications_log_secure.csv</code> contient aussi ces évènements (source_diff = PREVIOUS).</div>
+    </div>"""
+
+    embedded_table = f"""
+    <div class="card scroll-x">
+      <h2>🧰 Traçabilité locale (VBA) — saisies détaillées</h2>
+      <table>
+        <thead><tr><th>Horodatage</th><th>Cellule</th><th>Question</th><th>Avant</th><th>Après</th><th>Action</th><th>Collage</th></tr></thead>
+        <tbody>
+          {html_rows_embedded(embedded_logs) if embedded_logs else ""}
+        </tbody>
+      </table>
+      {"<div class='muted table-note'>Aucun log embarqué détecté (feuille LOG absente ou vide).</div>" if not embedded_logs else ""}
+    </div>"""
 
     html = f"""<!doctype html>
 <html lang="fr">
@@ -728,24 +937,24 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 <div class="grid">
   <div class="kpi"><div class="muted">Étudiant (Z1)</div><b>{_html_escape(id_cell)}</b></div>
   <div class="kpi"><div class="muted">Fichier</div><b>{_html_escape(nom_fichier)}</b></div>
-  <div class="kpi"><div class="muted">Authenticité</div><b>{auth_badge}</b><div class="muted small" style="margin-top:.3rem">{_html_escape(authenticity_msg)}</div></div>
+  <div class="kpi"><div class="muted">Authenticité</div><b>{auth_badge_of(authenticity, authenticity_msg)}</b><div class="muted small" style="margin-top:.3rem">{_html_escape(authenticity_msg)}</div></div>
   <div class="kpi"><div class="muted">Hash Z2</div><b><code>{_html_escape(hash_cell)}</code></b></div>
   <div class="kpi"><div class="muted">Hash recalculé</div><b><code>{_html_escape(hash_calcule)}</code></b></div>
   <div class="kpi"><div class="muted">Tentative</div><b>#{attempt_index}</b></div>
 </div>
 
-{susp_html}
-
-<div class="card scroll-x">
-  <h2>🔎 Modifications vs template</h2>
-  <table>
-    <thead><tr><th>Cellule</th><th>Question</th><th>Réponse</th><th>Alerte</th></tr></thead>
-    <tbody>
-      {html_rows_diff_template(diffs_vs_template)}
-    </tbody>
-  </table>
-  {"<div class='muted table-note'>Aucune</div>" if not diffs_vs_template else ""}
+<div class="card">
+  <h2>🧩 Intégrité (signature _sig)</h2>
+  {"<div class='muted'>Aucun problème d'intégrité détecté.</div>" if not issues_sig else issues_html}
 </div>
+
+{integrity_table}
+
+{copy_table}
+
+{ai_table}
+
+{ai_all_table if AI_SHOW_ALL_TABLE else ""}
 
 <div class="card scroll-x">
   <h2>🔁 Changements depuis la tentative précédente</h2>
@@ -758,25 +967,30 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
   {"<div class='muted table-note'>Aucun</div>" if not diffs_vs_prev else ""}
 </div>
 
+{embedded_table}
+
 <div class="card scroll-x">
-  <h2>🗺️ Grille complète (colonnes avec question)</h2>
+  <h2>🗺️ Grille (réponses de l'étudiant)</h2>
   <table>
     <thead>
-      <tr><th>Cellule</th><th>Question</th><th>Valeur template</th><th>Valeur étudiante</th><th>Statut</th><th>Alerte / IA</th></tr>
+      <tr><th>Cellule</th><th>Question</th><th>Réponse</th><th>Signal</th></tr>
     </thead>
     <tbody>
       {html_rows_matrix(matrix_full)}
     </tbody>
   </table>
-  <div class="muted table-note">Les colonnes sans intitulé de question sont ignorées (vide normal, non compté).</div>
+  <div class="muted table-note">Les tableaux “Copier-coller”, “IA probables”, “Score IA (toutes)”, “Changements” et “Traçabilité (VBA)” donnent une vue complète.</div>
 </div>
+
+{timeline_table}
 
 <div class="grid">
   <div class="kpi"><div class="muted">Cells ≠ template</div><b>{total_changes_template}</b></div>
   <div class="kpi"><div class="muted">Changements vs dépôt précédent</div><b>{total_changes_prev}</b></div>
+  <div class="kpi"><div class="muted">Cellules modifiées (signature)</div><b>{total_integrity_cells}</b></div>
   <div class="kpi"><div class="muted">Réponses renseignées</div><b>{answered_count}</b></div>
   <div class="kpi"><div class="muted">Non répondu</div><b>{unanswered_count}</b></div>
-  <div class="kpi"><div class="muted">Alertes</div><b>{total_alerts}</b></div>
+  <div class="kpi"><div class="muted">Alertes (grille)</div><b>{total_alerts}</b></div>
 </div>
 
 </div>
@@ -793,12 +1007,12 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 
     return f"📁 Rapports générés : {path_txt} | {path_html}"
 
-
-# ======================= CLI (optionnel) =======================
+# ======================= CLI =======================
 if __name__ == "__main__":
     print("🔍 Analyse des copies en cours...\n")
     for fichier in os.listdir(copies_folder):
-        if fichier.lower().endswith(".xlsx"):
+        # >>> .xlsm
+        if fichier.lower().endswith(".xlsm"):
             chemin = os.path.join(copies_folder, fichier)
             print(comparer_etudiant(chemin))
     print("\n✅ Analyse terminée. Rapports dans :", rapport_folder)

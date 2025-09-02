@@ -1,4 +1,4 @@
-# app_prof.py — Espace professeur (classes, copies, dépôts, rapports)
+# app_prof.py — Espace professeur (classes, copies, dépôts, rapports) — version .xlsm
 
 import os, json, re, csv, io, shutil
 import streamlit as st
@@ -12,14 +12,14 @@ from hash_generator import generate_student_files_csv
 # ---------------- Dossiers & chemins ----------------
 DATA_DIR        = os.environ.get("DATA_DIR", "./")
 CLASSES_ROOT    = os.path.join(DATA_DIR, "classes")
-TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsx")
+TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsm")  # <<< .xlsm
 DEPOSITS_DIR    = os.path.join(DATA_DIR, "copies_etudiants")      # dépôts étudiants (global)
 REPORTS_DIR     = os.path.join(DATA_DIR, "rapports_etudiants")    # rapports d'analyse (global)
 HISTORY_DIR     = os.path.join(DATA_DIR, "historique_reponses")   # snapshots par étudiant (JSON)
 NOTIF_PATH      = os.path.join(DATA_DIR, "notif_depot.json")      # liste des fichiers déposés
 
 # Template "bundlé" dans le repo (même dossier que ce fichier)
-BUNDLED_TEMPLATE = os.path.join(os.path.dirname(__file__), "Fichier_Excel_Professeur_Template.xlsx")
+BUNDLED_TEMPLATE = os.path.join(os.path.dirname(__file__), "Fichier_Excel_Professeur_Template.xlsm")  # <<< .xlsm
 
 # Création des dossiers
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -102,11 +102,11 @@ def _ensure_class(slug: str, name: str = None):
 def _load_classes():
     out = []
     for slug in sorted(os.listdir(CLASSES_ROOT)):
-        d = _class_dir(slug)
+        d = os.path.join(CLASSES_ROOT, slug)
         if not os.path.isdir(d):
             continue
         name = slug
-        meta = _class_meta_path(slug)
+        meta = os.path.join(d, "meta.json")
         if os.path.exists(meta):
             try:
                 with open(meta, "r", encoding="utf-8") as f:
@@ -140,7 +140,7 @@ def _user_class(user_id: str) -> str | None:
     return row[0] if row and row[0] else None
 
 def _id_from_deposit(filename: str) -> str | None:
-    # dépôt = "YYYYmmdd_HHMMSS__ETUD028_Amara_Ali.xlsx"
+    # dépôt = "YYYYmmdd_HHMMSS__ETUD028_Amara_Ali.xlsm"
     try:
         after = filename.split("__", 1)[1]
         return after.split("_", 1)[0]
@@ -264,11 +264,11 @@ def run(user):
                         f.write(up.getbuffer())
                     st.success(f"✅ CSV enregistré : {csv_path}")
 
-                # --- Uploader du template professeur (NOUVEAU) ---
+                # --- Uploader du template professeur (NOUVEAU, .xlsm) ---
                 st.markdown('<div class="small">Template actuel : '
                             + (f"<code>{TEMPLATE_PATH}</code>" if os.path.exists(TEMPLATE_PATH) else "<b>introuvable</b>")
                             + "</div>", unsafe_allow_html=True)
-                tpl_up = st.file_uploader("Uploader le Fichier_Excel_Professeur_Template.xlsx", type=["xlsx"], key="tpl_up")
+                tpl_up = st.file_uploader("Uploader le Fichier_Excel_Professeur_Template.xlsm", type=["xlsm"], key="tpl_up")  # <<< .xlsm
                 if tpl_up is not None:
                     try:
                         with open(TEMPLATE_PATH, "wb") as f:
@@ -299,7 +299,7 @@ def run(user):
                             try:
                                 generate_student_files_csv(
                                     input_csv=csv_path,
-                                    template_path=TEMPLATE_PATH,
+                                    template_path=TEMPLATE_PATH,   # <<< .xlsm
                                     output_folder=out_dir,
                                     log_file=log_path
                                 )
@@ -336,10 +336,11 @@ def run(user):
                     p = os.path.join(DEPOSITS_DIR, fsel)
                     if os.path.exists(p):
                         with open(p, "rb") as fdep:
+                            # MIME pour .xlsm
                             st.download_button(
                                 "📥 Télécharger la copie sélectionnée",
                                 fdep, file_name=fsel,
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                mime="application/vnd.ms-excel.sheet.macroEnabled.12",
                                 use_container_width=True
                             )
                     else:

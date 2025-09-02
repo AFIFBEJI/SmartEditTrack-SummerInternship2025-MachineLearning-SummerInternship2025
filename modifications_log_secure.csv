@@ -147,3 +147,773 @@ timestamp,fichier,id_etudiant,cellule,question,valeur_prof,valeur_etudiant,alert
 2025-08-30 08:16:26,20250829_073312__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,FDK?CMKD?%L,TEMPLATE,Texte non lexical (gibberish?),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,556e679db97cf4977f590989a1e5832993fe6251d67ec42c90fe2248b319bb5d,5
 2025-08-30 08:16:26,20250829_073312__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,idenK,TEMPLATE,Formule attendue non détectée,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,556e679db97cf4977f590989a1e5832993fe6251d67ec42c90fe2248b319bb5d,5
 2025-08-30 08:16:26,20250829_073312__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,NVLOn,TEMPLATE,Formule attendue non détectée,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,556e679db97cf4977f590989a1e5832993fe6251d67ec42c90fe2248b319bb5d,5
+2025-08-31 15:17:35,"1 day, 7:25:52.843807",20250831_151712__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,"fl,bù^s", formé de béton et d’armatures en acie,modification,Caractères spéciaux suspects,2025-08-30 04:04:20,2025-08-31 15:17:35,2,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,2ba6a3bf0c39f4ae186ab06b436a55c5ac8842abb959c429bed65619af7e62e6,3,PREVIOUS
+2025-08-31 15:17:35,"1 day, 7:25:52.843807",20250831_151712__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,f fbfdb,M = σ × W (ou M = E × I × κ),modification,Caractères spéciaux suspects,2025-08-30 04:04:20,2025-08-31 15:17:35,2,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,2ba6a3bf0c39f4ae186ab06b436a55c5ac8842abb959c429bed65619af7e62e6,3,PREVIOUS
+2025-08-31 15:17:35,"1 day, 7:25:52.843807",20250831_151712__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,bdsb  ,σ = N / A,modification,Réponse normale,2025-08-30 04:04:20,2025-08-31 15:17:35,2,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,2ba6a3bf0c39f4ae186ab06b436a55c5ac8842abb959c429bed65619af7e62e6,3,PREVIOUS
+2025-08-31 15:17:35,"1 day, 7:25:52.843807",20250831_151712__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,fbfb,σmax = M × y / I,modification,Caractères spéciaux suspects,2025-08-30 04:04:20,2025-08-31 15:17:35,2,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,2ba6a3bf0c39f4ae186ab06b436a55c5ac8842abb959c429bed65619af7e62e6,3,PREVIOUS
+2025-09-01 01:38:28,0:43:12.090682,20250901_013752__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,jnqlv,v;dù,modification,Réponse humaine (89%),2025-09-01 00:55:16,2025-09-01 01:38:28,2,aed4a59b8bf9bd51774687228621b6e213d7a608,7c96886fb9d33ac10636e4d8c0a08ab904615a6c,2,PREVIOUS,0,3
+2025-09-01 01:38:28,0:43:12.090682,20250901_013752__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,bvldb,dqd,modification,Réponse humaine (100%),2025-09-01 00:55:16,2025-09-01 01:38:28,2,aed4a59b8bf9bd51774687228621b6e213d7a608,7c96886fb9d33ac10636e4d8c0a08ab904615a6c,2,PREVIOUS,0,1
+2025-09-01 01:38:47,0:00:19.518215,20250901_005501__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,v;dù,jnqlv,modification,Réponse humaine (100%),2025-09-01 00:55:16,2025-09-01 01:38:47,3,aed4a59b8bf9bd51774687228621b6e213d7a608,49c19d02b3138e8598f17623493ad492e20c6ada,3,PREVIOUS,0,4
+2025-09-01 01:38:47,0:00:19.518215,20250901_005501__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,dqd,bvldb,modification,Réponse humaine (100%),2025-09-01 00:55:16,2025-09-01 01:38:47,3,aed4a59b8bf9bd51774687228621b6e213d7a608,49c19d02b3138e8598f17623493ad492e20c6ada,3,PREVIOUS,0,2
+2025-09-01 04:57:55,,20250901_045737__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,c  c<w ,TEMPLATE,modification,Caractères spéciaux suspects,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,b319accb489e13efb13ade1282725085541ab2bb3575b020a7cf7957fa163d0f,1
+2025-09-01 04:57:55,,20250901_045737__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,sb <sbd <,TEMPLATE,modification,Caractères spéciaux suspects,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,b319accb489e13efb13ade1282725085541ab2bb3575b020a7cf7957fa163d0f,1
+2025-09-01 04:57:55,,20250901_045737__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,b<fsbf,TEMPLATE,modification,Caractères spéciaux suspects,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,b319accb489e13efb13ade1282725085541ab2bb3575b020a7cf7957fa163d0f,1
+2025-09-01 04:57:55,,20250901_045737__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,bf<sbf,TEMPLATE,modification,Caractères spéciaux suspects,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,b319accb489e13efb13ade1282725085541ab2bb3575b020a7cf7957fa163d0f,1
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,1
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,1
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,1
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,1
+2025-09-01 20:26:05,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,1
+2025-09-01 20:37:52,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:37:52,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:37:52,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:37:52,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:37:52,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:37:52,0:11:47.977776,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,2
+2025-09-01 20:37:52,0:11:47.977776,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,2
+2025-09-01 20:37:52,0:11:47.977776,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,2
+2025-09-01 20:37:52,0:11:47.977776,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,2
+2025-09-01 20:37:52,0:11:47.977776,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,2
+2025-09-01 20:38:24,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:38:24,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:38:24,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:38:24,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:38:24,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Réponse ajoutée/modifiée depuis la génération (attendu pour un devoir),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:38:24,0:00:32.752782,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,3
+2025-09-01 20:38:24,0:00:32.752782,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,3
+2025-09-01 20:38:24,0:00:32.752782,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,3
+2025-09-01 20:38:24,0:00:32.752782,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,3
+2025-09-01 20:38:24,0:00:32.752782,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,3
+2025-09-01 20:39:35,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:39:35,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:39:35,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:39:35,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:39:35,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Altération détectée par signature,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 20:39:35,0:01:11.809462,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,4
+2025-09-01 20:39:35,0:01:11.809462,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,4
+2025-09-01 20:39:35,0:01:11.809462,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,4
+2025-09-01 20:39:35,0:01:11.809462,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,4
+2025-09-01 20:39:35,0:01:11.809462,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,4
+2025-09-01 21:42:33,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:42:33,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:42:33,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:42:33,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:42:33,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:42:33,1:02:58.778846,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,5
+2025-09-01 21:42:33,1:02:58.778846,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,5
+2025-09-01 21:42:33,1:02:58.778846,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,5
+2025-09-01 21:42:33,1:02:58.778846,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,5
+2025-09-01 21:42:33,1:02:58.778846,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux suspects,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,5
+2025-09-01 21:49:19,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:49:19,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:49:19,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:49:19,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:49:19,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:49:19,0:06:46.134939,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,6
+2025-09-01 21:49:19,0:06:46.134939,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,6
+2025-09-01 21:49:19,0:06:46.134939,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,6
+2025-09-01 21:49:19,0:06:46.134939,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,6
+2025-09-01 21:49:19,0:06:46.134939,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,6
+2025-09-01 21:51:57,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:51:57,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:51:57,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:51:57,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:51:57,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:51:57,0:02:38.595067,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,7
+2025-09-01 21:51:57,0:02:38.595067,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,7
+2025-09-01 21:51:57,0:02:38.595067,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,7
+2025-09-01 21:51:57,0:02:38.595067,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,7
+2025-09-01 21:51:57,0:02:38.595067,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,7
+2025-09-01 21:52:25,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:25,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:25,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:25,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:25,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:25,0:00:28.646609,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,8
+2025-09-01 21:52:25,0:00:28.646609,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,8
+2025-09-01 21:52:25,0:00:28.646609,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,8
+2025-09-01 21:52:25,0:00:28.646609,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,8
+2025-09-01 21:52:25,0:00:28.646609,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,8
+2025-09-01 21:52:51,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:51,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:51,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:51,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:51,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:52:51,0:00:26.896824,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,9
+2025-09-01 21:52:51,0:00:26.896824,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,9
+2025-09-01 21:52:51,0:00:26.896824,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,9
+2025-09-01 21:52:51,0:00:26.896824,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,9
+2025-09-01 21:52:51,0:00:26.896824,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Caractères spéciaux (non-IA),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,9
+2025-09-01 21:58:10,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:58:10,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:58:10,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:58:10,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:58:10,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 21:58:10,0:05:19.321250,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,10
+2025-09-01 21:58:10,0:05:19.321250,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Copier-coller (~65%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,10
+2025-09-01 21:58:10,0:05:19.321250,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,10
+2025-09-01 21:58:10,0:05:19.321250,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,10
+2025-09-01 21:58:10,0:05:19.321250,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,10
+2025-09-01 22:22:09,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:22:09,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:22:09,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:22:09,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:22:09,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:22:09,0:23:59.176463,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,11
+2025-09-01 22:22:09,0:23:59.176463,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Copier-coller (~82%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,11
+2025-09-01 22:22:09,0:23:59.176463,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,11
+2025-09-01 22:22:09,0:23:59.176463,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,11
+2025-09-01 22:22:09,0:23:59.176463,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,11
+2025-09-01 22:32:29,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:32:29,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:32:29,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:32:29,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:32:29,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:32:29,0:10:20.104477,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,12
+2025-09-01 22:32:29,0:10:20.104477,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Copier-coller (~82%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,12
+2025-09-01 22:32:29,0:10:20.104477,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,12
+2025-09-01 22:32:29,0:10:20.104477,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,12
+2025-09-01 22:32:29,0:10:20.104477,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,12
+2025-09-01 22:52:48,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:52:48,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:52:48,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:52:48,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:52:48,,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,
+2025-09-01 22:52:48,0:20:19.440956,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,C2,Prénom,,,amara,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,13
+2025-09-01 22:52:48,0:20:19.440956,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,Le béton armé est un matériau composé de béton et d’armatures en acier pour résister à la traction.,TEMPLATE,modification,Copier-coller (~82%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,13
+2025-09-01 22:52:48,0:20:19.440956,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,M = σ × W,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,13
+2025-09-01 22:52:48,0:20:19.440956,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"σ = N / A
+(contrainte normale = effort normal / aire de la section)",TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,13
+2025-09-01 22:52:48,0:20:19.440956,20250901_202533__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,,σmax = M × y / I,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,6b12dd39118abd3f92b12850682f64b08a13dc270063828450799db8e1f06569,13
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,1
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,1
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,1
+2025-09-01 23:15:04,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,1
+2025-09-01 23:17:18,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:17:18,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:17:18,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:17:18,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-01 23:17:18,0:02:14.385164,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,2
+2025-09-01 23:17:18,0:02:14.385164,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,2
+2025-09-01 23:17:18,0:02:14.385164,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,2
+2025-09-01 23:17:18,0:02:14.385164,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,2
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,feeafe,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,cknfpka,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,ETUD028,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,, Espace Étudiant — Ali Amar,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,feeafe,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,1
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,cknfpka,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,1
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,ETUD028,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,1
+2025-09-01 23:20:36,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,, Espace Étudiant — Ali Amar,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,1
+2025-09-01 23:21:13,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,feeafe,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:21:13,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,cknfpka,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:21:13,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,ETUD028,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:21:13,,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,, Espace Étudiant — Ali Amar,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,
+2025-09-01 23:21:13,0:00:37.293638,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,D2,Q1 - Définir le béton armé,,,feeafe,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,2
+2025-09-01 23:21:13,0:00:37.293638,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,E2,Q2 - Formule du moment fléchissant,,,cknfpka,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,2
+2025-09-01 23:21:13,0:00:37.293638,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,ETUD028,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,2
+2025-09-01 23:21:13,0:00:37.293638,20250901_232027__ETUD028_Amara_Ali.xlsx,ETUD028,G2,Q4 - Donner l’expression de σmax,,, Espace Étudiant — Ali Amar,TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,db657b5c3c9c566123ce07571e77a68797b52b74c67517e529ddd8abb8320dab,2
+2025-09-01 23:21:22,,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. 
+ ",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,
+2025-09-01 23:21:22,,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,
+2025-09-01 23:21:22,,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,
+2025-09-01 23:21:22,,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,
+2025-09-01 23:21:22,0:04:04.583361,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. 
+ ",TEMPLATE,modification,IA probable (98%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,3
+2025-09-01 23:21:22,0:04:04.583361,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. 
+ ",PREVIOUS,modification,IA probable (98%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,3
+2025-09-01 23:21:22,0:04:04.583361,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,3
+2025-09-01 23:21:22,0:04:04.583361,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,3
+2025-09-01 23:21:22,0:04:04.583361,20250901_231648__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,a4bd6e215a2ccedbcf6c2e38f157b48fd78eee40abdadf6786510b579ca47b28,3
+2025-09-02 00:46:46,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-02 00:46:46,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-02 00:46:46,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-02 00:46:46,,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,,,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,D2,Q1 - Définir le béton armé,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. 
+ ",,"En tant que matériau composite, le béton armé désigne un assemblage béton–acier ; il est important de noter que, dans le cadre des structures courantes, le béton reprend principalement les efforts de compression, tandis que les armatures absorbent la traction. De plus, la collaboration des deux matériaux est assurée par l’adhérence acier–béton ; par conséquent, l’ouvrage gagne en rigidité, en durabilité et en sécurité. Par exemple, dans une poutre de plancher, le béton limite les déformations à l’état de service, alors que les barres tendues contrôlent la fissuration. En conclusion, le béton armé constitue une solution fiable et, globalement, économiquement pertinente pour la plupart des éléments de bâtiment.
+
+ ",PREVIOUS,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,E2,Q2 - Formule du moment fléchissant,,,"Formule rappelée — dans ce contexte, le moment fléchissant s’écrit classiquement : M = σ × W.
+
+Il convient de souligner que, par conséquent, la contrainte normale en flexion pure est proportionnelle à la distance à la fibre neutre et inversement proportionnelle au module de résistance W ; de plus, cette écriture, notamment, facilite la vérification des états limites. Par exemple, pour une section rectangulaire, W = b·h²/6, ce qui permet un dimensionnement rapide et, globalement, transparent.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,F2,Q3 - Calcul de la contrainte normale,,,"Dans ce contexte, la contrainte normale moyenne s’évalue selon : σ = N / A ; il est important de noter qu’elle est uniforme si la section travaille sans flambement et sans gradient particulier. De plus, lorsque les efforts se combinent (traction–flexion, par exemple), on superpose σ = N/A et la loi linéaire de la flexion, ce qui conduit, par conséquent, à une distribution non uniforme des contraintes. En conclusion, cette relation simple, mais générale, sert de base au contrôle des états limites de résistance.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,G2,Q4 - Donner l’expression de σmax,,,"En flexion simple, l’expression recherchée s’écrit : σmax = M × y / I  — autrement dit, la contrainte maximale apparaît à la fibre la plus éloignée de la fibre neutre (y = ymax). Il convient de préciser que, de manière générale, cette formule dérive de la répartition linéaire des contraintes ; par ailleurs, l’inertie I dépend fortement de la géométrie de la section. Par exemple, pour une section rectangulaire de largeur b et de hauteur h, on a I = b·h³/12 et σmax = 6M/(b·h²), ce qui, globalement, permet un contrôle rapide du dimensionnement.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 00:46:46,1:25:24.758784,20250901_231450__ETUD013_BenRomdhane_Maya.xlsx,ETUD013,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,56a29f507c4c9bbd3239cdb69732508e6d84f08ea34f8a7537804e075a31babf,4
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,C2,Prénom,,,amara ali,INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,D2,Q1 - Définir le béton armé,,,"Le béton armé est un matériau composite béton + armatures d’acier collaborant par adhérence ; il convient de noter qu’il résiste surtout à la compression, l’acier reprenant la traction.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,E2,Q2 - Formule du moment fléchissant,,,"Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,,,"σ_max = M × c / I (fibre extrême) ; en conséquence, le signe dépend de M.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,C2,Prénom,,,amara ali,TEMPLATE,modification,Réponse normale,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,D2,Q1 - Définir le béton armé,,,"Le béton armé est un matériau composite béton + armatures d’acier collaborant par adhérence ; il convient de noter qu’il résiste surtout à la compression, l’acier reprenant la traction.",TEMPLATE,modification,Copier-coller (~82%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,E2,Q2 - Formule du moment fléchissant,,,"Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,,,"σ_max = M × c / I (fibre extrême) ; en conséquence, le signe dépend de M.",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:00:57,,20250902_010050__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,a07a1642d33bd97c0b164a5bae420fcf7498c50368f6b9e7bc26c0288361ed11,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,D2,Q1 - Définir le béton armé,,,"Le béton armé est un matériau composite béton + armatures d’acier collaborant par adhérence ; il convient de noter qu’il résiste surtout à la compression, l’acier reprenant la traction.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,E2,Q2 - Formule du moment fléchissant,,,"Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,,,"σ_max = M × c / I (fibre extrême) ; en conséquence, le signe dépend de M.",INTEGRITY,modification,Modifiée après génération (signature),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,D2,Q1 - Définir le béton armé,,,"Le béton armé est un matériau composite béton + armatures d’acier collaborant par adhérence ; il convient de noter qu’il résiste surtout à la compression, l’acier reprenant la traction.",TEMPLATE,modification,Copier-coller (~82%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,E2,Q2 - Formule du moment fléchissant,,,"Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,F2,Q3 - Calcul de la contrainte normale,,,"Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,G2,Q4 - Donner l’expression de σmax,,,"σ_max = M × c / I (fibre extrême) ; en conséquence, le signe dépend de M.",TEMPLATE,modification,Copier-coller (~67%),31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:14:20,,20250902_011409__ETUD028_Amara_Ali.xlsm,ETUD028,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,31513b5f153ff36e77b18a77470f5b0f666d79f6e0c8d12e8ab7a7c4381e65ce,f5f7fc7330858ea0ecf3e50d136e7fab8911e9415300ee7a5c6f78bf73bc50ba,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,dfea,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,dfea,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:29:30,,20250902_012917__ETUD021_Chaari_Imen.xlsm,ETUD021,,,,,,EMBEDDED_LOG,inchangé,user=Chaima ; wasPaste=FALSE,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,745293ac6941f0cca8197b68d279e7a7b2a5a4671aeafaab1e444ab8808fd980,1
+2025-09-02 01:52:54,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 01:52:54,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 01:52:54,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 01:52:54,0:23:24.808437,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,2
+2025-09-02 01:52:54,0:23:24.808437,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,2
+2025-09-02 01:52:54,0:23:24.808437,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,2
+2025-09-02 01:52:54,0:23:24.808437,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,dfea,,zefz,PREVIOUS,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,2
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,1
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,1
+2025-09-02 02:43:48,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,1
+2025-09-02 02:44:00,,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,,efezff,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,
+2025-09-02 02:44:00,,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,,ezfe,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,
+2025-09-02 02:44:00,,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,efe,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,,efezff,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",,efezff,PREVIOUS,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,,ezfe,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",,ezfe,PREVIOUS,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,efe,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:44:00,0:00:12.341451,20250902_024344__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,zefz,,efe,PREVIOUS,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c2b76828bac7fe89cb5e89e643994fbb2d4b1eea2d0d1f9d5d8912471886c537,2
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,E2,Q4 - Donner l’expression de σmax,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,TEMPLATE,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,1
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,TEMPLATE,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,1
+2025-09-02 02:45:33,,20250902_024525__ETUD026_Nasri_Oussama.xlsm,ETUD026,E2,Q4 - Donner l’expression de σmax,,,Le template est bien .xlsm et contient la feuille LOG + le code fourni.,TEMPLATE,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,20ce767315973c9ef0ceaf8438ba54964411cf04a0252516d5d54196181dc36b,1
+2025-09-02 02:46:08,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:46:08,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:46:08,,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,INTEGRITY,modification,Modifiée après génération (signature),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,C2,Q2 - Formule du moment fléchissant,efezff,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",PREVIOUS,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,D2,Q3 - Calcul de la contrainte normale,ezfe,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",PREVIOUS,modification,Copier-coller (~67%),5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,,,zefz,TEMPLATE,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 02:46:08,0:02:08.109717,20250902_015248__ETUD021_Chaari_Imen.xlsm,ETUD021,E2,Q4 - Donner l’expression de σmax,efe,,zefz,PREVIOUS,modification,Réponse normale,5d671e05ab66fb9ec2252f5b34bdd276a36d80ba71e9be3a6677fdaef6cf78ff,c29ca4cfea3dac6b1f0629aca74a19c67a3b29ec2327464bb5a5bfd93c6f5638,3
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,E2,Q4 - Donner l’expression de σmax,,,sbf,INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,1
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,1
+2025-09-02 03:06:05,,20250902_030556__ETUD026_Nasri_Oussama.xlsm,ETUD026,E2,Q4 - Donner l’expression de σmax,,,sbf,TEMPLATE,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,3346362b5c76827c15c6a6401336a7dcfc2b5403cf96d35d9522f36aaca80bfb,1
+2025-09-02 04:09:38,,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,,akefnaml,INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,
+2025-09-02 04:09:38,,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",INTEGRITY,modification,Modifiée après génération (signature),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,
+2025-09-02 04:09:38,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,,akefnaml,TEMPLATE,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:09:38,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant," Moment fléchissant : M = σ × W ; dans ce contexte, σ = M × y / I.",,akefnaml,PREVIOUS,modification,Réponse normale,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:09:38,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",TEMPLATE,modification,Copier-coller (~67%),1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:09:38,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,E2,Q4 - Donner l’expression de σmax,sbf,,,PREVIOUS,suppression,Non répondu,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:08:45,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,B2,,,,knkefnùe,EMBEDDED_LOG,ajout,wasPaste=FALSE,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:08:47,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,C2,Q2 - Formule du moment fléchissant,,,akefnaml,EMBEDDED_LOG,ajout,wasPaste=FALSE,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:08:50,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,,,jedpifz,EMBEDDED_LOG,ajout,wasPaste=FALSE,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:08:54,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,B2,,knkefnùe,,"Le béton armé est un matériau composite béton + armatures d’acier collaborant par adhérence ; il convient de noter qu’il résiste surtout à la compression, l’acier reprenant la traction.",EMBEDDED_LOG,modification,wasPaste=FALSE,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:09:14,1:03:33.769864,20250902_040930__ETUD026_Nasri_Oussama.xlsm,ETUD026,D2,Q3 - Calcul de la contrainte normale,jedpifz,," Contrainte normale : σ = N / A — par conséquent, sous flexion pure σ(y) = M × y / I.",EMBEDDED_LOG,modification,wasPaste=FALSE,1da6a0ea64a8fac127bdb63f8e3738b4565f2cf21b3dae8921c8277a581567c4,1e6bd3271b7768b87641b2c94e056ca67487803e7f050ce029d63eadda5289ea,2
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,C2,Q2 - Formule du moment fléchissant,,,"Il convient de rappeler que, dans ce contexte, le moment fléchissant s’écrit 
+𝑀
+(
+𝑥
+)
+=
+∫
+𝐴
+𝜎
+(
+𝑧
+)
+ 
+𝑧
+ 
+𝑑
+𝐴
+M(x)=∫
+A
+	​
+
+σ(z)zdA; de plus, 
+𝑑
+𝑀
+/
+𝑑
+𝑥
+=
+𝑉
+dM/dx=V. Par exemple, pour une poutre simplement appuyée sous charge uniforme 
+𝑞
+q, 
+𝑀
+max
+⁡
+=
+𝑞
+𝐿
+2
+/
+8
+M
+max
+	​
+
+=qL
+2
+/8.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,D2,Q3 - Calcul de la contrainte normale,,,"Il convient de noter que la contrainte normale se calcule par 
+𝜎
+=
+𝑁
+/
+𝐴
+±
+𝑀
+ 
+𝑦
+/
+𝐼
+σ=N/A±My/I; par conséquent, la fibre la plus éloignée (
+𝑦
+=
+𝑐
+y=c) donne les extrêmes. En outre, on prend usuellement 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 pour une section rectangulaire.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,E2,Q4 - Donner l’expression de σmax,,,"En conclusion, 
+𝜎
+max
+⁡
+=
+∣
+𝑁
+∣
+/
+𝐴
++
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣N∣/A+∣M∣c/I; dans ce contexte, il convient de poser 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 (fibre extrême). Par exemple, si 
+𝑁
+=
+0
+N=0, alors 
+𝜎
+max
+⁡
+=
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣M∣c/I.",INTEGRITY,modification,Modifiée après génération (signature),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,C2,Q2 - Formule du moment fléchissant,,,"Il convient de rappeler que, dans ce contexte, le moment fléchissant s’écrit 
+𝑀
+(
+𝑥
+)
+=
+∫
+𝐴
+𝜎
+(
+𝑧
+)
+ 
+𝑧
+ 
+𝑑
+𝐴
+M(x)=∫
+A
+	​
+
+σ(z)zdA; de plus, 
+𝑑
+𝑀
+/
+𝑑
+𝑥
+=
+𝑉
+dM/dx=V. Par exemple, pour une poutre simplement appuyée sous charge uniforme 
+𝑞
+q, 
+𝑀
+max
+⁡
+=
+𝑞
+𝐿
+2
+/
+8
+M
+max
+	​
+
+=qL
+2
+/8.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,D2,Q3 - Calcul de la contrainte normale,,,"Il convient de noter que la contrainte normale se calcule par 
+𝜎
+=
+𝑁
+/
+𝐴
+±
+𝑀
+ 
+𝑦
+/
+𝐼
+σ=N/A±My/I; par conséquent, la fibre la plus éloignée (
+𝑦
+=
+𝑐
+y=c) donne les extrêmes. En outre, on prend usuellement 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 pour une section rectangulaire.",TEMPLATE,modification,IA probable (70%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:17:35,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,E2,Q4 - Donner l’expression de σmax,,,"En conclusion, 
+𝜎
+max
+⁡
+=
+∣
+𝑁
+∣
+/
+𝐴
++
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣N∣/A+∣M∣c/I; dans ce contexte, il convient de poser 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 (fibre extrême). Par exemple, si 
+𝑁
+=
+0
+N=0, alors 
+𝜎
+max
+⁡
+=
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣M∣c/I.",TEMPLATE,modification,IA probable (100%),fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:13:59,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,B2,,,,,EMBEDDED_LOG,inchangé,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:13:59,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,B16,,,,,EMBEDDED_LOG,inchangé,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:09,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,B2,,,,"Dans ce contexte, il convient de souligner que le béton armé résulte d’une interaction matériau-structure qui, par conséquent, impose une vérification cohérente des hypothèses; de plus, l’équilibre local et global conduit à des formules standardisées qui, en tant que cadre méthodologique, restent robustes face aux variations usuelles. Par exemple, l’évaluation du moment fléchissant s’appuie sur une répartition des contraintes supposée linéaire; en outre, la compatibilité des déformations garantit la continuité cinématique, et, en conclusion, la démarche doit rester traçable et reproductible.",EMBEDDED_LOG,ajout,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:12,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,C2,Q2 - Formule du moment fléchissant,,,fzefez,EMBEDDED_LOG,ajout,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:15,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,D2,Q3 - Calcul de la contrainte normale,,,dvz,EMBEDDED_LOG,ajout,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:18,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,D2,Q3 - Calcul de la contrainte normale,,,,EMBEDDED_LOG,inchangé,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:20,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,E2,Q4 - Donner l’expression de σmax,,,dsdz,EMBEDDED_LOG,ajout,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:14:37,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,C2,Q2 - Formule du moment fléchissant,fzefez,,"« Définition — le béton armé » : matériau composite acier/béton… 
+• Hypothèse – section plane reste plane ; 
+• Compatibilité — continuité des déformations ; 
+Résultat : σ_max = M*y/I … (exemple de mise en forme typographique…)",EMBEDDED_LOG,modification,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:16:56,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,C2,Q2 - Formule du moment fléchissant,"« Définition — le béton armé » : matériau composite acier/béton… 
+• Hypothèse – section plane reste plane ; 
+• Compatibilité — continuité des déformations ; 
+Résultat : σ_max = M*y/I … (exemple de mise en forme typographique…)",,"Il convient de rappeler que, dans ce contexte, le moment fléchissant s’écrit 
+𝑀
+(
+𝑥
+)
+=
+∫
+𝐴
+𝜎
+(
+𝑧
+)
+ 
+𝑧
+ 
+𝑑
+𝐴
+M(x)=∫
+A
+	​
+
+σ(z)zdA; de plus, 
+𝑑
+𝑀
+/
+𝑑
+𝑥
+=
+𝑉
+dM/dx=V. Par exemple, pour une poutre simplement appuyée sous charge uniforme 
+𝑞
+q, 
+𝑀
+max
+⁡
+=
+𝑞
+𝐿
+2
+/
+8
+M
+max
+	​
+
+=qL
+2
+/8.",EMBEDDED_LOG,modification,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:17:08,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,D2,Q3 - Calcul de la contrainte normale,,,"Il convient de noter que la contrainte normale se calcule par 
+𝜎
+=
+𝑁
+/
+𝐴
+±
+𝑀
+ 
+𝑦
+/
+𝐼
+σ=N/A±My/I; par conséquent, la fibre la plus éloignée (
+𝑦
+=
+𝑐
+y=c) donne les extrêmes. En outre, on prend usuellement 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 pour une section rectangulaire.",EMBEDDED_LOG,ajout,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-02 04:17:18,,20250902_041728__ETUD013_BenRomdhane_Maya.xlsm,ETUD013,E2,Q4 - Donner l’expression de σmax,dsdz,,"En conclusion, 
+𝜎
+max
+⁡
+=
+∣
+𝑁
+∣
+/
+𝐴
++
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣N∣/A+∣M∣c/I; dans ce contexte, il convient de poser 
+𝑐
+=
+ℎ
+/
+2
+c=h/2 (fibre extrême). Par exemple, si 
+𝑁
+=
+0
+N=0, alors 
+𝜎
+max
+⁡
+=
+∣
+𝑀
+∣
+ 
+𝑐
+/
+𝐼
+σ
+max
+	​
+
+=∣M∣c/I.",EMBEDDED_LOG,modification,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
