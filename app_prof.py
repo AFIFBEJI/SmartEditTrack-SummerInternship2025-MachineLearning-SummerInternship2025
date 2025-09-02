@@ -1,15 +1,17 @@
 # app_prof.py — Espace professeur (classes, copies, dépôts, rapports) — version .xlsm
-import os, json, re, shutil
+import os, json, re, shutil, glob
 import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 
 # --- Supabase (optionnel : on continue même si non dispo)
 try:
-    from supa import upload_file   # helpers déjà présents dans ton projet
+    # helpers présents dans ton projet (à compléter ci-dessous dans supa.py)
+    from supa import upload_file, delete_prefix
     _SUPA_OK = True
 except Exception:
     upload_file = None
+    delete_prefix = None
     _SUPA_OK = False
 
 from compare_excels import comparer_etudiant
@@ -128,7 +130,7 @@ def _load_classes():
                 WHERE class_name IS NOT NULL AND class_name <> ''
                 ORDER BY 1
             """).fetchall()
-            out = [{"slug": re.sub(r"[^a-z0-9\-]+","-", (s or "").lower()).strip("-"), "name": s}
+            out = [{"slug": re.sub(r"[^a-z0-9\\-]+","-", (s or "").lower()).strip("-"), "name": s}
                    for (s,) in rows if s]
         except Exception:
             pass
@@ -213,6 +215,50 @@ def _delete_all_history() -> int:
             except Exception:
                 pass
     return n
+
+# ---------------- Suppression de classe ----------------
+def _delete_class_local(slug: str) -> tuple[bool, str]:
+    """Efface le dossier local /tmp/classes/<slug> entièrement."""
+    try:
+        shutil.rmtree(_class_dir(slug), ignore_errors=True)
+        return True, f"Dossier local supprimé: {_class_dir(slug)}"
+    except Exception as e:
+        return False, f"Erreur suppression locale: {e}"
+
+def _delete_class_supabase(slug: str) -> list[str]:
+    """Supprime les objets dans Storage: copies/<slug>/, classes/<slug>/, backups/<slug>/ (si existe)."""
+    logs = []
+    if not (_SUPA_OK and callable(delete_prefix)):
+        logs.append("Supabase indisponible: saut de la suppression Storage.")
+        return logs
+    for prefix in [f"copies/{slug}/", f"classes/{slug}/", f"backups/{slug}/"]:
+        try:
+            ok = delete_prefix(prefix)  # True si au moins un objet supprimé
+            logs.append(f"Storage • rm -r {prefix} : {'OK' if ok else 'rien à supprimer'}")
+        except Exception as e:
+            logs.append(f"Storage • rm -r {prefix} : erreur {e}")
+    return logs
+
+def _delete_class_db(class_name: str) -> list[str]:
+    """Optionnel: purge BD (users & submissions) pour class_name."""
+    logs = []
+    try:
+        conn = get_conn()
+        # supprimer d'abord submissions liées aux users de la classe
+        conn.execute("""
+            DELETE FROM submissions
+            WHERE user_id IN (SELECT id FROM users WHERE class_name = ?)
+        """, (class_name,))
+        n1 = conn.total_changes
+        # puis comptes
+        conn.execute("DELETE FROM users WHERE class_name = ?", (class_name,))
+        n2 = conn.total_changes - n1
+        conn.commit()
+        logs.append(f"BD • submissions supprimées: {n1}")
+        logs.append(f"BD • users supprimés: {n2}")
+    except Exception as e:
+        logs.append(f"BD • erreur purge: {e}")
+    return logs
 
 # ---------------- Vue PROF ----------------
 def run(user):
@@ -324,9 +370,8 @@ def run(user):
                                 st.info(f"Log des hashs : {log_path}")
 
                                 # 2) Upload Supabase (si dispo)
-                                if _SUPA_OK:
+                                if _SUPA_OK and callable(upload_file):
                                     uploaded = 0
-                                    # copies .xlsm
                                     for fname in os.listdir(out_dir):
                                         if fname.lower().endswith(".xlsm"):
                                             local = os.path.join(out_dir, fname)
@@ -343,7 +388,6 @@ def run(user):
                                         upload_file(log_path, f"classes/{chosen}/{os.path.basename(log_path)}", content_type="text/csv")
                                     except Exception:
                                         pass
-
                                     st.info(f"☁️ {uploaded} copie(s) envoyée(s) dans Supabase (copies/{chosen}/).")
                                 else:
                                     st.caption("ℹ️ Upload Supabase désactivé (module indisponible).")
@@ -359,6 +403,43 @@ def run(user):
                     st.caption(f"Hash log : {_class_hash_log(chosen)}")
                     st.caption(f"Template : {TEMPLATE_PATH}")
 
+                st.divider()
+
+                # ======= NOUVEAU : SUPPRIMER LA CLASSE =======
+                st.markdown("### 🗑️ Supprimer cette classe")
+                col1, col2, col3 = st.columns([1,1,1])
+                with col1:
+                    also_storage = st.checkbox("Supprimer sur Supabase (Storage)", value=True, help="Efface copies/<slug>/ et classes/<slug>/")
+                with col2:
+                    also_db = st.checkbox("Purger la base (users + submissions)", value=False,
+                                          help="Supprime utilisateurs et dépôts liés à cette classe dans la BD.")
+                with col3:
+                    confirm = st.text_input("Confirme en tapant le *slug* :", placeholder=chosen)
+
+                if st.button("🧨 Supprimer la classe", key="delete_class", type="primary"):
+                    if confirm.strip() != chosen:
+                        st.warning(f"Pour confirmer, tape exactement le slug : {chosen}")
+                    else:
+                        logs = []
+                        ok_local, msg_local = _delete_class_local(chosen)
+                        logs.append(msg_local)
+
+                        if also_storage:
+                            logs += _delete_class_supabase(chosen)
+
+                        if also_db:
+                            class_name = dict((v,k) for k,v in {c['slug']:c['name'] for c in _load_classes()}.items()).get(chosen, chosen)
+                            logs += _delete_class_db(class_name)
+
+                        # Nettoyer éventuels fichiers notifs obsolètes
+                        _save_notifs([f for f in _load_notifs() if not f.startswith(chosen)])
+
+                        st.success("Suppression terminée.")
+                        with st.expander("Détails"):
+                            for line in logs:
+                                st.write("• " + line)
+                        st.rerun()
+                # =============================================
     # -------- 📂 Dépôts & Rapports --------
     with tabs[1]:
         classes = _load_classes()
