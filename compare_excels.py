@@ -42,8 +42,8 @@ except Exception:
 
 # ======================= CONFIG =======================
 DATA_DIR        = os.environ.get("DATA_DIR", "./")
-# >>> .xlsm
-TEMPLATE_PATH   = os.path.join(os.path.dirname(__file__), "data", "Fichier_Excel_Professeur_Template.xlsm")
+# Aligne avec app_prof.py (template stocké dans DATA_DIR) — >>> .xlsm
+TEMPLATE_PATH   = os.path.join(DATA_DIR, "Fichier_Excel_Professeur_Template.xlsm")
 copies_folder   = os.path.join(DATA_DIR, "copies_etudiants")
 rapport_folder  = os.path.join(DATA_DIR, "rapports_etudiants")
 hash_log_file   = os.path.join(DATA_DIR, "hash_records.csv")
@@ -355,11 +355,7 @@ def _classify(reponse: str, question: str, delta_secs: float | None, prev_text: 
     # IA
     p_ai = _ai_probability(txt)
     res["ai_score"] = int(round(p_ai * 100))
-
-    # ✅ FIX: on teste la présence des marqueurs DANS le texte normalisé
-    norm_txt = _norm(txt)
-    lowered = (len(norm_txt) >= 120) or any(m in norm_txt for m in _AI_MARKERS)
-
+    lowered = (len(_norm(txt)) >= 120) or any(kw in _norm(txt) for kw in _AI_MARKERS)  # ✅ bonne forme
     ai_threshold = AI_THRESHOLD_LOWERED if lowered else AI_THRESHOLD_DEFAULT
     if p_ai >= ai_threshold:
         res["ai"] = True
@@ -582,7 +578,7 @@ def comparer_etudiant(fichier_etudiant: str) -> str:
 
             timeline[addr].append((now, v_etud))
 
-            if analysis["empty"]]:
+            if analysis["empty"]:
                 label = "Non répondu"
                 unanswered_count += 1
             else:
