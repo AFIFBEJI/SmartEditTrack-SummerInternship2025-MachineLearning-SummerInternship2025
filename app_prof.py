@@ -6,7 +6,7 @@ from datetime import datetime
 
 # --- Supabase (optionnel : on continue même si non dispo)
 try:
-    # helpers présents dans ton projet (à compléter ci-dessous dans supa.py)
+    # helpers présents dans ton projet (à compléter dans supa.py)
     from supa import upload_file, delete_prefix
     _SUPA_OK = True
 except Exception:
@@ -77,13 +77,21 @@ html,body,[class*="css"]{ font-family:Inter,system-ui,-apple-system,"Segoe UI",R
 </style>
 """
 
-# ---------------- Helpers classes ----------------
+# ---------------- Helpers ----------------
 def _slugify(name: str) -> str:
     s = name.lower().strip()
     s = re.sub(r"[^a-z0-9\-_\s]", "", s)
     s = re.sub(r"\s+", "-", s)
     s = re.sub(r"-+", "-", s)
     return s or "classe"
+
+def _password_errors(pwd: str) -> list[str]:
+    """Règles: ≥8, au moins 1 majuscule, 1 minuscule."""
+    err = []
+    if len(pwd or "") < 8: err.append("au moins 8 caractères")
+    if not re.search(r"[A-Z]", pwd or ""): err.append("au moins une majuscule")
+    if not re.search(r"[a-z]", pwd or ""): err.append("au moins une minuscule")
+    return err
 
 def _class_dir(slug: str) -> str: return os.path.join(CLASSES_ROOT, slug)
 def _class_meta_path(slug: str) -> str: return os.path.join(_class_dir(slug), "meta.json")
@@ -99,8 +107,7 @@ def _ensure_class(slug: str, name: str = None):
             json.dump({"name": name, "slug": slug}, f, ensure_ascii=False, indent=2)
 
 def _load_classes():
-    """Charge d’abord depuis le système de fichiers.
-       Secours : si vide, lit DISTINCT class_name depuis la BD."""
+    """Charge d’abord depuis le système de fichiers. Secours : si vide, lit DISTINCT class_name depuis la BD."""
     out = []
     # 1) FS
     try:
@@ -244,13 +251,13 @@ def _delete_class_db(class_name: str) -> list[str]:
     logs = []
     try:
         conn = get_conn()
-        # supprimer d'abord submissions liées aux users de la classe
+        # submissions liées
         conn.execute("""
             DELETE FROM submissions
             WHERE user_id IN (SELECT id FROM users WHERE class_name = ?)
         """, (class_name,))
         n1 = conn.total_changes
-        # puis comptes
+        # comptes
         conn.execute("DELETE FROM users WHERE class_name = ?", (class_name,))
         n2 = conn.total_changes - n1
         conn.commit()
@@ -316,7 +323,10 @@ def run(user):
                 chosen = st.selectbox("Classe :", list(choices.keys()), format_func=lambda s: choices[s])
 
                 # Upload CSV étudiants
-                up = st.file_uploader("Uploader liste_etudiants.csv (colonnes: id, nom, prenom)", type=["csv"])
+                up = st.file_uploader(
+                    "Uploader liste_etudiants.csv (colonnes: id, nom, prenom, email)",
+                    type=["csv"]
+                )
                 if up is not None:
                     _ensure_class(chosen)
                     csv_path = _class_csv(chosen)
@@ -338,16 +348,66 @@ def run(user):
                         st.error(f"❌ Échec enregistrement template : {e}")
 
                 colA, colB, colC = st.columns(3)
+
+                # ======= SYNCHRO + EMAILS =======
                 with colA:
-                    if st.button("🔄 Synchroniser vers la BD"):
-                        csv_path = _class_csv(chosen)
+                    st.markdown("**Synchroniser vers la BD**")
+                    csv_path = _class_csv(chosen)
+                    do_reset = st.checkbox(
+                        "Réinitialiser le mot de passe pour les étudiants existants",
+                        value=False,
+                        help="Réécrit le mot de passe initial (ID ou valeur fixée) pour tous les élèves du CSV."
+                    )
+                    send_creds = st.checkbox(
+                        "Envoyer identifiants par email",
+                        value=False,
+                        help="Envoie aux nouveaux. Si 'Réinitialiser' est coché, envoie à tous."
+                    )
+                    login_url = st.text_input(
+                        "URL de connexion à insérer dans l'email",
+                        value=os.getenv("APP_BASE_URL", "")
+                    )
+
+                    # --- ⚙️ DIAGNOSTIC EMAIL (voir les variables et tester un envoi) ---
+                    with st.expander("⚙️ Diagnostic email"):
+                        st.write("SMTP_HOST:", os.getenv("SMTP_HOST"))
+                        st.write("SMTP_USER:", os.getenv("SMTP_USER"))
+                        st.write("APP_BASE_URL:", os.getenv("APP_BASE_URL"))
+                        test_to = st.text_input(
+                            "Tester un envoi (Mailtrap Sandbox) vers :",
+                            "etud001@example.com",
+                            key="diag_to"
+                        )
+                        if st.button("📤 Tester l'envoi maintenant", key="diag_send"):
+                            try:
+                                from mailer import send_credentials_email as _send
+                                ok = _send(test_to, "TEST123", "TEST123", login_url or "http://localhost:8501")
+                                if ok:
+                                    st.success("✅ Envoi OK (regarde la boîte Mailtrap)")
+                                else:
+                                    st.error("❌ Échec d'envoi : variables SMTP manquantes ou refusées par le serveur.")
+                            except Exception as e:
+                                st.error(f"Exception Python pendant l'envoi: {e}")
+                    # -------------------------------------------------------------------
+
+                    if st.button("🔄 Synchroniser vers la BD", use_container_width=True, key="btn_sync_db"):
                         if not os.path.exists(csv_path):
                             st.error("Aucun CSV pour cette classe.")
                         else:
-                            created, updated = import_students_csv(get_conn(), csv_path, choices[chosen])
-                            st.success(f"✅ Synchro BD : {created} créé(s), {updated} mis à jour.")
+                            # importante: version d'import qui gère l'email & l'envoi
+                            stats = import_students_csv(
+                                get_conn(), csv_path, choices[chosen],
+                                default_pwd="id",
+                                reset_password=do_reset,
+                                send_email=send_creds,
+                                login_url=login_url or None
+                            )
+                            st.success(f"✅ Synchro : {stats['created']} créé(s), {stats['updated']} MAJ.")
+                            if send_creds:
+                                st.info(f"✉️ Emails envoyés : {stats.get('emailed', 0)}")
+                # ================================
 
-                # ======= BOUTON GÉNÉRER (avec upload Supabase) =======
+                # ======= GÉNÉRER =======
                 with colB:
                     if st.button("⚡ Générer les copies"):
                         csv_path = _class_csv(chosen)
@@ -394,7 +454,7 @@ def run(user):
 
                             except Exception as e:
                                 st.error(f"❌ Erreur génération copies : {e}")
-                # =====================================================
+                # ========================
 
                 with colC:
                     st.markdown("**Chemins**")
@@ -405,7 +465,7 @@ def run(user):
 
                 st.divider()
 
-                # ======= NOUVEAU : SUPPRIMER LA CLASSE =======
+                # ======= SUPPRIMER LA CLASSE =======
                 st.markdown("### 🗑️ Supprimer cette classe")
                 col1, col2, col3 = st.columns([1,1,1])
                 with col1:
@@ -439,7 +499,8 @@ def run(user):
                             for line in logs:
                                 st.write("• " + line)
                         st.rerun()
-                # =============================================
+                # ===================================
+
     # -------- 📂 Dépôts & Rapports --------
     with tabs[1]:
         classes = _load_classes()
@@ -544,7 +605,7 @@ def run(user):
                         with open(st.session_state.report_txt_path, "rb") as fb:
                             st.download_button("📥 Télécharger le rapport TXT",
                                                fb,
-                                               file_name=st.session_state.report_file or "rapport.txt",
+                                               file_name=self.session_state.report_file or "rapport.txt",
                                                use_container_width=True)
                 else:
                     st.info("Sélectionne un dépôt puis clique sur **🔍 Analyser ce dépôt** pour générer et afficher le rapport.")
@@ -631,17 +692,23 @@ def run(user):
 
     # -------- 👤 Compte --------
     with tabs[3]:
-        st.subheader("🔒 Mettre à jour mon mot de passe (admin)")
+        st.subheader("🔒 Mettre à jour mon mot de passe (admin/prof)")
         cur = st.text_input("Mot de passe actuel", type="password")
         new1 = st.text_input("Nouveau mot de passe", type="password")
         new2 = st.text_input("Confirmer le nouveau mot de passe", type="password")
-        if st.button("Mettre à jour mon mot de passe"):
+
+        if st.button("Mettre à jour mon mot de passe", key="btn_update_pwd_admin"):
             if not cur or not new1 or not new2:
                 st.error("Champs incomplets.")
             elif new1 != new2:
                 st.error("La confirmation ne correspond pas.")
-            elif len(new1) < 8:
-                st.error("Min. 8 caractères.")
             else:
-                ok = change_password(get_conn(), user["id"], cur, new1)
-                st.success("✅ Mot de passe mis à jour.") if ok else st.error("Mot de passe actuel incorrect.")
+                errs = _password_errors(new1)
+                if errs:
+                    st.error("Le mot de passe doit contenir : " + ", ".join(errs) + ".")
+                else:
+                    ok = change_password(get_conn(), user["id"], cur, new1)
+                    if ok:
+                        st.success("✅ Mot de passe mis à jour.")
+                    else:
+                        st.error("Mot de passe actuel incorrect.")

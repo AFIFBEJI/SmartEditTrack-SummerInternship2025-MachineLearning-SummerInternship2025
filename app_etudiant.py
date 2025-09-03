@@ -6,6 +6,7 @@ import hashlib
 import datetime
 import openpyxl
 import streamlit as st
+import re
 
 from auth import (
     get_conn,
@@ -14,7 +15,7 @@ from auth import (
     change_password,
 )
 
-DATA_DIR     = os.environ.get("DATA_DIR", "/tmp")  # même valeur que côté prof
+DATA_DIR      = os.environ.get("DATA_DIR", "/tmp")  # même valeur que côté prof
 GLOBAL_COPIES = os.path.join(DATA_DIR, "copies_generees")
 CLASS_ROOT    = os.path.join(DATA_DIR, "classes")
 DEPOSIT_DIR   = os.path.join(DATA_DIR, "copies_etudiants")
@@ -41,12 +42,19 @@ html,body,[class*="css"]{ font-family: Inter, system-ui, -apple-system, "Segoe U
 """
 
 def _slugify(name: str) -> str:
-    import re
     s = (name or "").lower().strip()
     s = re.sub(r"[^a-z0-9\-_\s]", "", s)
     s = re.sub(r"\s+", "-", s)
     s = re.sub(r"-+", "-", s)
     return s or "classe"
+
+def _password_errors(pwd: str) -> list[str]:
+    """Règles: ≥8, au moins 1 majuscule, 1 minuscule."""
+    err = []
+    if len(pwd or "") < 8: err.append("au moins 8 caractères")
+    if not re.search(r"[A-Z]", pwd or ""): err.append("au moins une majuscule")
+    if not re.search(r"[a-z]", pwd or ""): err.append("au moins une minuscule")
+    return err
 
 def _copy_filename_for(user_id: str, first_name: str, last_name: str) -> str:
     # <<< .xlsm
@@ -196,16 +204,19 @@ def run(user):
         cur = st.text_input("Mot de passe actuel", type="password")
         new1 = st.text_input("Nouveau mot de passe", type="password")
         new2 = st.text_input("Confirmer le nouveau mot de passe", type="password")
-        if st.button("Mettre à jour"):
+
+        if st.button("Mettre à jour", key="btn_update_pwd_student"):
             if not cur or not new1 or not new2:
                 st.error("Veuillez remplir tous les champs.")
             elif new1 != new2:
                 st.error("La confirmation ne correspond pas.")
-            elif len(new1) < 6:
-                st.error("Le mot de passe doit contenir au moins 6 caractères.")
             else:
-                ok = change_password(get_conn(), user["id"], cur, new1)
-                if ok:
-                    st.success("✅ Mot de passe mis à jour.")
+                errs = _password_errors(new1)
+                if errs:
+                    st.error("Le mot de passe doit contenir : " + ", ".join(errs) + ".")
                 else:
-                    st.error("Mot de passe actuel incorrect.")
+                    ok = change_password(get_conn(), user["id"], cur, new1)
+                    if ok:
+                        st.success("✅ Mot de passe mis à jour.")
+                    else:
+                        st.error("Mot de passe actuel incorrect.")

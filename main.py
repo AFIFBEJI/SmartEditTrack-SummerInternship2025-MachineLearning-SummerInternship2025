@@ -2,9 +2,20 @@
 import os
 import streamlit as st
 
+
+import os
+try:
+    import streamlit as st
+    for k, v in st.secrets.items():
+        os.environ.setdefault(k, str(v))
+except Exception:
+    pass
+
+
 from auth import (
     bootstrap_on_startup, get_conn, ensure_schema, record_login,
-    auth_user, create_session, get_user_by_token, delete_session
+    auth_user, create_session, get_user_by_token, delete_session,
+    login_is_locked, register_failed_login, reset_throttle,  # 👈 anti brute-force
 )
 from sb_auth import (
     sign_in_with_password, sign_out, get_user,
@@ -12,18 +23,15 @@ from sb_auth import (
     verify_recovery_token, update_current_password, admin_set_password_for_user,
 )
 
-# ---------- Bootstrap & config ----------
 bootstrap_on_startup()
 st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 conn = get_conn()
 ensure_schema(conn)
 
-# ---------- Helpers ----------
 def _q(name: str):
     v = st.query_params.get(name, None)
     return (v[0] if isinstance(v, list) else v)
 
-# ---------- VUE: Reset password (Supabase) ----------
 def reset_view():
     st.markdown("""
     <style>
@@ -32,10 +40,8 @@ def reset_view():
       .block-container { padding-top: 2rem !important; }
     </style>
     """, unsafe_allow_html=True)
-
     st.title("Réinitialisation du mot de passe")
 
-    # Remonter un éventuel token dans le hash #... => ?token=...
     if "token" not in st.query_params and "recovery_user_id" not in st.session_state:
         st.components.v1.html("""
         <script>
@@ -56,7 +62,6 @@ def reset_view():
         </script>
         """, height=0)
 
-    # Vérifier le token UNE fois, mémoriser l'user id
     if "recovery_user_id" not in st.session_state:
         token = _q("token")
         if not token:
@@ -76,44 +81,34 @@ def reset_view():
         if not user_id:
             st.error("Impossible d’identifier l’utilisateur. Redemande un email de réinitialisation.")
             st.stop()
-
         st.session_state["recovery_user_id"] = user_id
 
-    # Formulaire MDP (sans re-vérifier le token)
     st.success("Lien validé ✅. Choisis un nouveau mot de passe.")
     pwd1 = st.text_input("Nouveau mot de passe", type="password", key="reset_pwd1")
     pwd2 = st.text_input("Confirme le mot de passe", type="password", key="reset_pwd2")
 
     if st.button("Mettre à jour le mot de passe", type="primary", key="btn_reset_update"):
         if not pwd1 or len(pwd1) < 8:
-            st.error("Le mot de passe doit contenir au moins 8 caractères.")
-            return
+            st.error("Le mot de passe doit contenir au moins 8 caractères."); return
         if pwd1 != pwd2:
-            st.error("Les deux mots de passe ne correspondent pas.")
-            return
+            st.error("Les deux mots de passe ne correspondent pas."); return
 
         user_id = st.session_state.get("recovery_user_id")
         ok = False
         try:
-            update_current_password(pwd1)   # voie recovery
-            ok = True
+            update_current_password(pwd1); ok = True
         except Exception:
             ok = False
-
-        if not ok:  # fallback service role
+        if not ok:
             try:
-                admin_set_password_for_user(user_id, pwd1)
-                ok = True
+                admin_set_password_for_user(user_id, pwd1); ok = True
             except Exception as e:
-                st.error(f"Erreur pendant la mise à jour : {e}")
-                ok = False
-
+                st.error(f"Erreur pendant la mise à jour : {e}"); ok = False
         if ok:
             st.session_state.pop("recovery_user_id", None)
             st.success("Mot de passe mis à jour 🎉. Tu peux maintenant te connecter.")
             st.write("[↩ Revenir à l’écran de connexion](/)")
 
-# ---------- Styles login ----------
 LOGIN_CSS = """
 <style>
 #MainMenu, header, footer{display:none!important;}
@@ -147,7 +142,6 @@ SVG_ILLU = """
 </svg>
 """
 
-# ---------- VUE: Login ----------
 def login_view():
     st.markdown(LOGIN_CSS, unsafe_allow_html=True)
     st.markdown('<div class="wrap">', unsafe_allow_html=True)
@@ -158,74 +152,108 @@ def login_view():
             '<div class="login-head">'
             '<div class="h-title">SmartEditTrack — Connexion</div>'
             '<div class="h-sub">Choisissez votre méthode de connexion</div>'
-            '</div>',
-            unsafe_allow_html=True
+            '</div>', unsafe_allow_html=True
         )
 
         tabs = st.tabs(["Admin/Prof (email + mot de passe)", "Étudiant (ID + mot de passe)"])
 
-        # --- Admin/Prof (Supabase) ---
+        # --- Admin/Prof (Supabase + anti-brute-force local) ---
         with tabs[0]:
             email = st.text_input("Email (admin/prof)", key="adm_email")
             password = st.text_input("Mot de passe", type="password", key="adm_pwd")
 
             if st.button("Se connecter (Admin/Prof)", key="btn_login_admin"):
+                email_norm = (email or "").strip().lower()
+                ip = "unknown"  # si tu peux récupérer l'IP, remplace ici
+
+                locked, wait_s = login_is_locked(conn, email_norm, ip)
+                if locked:
+                    m, s = divmod(wait_s, 60)
+                    st.error(f"Trop d’essais. Compte verrouillé encore {m} min {s:02d} s.")
+                    st.stop()
+
                 try:
-                    res = sign_in_with_password(email.strip(), password.strip())
-                    if getattr(res, "user", None):
+                    res = sign_in_with_password(email_norm, (password or "").strip())
+                    ok = bool(getattr(res, "user", None))
+                except Exception:
+                    ok = False
+
+                if not ok:
+                    locked_now, wait_s, remaining = register_failed_login(conn, email_norm, ip)
+                    if locked_now:
+                        m, s = divmod(wait_s, 60)
+                        st.error(f"Identifiants invalides. Compte verrouillé {m} min {s:02d} s.")
+                    else:
+                        st.error(f"Identifiants invalides. Tentatives restantes : {remaining}.")
+                else:
+                    # succès : reset le throttle et poursuis comme avant
+                    reset_throttle(conn, email_norm, ip)
+                    try:
                         su = get_user()
                         u = getattr(su, "user", None)
-                        if not u:
-                            st.error("Session non trouvée après login.")
-                        else:
-                            prof = get_profile(u.id)
-                            if not prof:
-                                default_role = "prof"
-                                admins = [e.strip().lower()
-                                          for e in os.environ.get("ADMIN_EMAILS","").split(",")
-                                          if e.strip()]
-                                if u.email and u.email.lower() in admins:
-                                    default_role = "admin"
-                                upsert_profile(
-                                    u.id, u.email, default_role,
-                                    (getattr(u, "user_metadata", {}) or {}).get("full_name", None)
-                                )
-                            try:
-                                record_login(conn, u.id, ip="unknown", ua="streamlit")
-                            except Exception:
-                                pass
-                            st.session_state["supabase_user"] = {"id": u.id, "email": u.email}
-                            st.success("Connexion réussie.")
-                            st.rerun()
+                    except Exception:
+                        u = None
+
+                    if not u:
+                        st.error("Session non trouvée après login.")
                     else:
-                        st.error("Échec de connexion.")
-                except Exception as e:
-                    st.error(f"Erreur: {e}")
+                        prof = get_profile(u.id)
+                        if not prof:
+                            default_role = "prof"
+                            admins = [e.strip().lower() for e in os.environ.get("ADMIN_EMAILS","").split(",") if e.strip()]
+                            if u.email and u.email.lower() in admins:
+                                default_role = "admin"
+                            upsert_profile(
+                                u.id, u.email, default_role,
+                                (getattr(u, "user_metadata", {}) or {}).get("full_name", None)
+                            )
+                        try:
+                            record_login(conn, u.id, ip=ip, ua="streamlit-supabase")
+                        except Exception:
+                            pass
+                        st.session_state["supabase_user"] = {"id": u.id, "email": u.email}
+                        st.success("Connexion réussie.")
+                        st.rerun()
 
             with st.expander("Mot de passe oublié ?"):
                 reset_email = st.text_input("Votre email", key="adm_reset_email")
                 if st.button("Envoyer le lien de réinitialisation", key="btn_send_reset"):
                     try:
-                        send_reset_email(reset_email.strip())
+                        send_reset_email((reset_email or "").strip().lower())
                         st.info("Si le compte existe, un email a été envoyé.")
                     except Exception as e:
                         st.error(f"Erreur: {e}")
 
-        # --- Étudiant (ID local) ---
+        # --- Étudiant (ID local + anti-brute-force local) ---
         with tabs[1]:
             sid = st.text_input("Identifiant (ex. ETUD001)", key="stu_id")
             spw = st.text_input("Mot de passe", type="password", key="stu_pwd")
 
             if st.button("Se connecter (Étudiant)", key="btn_login_student"):
+                sid = (sid or "").strip()
+                ip = "unknown"
+
+                locked, wait_s = login_is_locked(conn, sid, ip)
+                if locked:
+                    m, s = divmod(wait_s, 60)
+                    st.error(f"Trop d'essais. Compte verrouillé encore {m} min {s:02d} s.")
+                    st.stop()
+
                 user = auth_user(conn, sid, spw)
                 if not user:
-                    st.error("Identifiant ou mot de passe invalide.")
+                    locked_now, wait_s, remaining = register_failed_login(conn, sid, ip)
+                    if locked_now:
+                        m, s = divmod(wait_s, 60)
+                        st.error(f"Identifiant ou mot de passe invalide. Compte verrouillé {m} min {s:02d} s.")
+                    else:
+                        st.error(f"Identifiant ou mot de passe invalide. Tentatives restantes : {remaining}.")
                 else:
+                    reset_throttle(conn, sid, ip)
                     tok = create_session(conn, user["id"])
                     st.session_state["local_token"] = tok
-                    st.session_state["local_user"] = user  # pour affichage rapide
+                    st.session_state["local_user"] = user
                     try:
-                        record_login(conn, user["id"], ip="unknown", ua="streamlit-local")
+                        record_login(conn, user["id"], ip=ip, ua="streamlit-local")
                     except Exception:
                         pass
                     st.success("Connexion réussie.")
@@ -236,73 +264,55 @@ def login_view():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# ---------- VUE: App (routage unifié) ----------
 def app_view():
     st.markdown("""<style>[data-testid="stSidebarNav"]{ display:none !important; }</style>""",
                 unsafe_allow_html=True)
 
-    # 1) Session Prof/Admin (Supabase)
     try:
         su = get_user()
         sb_user = getattr(su, "user", None)
     except Exception:
         sb_user = None
 
-    # 2) Session Étudiant (locale)
     local_tok = st.session_state.get("local_token")
     local_user = get_user_by_token(conn, local_tok) if local_tok else None
 
-    # Déconnexion
     if sb_user:
         prof = get_profile(sb_user.id) or {}
         role = prof.get("role", "student")
         st.sidebar.success(f"{sb_user.email} — ({role})")
         if st.sidebar.button("Se déconnecter (Admin/Prof)", use_container_width=True, key="btn_logout_admin"):
-            try:
-                sign_out()
-            except Exception:
-                pass
+            try: sign_out()
+            except Exception: pass
             st.session_state.pop("supabase_user", None)
             st.rerun()
 
-        # App prof/admin
         if role in ("admin", "prof"):
             from app_prof import run as prof_run
-            prof_run({"id": sb_user.id, "role": role})
-            return
+            prof_run({"id": sb_user.id, "role": role}); return
         else:
             st.warning("Profil non reconnu — rôle par défaut étudiant.")
             from app_etudiant import run as etu_run
-            etu_run({"id": sb_user.id, "role": "student"})
-            return
+            etu_run({"id": sb_user.id, "role": "student"}); return
 
     if local_user:
         st.sidebar.success(f"{local_user['id']} — (étudiant)")
         if st.sidebar.button("Se déconnecter (Étudiant)", use_container_width=True, key="btn_logout_student"):
-            try:
-                delete_session(conn, local_tok)
+            try: delete_session(conn, local_tok)
             finally:
                 st.session_state.pop("local_token", None)
                 st.session_state.pop("local_user", None)
                 st.rerun()
-
         from app_etudiant import run as etu_run
-        etu_run(local_user)
-        return
+        etu_run(local_user); return
 
-    # Si aucune session valide -> revenir au login
     login_view()
 
-# ---------- ROUTER ----------
 def main():
-    # Interception des liens d'email Supabase d'abord
     p = (_q("page") or "").lower()
     token_present = any(_q(k) for k in ("token", "token_hash", "access_token"))
-
     if p == "reset" or token_present:
         reset_view(); return
-
-    # Sinon, logique habituelle (app ou login)
     app_view()
 
 if __name__ == "__main__":
