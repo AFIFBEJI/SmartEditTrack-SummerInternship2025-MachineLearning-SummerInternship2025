@@ -1,7 +1,10 @@
 streamlit>=1.49.0
-openpyxl
-pandas
-numpy
-scikit-learn
-passlib[bcrypt]
 supabase==2.6.0
+passlib[bcrypt]>=1.7.4
+openpyxl>=3.1.2
+pandas>=2.2.2
+numpy>=1.26.4
+scikit-learn>=1.4.2
+qrcode>=7.4.2
+pillow>=10.4.0
+python-dotenv>=1.0.1

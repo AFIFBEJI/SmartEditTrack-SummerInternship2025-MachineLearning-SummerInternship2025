@@ -1,20 +1,58 @@
-﻿# Excel : fichiers lock/temporaires
-~$*
-*.tmp
-*.log
+﻿# ===================== SECRETS / ENV =====================
+# Ne jamais versionner les clés locales
+.env
+*.env
+.env.* 
+# (garde le dossier .streamlit mais ignore les secrets)
+.streamlit/secrets.toml
 
-# Python
+# ===================== PYTHON / VENV / CACHES =====================
+# Environnements virtuels
+.venv/
+venv/
+env/
+# Caches Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+# Build/dist
+build/
+dist/
+*.egg-info/
+.python-version
+.ipynb_checkpoints/
 
-# Sorties générées par l'app (NE PAS versionner)
+# ===================== OS / IDE =====================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===================== DONNÉES LOCALES / DB =====================
+# Fichiers DB et sauvegardes locales
+*.db
+smartedittrack.db
+backups/
+# Dossier de données locales
+data/
+
+# Si tu veux garder UNIQUEMENT le template Excel du prof :
+# (on ignore par défaut les Excel dans /data, sauf le template)
+data/*.xlsx
+data/*.xlsm
+!data/Fichier_Excel_Professeur_Template.xlsm
+
+# ===================== SORTIES GÉNÉRÉES PAR L'APP =====================
+copies_generees/
 copies_etudiants/
 rapports_etudiants/
 historique_reponses/
 modifications_log_secure.csv
 
-# Par prudence: ignorer les fichiers Excel dans /data
-# (on autorise uniquement le template prof)
-data/*.xlsx
-data/*.xlsm
-!data/Fichier_Excel_Professeur_Template.xlsm
+# ===================== LOGS / TEMPORAIRES =====================
+*.log
+*.tmp
+~$*  # fichiers lock Excel (~$...)
