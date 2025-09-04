@@ -1,21 +1,19 @@
 # main.py — SmartEditTrack (Admin/Prof via Supabase • Étudiants via ID local)
 import os
+import re
 import streamlit as st
 
-
-import os
+# --- Expose st.secrets en variables d'env (pratique sur Render) --------------
 try:
-    import streamlit as st
     for k, v in st.secrets.items():
         os.environ.setdefault(k, str(v))
 except Exception:
     pass
 
-
 from auth import (
     bootstrap_on_startup, get_conn, ensure_schema, record_login,
     auth_user, create_session, get_user_by_token, delete_session,
-    login_is_locked, register_failed_login, reset_throttle,  # 👈 anti brute-force
+    login_is_locked, register_failed_login, reset_throttle,
 )
 from sb_auth import (
     sign_in_with_password, sign_out, get_user,
@@ -23,10 +21,72 @@ from sb_auth import (
     verify_recovery_token, update_current_password, admin_set_password_for_user,
 )
 
+# ⬇️ helpers Supabase Storage et chemins locaux (app_prof)
+from supa import list_prefix, download_to_file
+from app_prof import _class_csv, _class_copies_dir
+
+# -----------------------------------------------------------------------------
+# Restauration automatique du contenu local (/tmp) depuis Supabase au démarrage
+# -----------------------------------------------------------------------------
+def _slugify(s: str) -> str:
+    s = (s or "").lower().strip()
+    s = re.sub(r"[^a-z0-9\-]+", "-", s).strip("-")
+    return s or "classe"
+
+def restore_from_supabase():
+    """
+    Pour chaque classe trouvée en BD, télécharge:
+      - classes/<slug>/liste_etudiants.csv  -> /tmp/classes/<slug>/liste_etudiants.csv
+      - copies/<slug>/*.xlsm               -> /tmp/classes/<slug>/copies_generees/*.xlsm
+    Utile sur Render Free (où /tmp est vidé à chaque reboot).
+    """
+    conn = get_conn()
+    try:
+        rows = conn.execute("""
+            SELECT DISTINCT class_name
+            FROM users
+            WHERE class_name IS NOT NULL AND class_name <> ''
+        """).fetchall()
+    except Exception:
+        rows = []
+
+    for (classname,) in rows:
+        if not classname:
+            continue
+        slug = _slugify(classname)
+
+        # Assure les dossiers locaux
+        os.makedirs(os.path.dirname(_class_csv(slug)), exist_ok=True)
+        os.makedirs(_class_copies_dir(slug), exist_ok=True)
+
+        # 1) CSV classe
+        try:
+            download_to_file(f"classes/{slug}/liste_etudiants.csv", _class_csv(slug))
+        except Exception:
+            pass
+
+        # 2) Copies générées (.xlsm)
+        try:
+            for it in (list_prefix(f"copies/{slug}") or []):
+                if it.get("is_folder"):
+                    continue
+                remote = it.get("name") or ""
+                if remote.lower().endswith(".xlsm"):
+                    local = os.path.join(_class_copies_dir(slug), os.path.basename(remote))
+                    if not os.path.exists(local):
+                        download_to_file(remote, local)
+        except Exception:
+            pass
+
+# -----------------------------------------------------------------------------
+
 bootstrap_on_startup()
 st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 conn = get_conn()
 ensure_schema(conn)
+
+# ⬇️ restaure /tmp depuis Supabase AVANT d'afficher l'UI
+restore_from_supabase()
 
 def _q(name: str):
     v = st.query_params.get(name, None)
@@ -186,7 +246,6 @@ def login_view():
                     else:
                         st.error(f"Identifiants invalides. Tentatives restantes : {remaining}.")
                 else:
-                    # succès : reset le throttle et poursuis comme avant
                     reset_throttle(conn, email_norm, ip)
                     try:
                         su = get_user()

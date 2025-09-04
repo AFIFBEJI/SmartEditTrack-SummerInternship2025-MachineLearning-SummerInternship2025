@@ -6,6 +6,7 @@
 # - download_to_file() : téléchargement
 # - signed_url() : URL signée
 # - delete_prefix() : suppression récursive d'un "dossier" (prefix)
+# - list_prefix() / exists() : utilitaires légers
 
 from __future__ import annotations
 
@@ -142,3 +143,34 @@ def delete_prefix(prefix: str) -> bool:
     # L'API accepte la suppression en lot
     store.remove(to_remove)
     return True
+
+
+# --- Listing simple d’un "dossier" et test d’existence ------------------------
+def list_prefix(prefix: str):
+    """
+    Liste 1 niveau sous `prefix` (ex: 'copies/3a61').
+    Retourne des dicts {"name": "copies/3a61/ETUD001.xlsm", "is_folder": False}.
+    """
+    store = get_client().storage.from_(_BUCKET)
+    p = prefix.lstrip("/")
+    if p.endswith("/"):
+        p = p[:-1]
+    items = store.list(path=p) or []
+    out = []
+    for it in items:
+        name = it.get("name") or ""
+        is_folder = (it.get("id") is None) and (not it.get("metadata"))
+        full = f"{p}/{name}" if name else p
+        out.append({"name": full, "is_folder": is_folder})
+    return out
+
+
+def exists(remote_path: str) -> bool:
+    """Renvoie True si l’objet Storage existe (sans le télécharger)."""
+    parent = os.path.dirname(remote_path).lstrip("/")
+    base = os.path.basename(remote_path)
+    store = get_client().storage.from_(_BUCKET)
+    for it in store.list(path=parent) or []:
+        if (it.get("name") or "") == base:
+            return True
+    return False
