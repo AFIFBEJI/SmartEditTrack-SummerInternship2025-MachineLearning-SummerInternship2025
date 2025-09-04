@@ -1,9 +1,11 @@
 # main.py — SmartEditTrack (Admin/Prof via Supabase • Étudiants via ID local)
-import os
-import re
+import os, re
 import streamlit as st
 
-# --- Expose st.secrets en variables d'env (pratique sur Render) --------------
+# --- Config Streamlit le plus tôt possible (évite des glitchs de front) -----
+st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
+
+# --- Exposer st.secrets en variables d'env (utile sur Render) ---------------
 try:
     for k, v in st.secrets.items():
         os.environ.setdefault(k, str(v))
@@ -21,25 +23,19 @@ from sb_auth import (
     verify_recovery_token, update_current_password, admin_set_password_for_user,
 )
 
-# ⬇️ helpers Supabase Storage et chemins locaux (app_prof)
+# Helpers Supabase Storage et chemins locaux (app_prof)
 from supa import list_prefix, download_to_file
 from app_prof import _class_csv, _class_copies_dir
 
-# -----------------------------------------------------------------------------
-# Restauration automatique du contenu local (/tmp) depuis Supabase au démarrage
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Restauration /tmp depuis Supabase (utile sur Render Free où /tmp est éphémère)
+# ---------------------------------------------------------------------------
 def _slugify(s: str) -> str:
     s = (s or "").lower().strip()
     s = re.sub(r"[^a-z0-9\-]+", "-", s).strip("-")
     return s or "classe"
 
-def restore_from_supabase():
-    """
-    Pour chaque classe trouvée en BD, télécharge:
-      - classes/<slug>/liste_etudiants.csv  -> /tmp/classes/<slug>/liste_etudiants.csv
-      - copies/<slug>/*.xlsm               -> /tmp/classes/<slug>/copies_generees/*.xlsm
-    Utile sur Render Free (où /tmp est vidé à chaque reboot).
-    """
+def _restore_from_supabase():
     conn = get_conn()
     try:
         rows = conn.execute("""
@@ -55,17 +51,16 @@ def restore_from_supabase():
             continue
         slug = _slugify(classname)
 
-        # Assure les dossiers locaux
         os.makedirs(os.path.dirname(_class_csv(slug)), exist_ok=True)
         os.makedirs(_class_copies_dir(slug), exist_ok=True)
 
-        # 1) CSV classe
+        # CSV
         try:
             download_to_file(f"classes/{slug}/liste_etudiants.csv", _class_csv(slug))
         except Exception:
             pass
 
-        # 2) Copies générées (.xlsm)
+        # Copies .xlsm
         try:
             for it in (list_prefix(f"copies/{slug}") or []):
                 if it.get("is_folder"):
@@ -78,15 +73,23 @@ def restore_from_supabase():
         except Exception:
             pass
 
-# -----------------------------------------------------------------------------
+@st.cache_resource(show_spinner=False)
+def restore_from_supabase_once():
+    try:
+        _restore_from_supabase()
+    except Exception as e:
+        # on loggue mais on ne bloque pas l'app
+        print("restore_from_supabase skipped:", e)
+
+# ---------------------------------------------------------------------------
 
 bootstrap_on_startup()
-st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 conn = get_conn()
 ensure_schema(conn)
 
-# ⬇️ restaure /tmp depuis Supabase AVANT d'afficher l'UI
-restore_from_supabase()
+# Lance la restauration une seule fois (désactivable via env)
+if os.getenv("RESTORE_FROM_SUPABASE", "1") == "1":
+    restore_from_supabase_once()
 
 def _q(name: str):
     v = st.query_params.get(name, None)
@@ -217,14 +220,14 @@ def login_view():
 
         tabs = st.tabs(["Admin/Prof (email + mot de passe)", "Étudiant (ID + mot de passe)"])
 
-        # --- Admin/Prof (Supabase + anti-brute-force local) ---
+        # --- Admin/Prof ---
         with tabs[0]:
             email = st.text_input("Email (admin/prof)", key="adm_email")
             password = st.text_input("Mot de passe", type="password", key="adm_pwd")
 
             if st.button("Se connecter (Admin/Prof)", key="btn_login_admin"):
                 email_norm = (email or "").strip().lower()
-                ip = "unknown"  # si tu peux récupérer l'IP, remplace ici
+                ip = "unknown"
 
                 locked, wait_s = login_is_locked(conn, email_norm, ip)
                 if locked:
@@ -283,7 +286,7 @@ def login_view():
                     except Exception as e:
                         st.error(f"Erreur: {e}")
 
-        # --- Étudiant (ID local + anti-brute-force local) ---
+        # --- Étudiant ---
         with tabs[1]:
             sid = st.text_input("Identifiant (ex. ETUD001)", key="stu_id")
             spw = st.text_input("Mot de passe", type="password", key="stu_pwd")
