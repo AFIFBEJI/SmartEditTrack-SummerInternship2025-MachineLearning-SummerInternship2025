@@ -1,11 +1,4 @@
-# mailer.py — Envoi d'emails (Resend OU SMTP)
-# -------------------------------------------
-# Priorité: RESEND_API_KEY (plus simple) sinon SMTP classique.
-# Variables d'env acceptées :
-#   RESEND_API_KEY, RESEND_FROM
-#   SMTP_HOST, SMTP_PORT=587, SMTP_USER, SMTP_PASS, SMTP_TLS=true/false, SMTP_FROM
-#   APP_BASE_URL (URL de ton app, ex: https://cloudstage.onrender.com)
-
+# mailer.py — Envoi d'emails (Resend OU SMTP, avec fallback 587 -> 2525)
 import os, re, smtplib, ssl, json
 from email.mime.text import MIMEText
 from email.utils import formataddr
@@ -38,60 +31,12 @@ def _render_html(uid: str, pwd: str, login_url: str) -> str:
     </div>
     """
 
-def send_credentials_email(to_email: str, user_id: str, temp_pwd: str, login_url: str = None) -> bool:
-    """Envoie l'email. Retourne True si OK."""
-    if not _valid_email(to_email):
-        return False
-    login_url = (login_url or _app_base_url()).strip()
-
-    subject = "Vos accès à SmartEditTrack"
-    html = _render_html(user_id, temp_pwd, login_url)
-
-    # 1) RESEND (si dispo)
-    apikey = os.getenv("RESEND_API_KEY", "").strip()
-    from_addr = os.getenv("RESEND_FROM", "").strip()
-    if apikey and requests and from_addr:
-        try:
-            r = requests.post(
-                "https://api.resend.com/emails",
-                headers={"Authorization": f"Bearer {apikey}", "Content-Type": "application/json"},
-                data=json.dumps({
-                    "from": from_addr,        # ex: "SmartEditTrack <no-reply@tondomaine.tld>"
-                    "to": [to_email],
-                    "subject": subject,
-                    "html": html
-                }),
-                timeout=20
-            )
-            return r.ok
-        except Exception:
-            pass
-
-    # 2) SMTP fallback
-    host = os.getenv("SMTP_HOST", "")
-    port = int(os.getenv("SMTP_PORT", "587"))
-    user = os.getenv("SMTP_USER", "")
-    pwd  = os.getenv("SMTP_PASS", "")
-    use_tls = os.getenv("SMTP_TLS", "true").lower() not in ("0","false","no")
-    from_smtp = os.getenv("SMTP_FROM", f"SmartEditTrack <{user or 'no-reply@localhost'}>")
-
-    if not host or not (user and pwd):
-        return False
-
-    msg = MIMEText(html, "html", "utf-8")
-    # formataddr permet "Nom <mail@...>"
-    if "<" in from_smtp and ">" in from_smtp:
-        msg["From"] = from_smtp
-    else:
-        msg["From"] = formataddr(("SmartEditTrack", from_smtp))
-    msg["To"] = to_email
-    msg["Subject"] = subject
-
+def _smtp_try_send(msg: MIMEText, host: str, port: int, user: str, pwd: str, use_tls: bool) -> bool:
     try:
         if use_tls:
-            context = ssl.create_default_context()
+            ctx = ssl.create_default_context()
             with smtplib.SMTP(host, port, timeout=20) as s:
-                s.starttls(context=context)
+                s.starttls(context=ctx)
                 s.login(user, pwd)
                 s.send_message(msg)
         else:
@@ -99,5 +44,65 @@ def send_credentials_email(to_email: str, user_id: str, temp_pwd: str, login_url
                 s.login(user, pwd)
                 s.send_message(msg)
         return True
-    except Exception:
+    except Exception as e:
+        # log non bloquant pour Render logs
+        print(f"[MAIL] SMTP send failed on {host}:{port} tls={use_tls} -> {e}")
         return False
+
+def send_credentials_email(to_email: str, user_id: str, temp_pwd: str, login_url: str = None) -> bool:
+    """Envoie l'email. Retourne True si OK (Resend ou SMTP)."""
+    if not _valid_email(to_email):
+        return False
+    login_url = (login_url or _app_base_url()).strip()
+
+    subject = "Vos accès à SmartEditTrack"
+    html = _render_html(user_id, temp_pwd, login_url)
+
+    # 1) RESEND si dispo (optionnel)
+    apikey = os.getenv("RESEND_API_KEY", "").strip()
+    from_resend = os.getenv("RESEND_FROM", "").strip()
+    if apikey and requests and from_resend:
+        try:
+            r = requests.post(
+                "https://api.resend.com/emails",
+                headers={"Authorization": f"Bearer {apikey}", "Content-Type": "application/json"},
+                data=json.dumps({"from": from_resend, "to": [to_email], "subject": subject, "html": html}),
+                timeout=20
+            )
+            if r.ok:
+                return True
+            print(f"[MAIL] Resend error: {r.status_code} {r.text}")
+        except Exception as e:
+            print(f"[MAIL] Resend exception: {e}")
+
+    # 2) SMTP (Mailtrap Sandbox)
+    host = os.getenv("SMTP_HOST", "").strip()
+    port = int(os.getenv("SMTP_PORT", "587"))
+    user = os.getenv("SMTP_USER", "").strip()
+    pwd  = os.getenv("SMTP_PASS", "").strip()
+    use_tls = os.getenv("SMTP_TLS", "true").lower() not in ("0","false","no")
+    from_smtp = os.getenv("SMTP_FROM", f"SmartEditTrack <{user or 'no-reply@localhost'}>").strip()
+
+    if not host or not user or not pwd:
+        print("[MAIL] Missing SMTP vars.")
+        return False
+
+    msg = MIMEText(html, "html", "utf-8")
+    if "<" in from_smtp and ">" in from_smtp:
+        msg["From"] = from_smtp
+    else:
+        msg["From"] = formataddr(("SmartEditTrack", from_smtp))
+    msg["To"] = to_email
+    msg["Subject"] = subject
+
+    # ordre d’essai : port configuré puis 2525, avec TLS identique
+    if _smtp_try_send(msg, host, port, user, pwd, use_tls):
+        return True
+    # Fallback classique Mailtrap
+    if port != 2525 and _smtp_try_send(msg, host, 2525, user, pwd, True):
+        return True
+    # Dernier essai sans TLS (rarement utile)
+    if _smtp_try_send(msg, host, port, user, pwd, False):
+        return True
+
+    return False
