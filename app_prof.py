@@ -372,7 +372,13 @@ def run(user):
                     with st.expander("⚙️ Diagnostic email"):
                         st.write("SMTP_HOST:", os.getenv("SMTP_HOST"))
                         st.write("SMTP_USER:", os.getenv("SMTP_USER"))
+                        st.write("SMTP_PORT:", os.getenv("SMTP_PORT"))
+                        st.write("SMTP_TLS:", os.getenv("SMTP_TLS"))
+                        st.write("SMTP_FROM:", os.getenv("SMTP_FROM"))
+                        st.write("SMTP_PASS présent ?:", "oui" if os.getenv("SMTP_PASS") else "non")
                         st.write("APP_BASE_URL:", os.getenv("APP_BASE_URL"))
+                        st.write("RESEND_API_KEY présent ?:", "oui" if os.getenv("RESEND_API_KEY") else "non")
+
                         test_to = st.text_input(
                             "Tester un envoi (Mailtrap Sandbox) vers :",
                             "etud001@example.com",
@@ -605,7 +611,7 @@ def run(user):
                         with open(st.session_state.report_txt_path, "rb") as fb:
                             st.download_button("📥 Télécharger le rapport TXT",
                                                fb,
-                                               file_name=self.session_state.report_file or "rapport.txt",
+                                               file_name=st.session_state.report_file or "rapport.txt",
                                                use_container_width=True)
                 else:
                     st.info("Sélectionne un dépôt puis clique sur **🔍 Analyser ce dépôt** pour générer et afficher le rapport.")

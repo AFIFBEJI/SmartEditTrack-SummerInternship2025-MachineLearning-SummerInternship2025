@@ -6,9 +6,10 @@ import streamlit as st
 st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 
 # --- Exposer st.secrets en variables d'env (utile sur Render) ---------------
+# ✅ PATCH : on écrase toujours l'env avec les valeurs de secrets
 try:
     for k, v in st.secrets.items():
-        os.environ.setdefault(k, str(v))
+        os.environ[k] = str(v)   # <-- au lieu de os.environ.setdefault(...)
 except Exception:
     pass
 
