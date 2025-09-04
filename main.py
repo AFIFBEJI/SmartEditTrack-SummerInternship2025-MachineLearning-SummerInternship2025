@@ -5,11 +5,11 @@ import streamlit as st
 # --- Config Streamlit le plus tôt possible (évite des glitchs de front) -----
 st.set_page_config(page_title="SmartEditTrack", page_icon="🧠", layout="wide")
 
-# --- Exposer st.secrets en variables d'env (utile sur Render) ---------------
-# ✅ PATCH : on écrase toujours l'env avec les valeurs de secrets
+# --- Exposer st.secrets en variables d'env (toujours override) ---------------
+# ✅ PATCH : on écrase toujours l'env avec les valeurs de secrets (corrige Mailtrap/PORT)
 try:
     for k, v in st.secrets.items():
-        os.environ[k] = str(v)   # <-- au lieu de os.environ.setdefault(...)
+        os.environ[str(k)] = str(v)   # (au lieu de setdefault)
 except Exception:
     pass
 
