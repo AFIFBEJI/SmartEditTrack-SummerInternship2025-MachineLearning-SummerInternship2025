@@ -917,3 +917,88 @@ max
 	​
 
 =∣M∣c/I.",EMBEDDED_LOG,modification,wasPaste=FALSE,fd2e45e9d0cdc8ba4a8b211b3cec12c34f2be1f170c1f69fabc424b2f0974bc1,15b198a705a808c9353b24b05303c36dfe6c10e1ac50370885c3667e4ff6a294,1
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,C2,Q2 - Formule du moment fléchissant,,,"En tant que matériau composite, le béton armé est, dans le cadre des structures usuelles, l’association du béton (qui reprend la compression) et des armatures en acier (qui reprennent la traction). Il convient de noter que l’adhérence acier-béton assure la transmission des efforts.",INTEGRITY,modification,Modifiée après génération (signature),cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,D2,Q3 - Calcul de la contrainte normale,,,"La contrainte normale se détermine, selon la décomposition traction-compression, par superposition : 
+𝜎
+=
+𝑁
+𝐴
+±
+𝑀
+ 
+𝑦
+𝐼
+σ=
+A
+N
+	​
+
+±
+I
+My
+	​
+
+. Autrement dit, la fibre extrême cumule la contrainte moyenne due à 
+𝑁
+N et la contribution de flexion liée à 
+𝑀
+M.",INTEGRITY,modification,Modifiée après génération (signature),cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,E2,Q4 - Donner l’expression de σmax,,,effe,INTEGRITY,modification,Modifiée après génération (signature),cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,C2,Q2 - Formule du moment fléchissant,,,"En tant que matériau composite, le béton armé est, dans le cadre des structures usuelles, l’association du béton (qui reprend la compression) et des armatures en acier (qui reprennent la traction). Il convient de noter que l’adhérence acier-béton assure la transmission des efforts.",TEMPLATE,modification,IA probable (98%),cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,D2,Q3 - Calcul de la contrainte normale,,,"La contrainte normale se détermine, selon la décomposition traction-compression, par superposition : 
+𝜎
+=
+𝑁
+𝐴
+±
+𝑀
+ 
+𝑦
+𝐼
+σ=
+A
+N
+	​
+
+±
+I
+My
+	​
+
+. Autrement dit, la fibre extrême cumule la contrainte moyenne due à 
+𝑁
+N et la contribution de flexion liée à 
+𝑀
+M.",TEMPLATE,modification,IA probable (80%),cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:22:08,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,E2,Q4 - Donner l’expression de σmax,,,effe,TEMPLATE,modification,Réponse normale,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:20,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,B2,,,,effz,EMBEDDED_LOG,ajout,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:22,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,C2,Q2 - Formule du moment fléchissant,,,fzfe,EMBEDDED_LOG,ajout,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:23,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,D2,Q3 - Calcul de la contrainte normale,,,fez,EMBEDDED_LOG,ajout,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:25,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,E2,Q4 - Donner l’expression de σmax,,,effe,EMBEDDED_LOG,ajout,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:50,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,B2,,effz,,"En tant que matériau composite, le béton armé est, dans le cadre des structures usuelles, l’association du béton (qui reprend la compression) et des armatures en acier (qui reprennent la traction). Il convient de noter que l’adhérence acier-béton assure la transmission des efforts.",EMBEDDED_LOG,modification,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:19:54,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,C2,Q2 - Formule du moment fléchissant,fzfe,,"En tant que matériau composite, le béton armé est, dans le cadre des structures usuelles, l’association du béton (qui reprend la compression) et des armatures en acier (qui reprennent la traction). Il convient de noter que l’adhérence acier-béton assure la transmission des efforts.",EMBEDDED_LOG,modification,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
+2025-09-05 12:20:14,,20250905_122047__ETUD007_Saidi_Wael.xlsm,ETUD007,D2,Q3 - Calcul de la contrainte normale,fez,,"La contrainte normale se détermine, selon la décomposition traction-compression, par superposition : 
+𝜎
+=
+𝑁
+𝐴
+±
+𝑀
+ 
+𝑦
+𝐼
+σ=
+A
+N
+	​
+
+±
+I
+My
+	​
+
+. Autrement dit, la fibre extrême cumule la contrainte moyenne due à 
+𝑁
+N et la contribution de flexion liée à 
+𝑀
+M.",EMBEDDED_LOG,modification,wasPaste=FALSE,cf8583b3b5ac7dae80f712be9ae08e93d1d1fee0467318b8242afd427b438462,0288839f4f78c5878988fa81796cccdda0b5ac3ab2d784854ecae05a7d01428b,1
